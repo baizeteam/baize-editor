@@ -14,7 +14,18 @@ const CollaborativeEditor = () => {
     const yDoc = new Y.Doc();
     const shared = yDoc.get("slate", Y.XmlText);
 
-    const p = new WebsocketProvider("ws://localhost:1234", "slate-room", yDoc);
+    const getWebSocketUrl = () => {
+      // 开发环境
+      if (window.location.host === "localhost:3000") {
+        return "ws://localhost:1234";
+      } else {
+        // 使用当前域名（同源）
+        const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
+        return `${protocol}//${window.location.host}/ws`;
+      }
+    };
+
+    const p = new WebsocketProvider(getWebSocketUrl(), "baize-editor", yDoc);
 
     p.on("status", (e: any) => {
       console.log("🟢 ws:", e.status);

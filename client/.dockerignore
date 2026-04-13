@@ -1,0 +1,12 @@
+# .dockerignore
+node_modules
+dist
+build
+.git
+.env
+*.log
+.DS_Store
+coverage
+.cache
+.next
+out

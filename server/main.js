@@ -7,9 +7,9 @@ const app = express();
 
 // 允许的域名白名单
 const ALLOWED_ORIGINS = [
+  "http://localhost",
   "http://localhost:3000", // 本地开发
-  "https://your-domain.com", // 你的特殊域名
-  "https://sub.your-domain.com", // 子域名
+  "https://baize-editor.plume.vip", // 自定义域名
 ];
 
 // 基础 HTTP 路由
@@ -43,7 +43,7 @@ wss.on("connection", (conn, req) => {
 
 // 启动服务
 const PORT = 1234;
-server.listen(PORT, "127.0.0.1", () => {
+server.listen(PORT, () => {
   // 只监听 localhost
   console.log(`Server running on http://localhost:${PORT}`);
 });
