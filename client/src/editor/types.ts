@@ -11,8 +11,14 @@ export type ParagraphElement = {
 };
 
 export type HeadingElement = {
-  type: 'heading-one' | 'heading-two' | 'heading-three' | 'heading-four' | 'heading-five' | 'heading-six';
-  align?: 'left' | 'center' | 'right' | 'justify';
+  type:
+    | "heading-one"
+    | "heading-two"
+    | "heading-three"
+    | "heading-four"
+    | "heading-five"
+    | "heading-six";
+  align?: "left" | "center" | "right" | "justify";
   children: CustomText[];
 };
 
@@ -50,7 +56,7 @@ export type BadgeElement = {
 
 export type TableElement = {
   type: "table";
-  children: TableRowElement[];
+  children: TableSectionElement[];
 };
 
 export type TableRowElement = {
@@ -59,10 +65,15 @@ export type TableRowElement = {
 };
 
 export type TableCellElement = {
-  type: "table-cell";
+  type: "table-cell" | "header-cell";
   rowSpan?: number;
   colSpan?: number;
   children: CustomText[];
+};
+
+export type TableSectionElement = {
+  type: "table-header" | "table-body" | "table-footer";
+  children: TableRowElement[];
 };
 
 export type CustomElement =
@@ -74,6 +85,7 @@ export type CustomElement =
   | TableElement
   | TableRowElement
   | TableCellElement
+  | TableSectionElement
   | BulletedListElement
   | NumberedListElement
   | ListItemElement;

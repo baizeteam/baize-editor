@@ -14,7 +14,7 @@ export default function TableMenu({ editor, contextMenu, setContextMenu }) {
   const tableMenuItems: MenuProps["items"] = [
     {
       key: "merge-cells",
-      label: "Merge Cells",
+      label: "合并单元格",
       onClick: () => {
         mergeCells(editor);
         setContextMenu(null);
@@ -23,7 +23,7 @@ export default function TableMenu({ editor, contextMenu, setContextMenu }) {
     { type: "divider" },
     {
       key: "add-row-above",
-      label: "Insert Row Above",
+      label: "在上方插入行",
       onClick: () => {
         addRow(editor, "above");
         setContextMenu(null);
@@ -31,7 +31,7 @@ export default function TableMenu({ editor, contextMenu, setContextMenu }) {
     },
     {
       key: "add-row-below",
-      label: "Insert Row Below",
+      label: "在下方插入行",
       onClick: () => {
         addRow(editor, "below");
         setContextMenu(null);
@@ -40,7 +40,7 @@ export default function TableMenu({ editor, contextMenu, setContextMenu }) {
     { type: "divider" },
     {
       key: "add-col-left",
-      label: "Insert Column Left",
+      label: "在左侧插入列",
       onClick: () => {
         addColumn(editor, "left");
         setContextMenu(null);
@@ -48,7 +48,7 @@ export default function TableMenu({ editor, contextMenu, setContextMenu }) {
     },
     {
       key: "add-col-right",
-      label: "Insert Column Right",
+      label: "在右侧插入列",
       onClick: () => {
         addColumn(editor, "right");
         setContextMenu(null);
@@ -57,7 +57,7 @@ export default function TableMenu({ editor, contextMenu, setContextMenu }) {
     { type: "divider" },
     {
       key: "delete-row",
-      label: "Delete Row",
+      label: "删除行",
       danger: true,
       onClick: () => {
         deleteRow(editor);
@@ -66,7 +66,7 @@ export default function TableMenu({ editor, contextMenu, setContextMenu }) {
     },
     {
       key: "delete-col",
-      label: "Delete Column",
+      label: "删除列",
       danger: true,
       onClick: () => {
         deleteColumn(editor);
@@ -76,7 +76,7 @@ export default function TableMenu({ editor, contextMenu, setContextMenu }) {
     { type: "divider" },
     {
       key: "delete-table",
-      label: "Delete Table",
+      label: "删除表格",
       danger: true,
       onClick: () => {
         deleteTable(editor);
@@ -88,7 +88,7 @@ export default function TableMenu({ editor, contextMenu, setContextMenu }) {
     <>
       {contextMenu && contextMenu.visible && (
         <div
-          className="fixed z-[100] bg-white shadow-2xl rounded-xl border border-outline-variant/20 py-2 min-w-[180px] animate-in fade-in zoom-in duration-200"
+          className="fixed z-[100] py-2 min-w-[180px] animate-in fade-in zoom-in duration-200"
           style={{ left: contextMenu.x, top: contextMenu.y }}
         >
           <Dropdown

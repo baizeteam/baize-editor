@@ -21,10 +21,140 @@ export const initialValue: Descendant[] = [
     children: [{ text: "The Architecture of Minimalist Interfaces" }],
   },
   {
-    type: "paragraph",
+    type: "table",
     children: [
       {
-        text: "In the digital atelier, the interface is not merely a toolset; it is the environment in which thought transforms into structure. When we strip away the noise of traditional software, we create space for intentionality.",
+        type: "table-body",
+        children: [
+          {
+            type: "table-row",
+            children: [
+              {
+                type: "table-cell",
+                children: [
+                  {
+                    type: "paragraph",
+                    children: [
+                      {
+                        text: "",
+                      },
+                    ],
+                  },
+                  {
+                    type: "paragraph",
+                    children: [
+                      {
+                        text: "",
+                      },
+                    ],
+                  },
+                ],
+                colSpan: 2,
+              },
+              {
+                type: "table-cell",
+                children: [
+                  {
+                    type: "paragraph",
+                    children: [
+                      {
+                        text: "",
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            type: "table-row",
+            children: [
+              {
+                type: "table-cell",
+                children: [
+                  {
+                    type: "paragraph",
+                    children: [
+                      {
+                        text: "",
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                type: "table-cell",
+                children: [
+                  {
+                    type: "paragraph",
+                    children: [
+                      {
+                        text: "",
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                type: "table-cell",
+                children: [
+                  {
+                    type: "paragraph",
+                    children: [
+                      {
+                        text: "",
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            type: "table-row",
+            children: [
+              {
+                type: "table-cell",
+                children: [
+                  {
+                    type: "paragraph",
+                    children: [
+                      {
+                        text: "",
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                type: "table-cell",
+                children: [
+                  {
+                    type: "paragraph",
+                    children: [
+                      {
+                        text: "",
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                type: "table-cell",
+                children: [
+                  {
+                    type: "paragraph",
+                    children: [
+                      {
+                        text: "",
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
       },
     ],
   },
@@ -32,21 +162,26 @@ export const initialValue: Descendant[] = [
     type: "table",
     children: [
       {
-        type: "table-row",
+        type: "table-body",
         children: [
-          { type: "table-cell", children: [{ text: "Component", bold: true }] },
-          { type: "table-cell", children: [{ text: "Role", bold: true }] },
-        ],
-      },
-      {
-        type: "table-row",
-        children: [
-          { type: "table-cell", children: [{ text: "Typography" }] },
-          { type: "table-cell", children: [{ text: "Structure" }] },
+          {
+            type: "table-row",
+            children: [
+              { type: "table-cell", children: [{ text: "Component" }] as any },
+              { type: "table-cell", children: [{ text: "Role" }] as any },
+            ],
+          },
+          {
+            type: "table-row",
+            children: [
+              { type: "table-cell", children: [{ text: "Typography" }] as any },
+              { type: "table-cell", children: [{ text: "Structure" }] as any },
+            ],
+          },
         ],
       },
     ],
-  },
+  } as any,
   {
     type: "paragraph",
     children: [

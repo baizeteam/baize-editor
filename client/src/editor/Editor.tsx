@@ -21,12 +21,24 @@ import {
   YjsEditor,
   slateNodesToInsertDelta,
 } from "@slate-yjs/core";
+import { withTable } from "slate-table";
 
 import { plugins } from "./plugins";
 
 import { Toolbar } from "../components/Toolbar";
 import TableMenu from "../components/TableMenu";
 import { initialValue } from "./data";
+
+const TABLE_BLOCKS = {
+  td: "table-cell",
+  th: "header-cell",
+  tr: "table-row",
+  table: "table",
+  tbody: "table-body",
+  thead: "table-header",
+  tfoot: "table-footer",
+  content: "paragraph",
+} as const;
 
 // ✅ Slate 必须兜底
 const EMPTY_VALUE: Descendant[] = [
@@ -44,14 +56,25 @@ const EditorComponent: React.FC<any> = ({ sharedType, provider }) => {
     console.log("🟢 create editor");
 
     let e = withHistory(
-      withCursors(
-        withReact(withYjs(createEditor(), sharedType)),
-        provider.awareness,
-        {
-          data: {
-            name: Date.now().toString(),
-            color: "#00ff00",
+      withTable(
+        withCursors(
+          withReact(withYjs(createEditor(), sharedType)),
+          provider.awareness,
+          {
+            data: {
+              name: Date.now().toString(),
+              color: "#00ff00",
+            },
           },
+        ),
+        {
+          blocks: TABLE_BLOCKS,
+          withDelete: true,
+          withFragments: true,
+          withInsertText: true,
+          withNormalization: true,
+          withSelection: true,
+          withSelectionAdjustment: true,
         },
       ),
     );
@@ -106,7 +129,9 @@ const EditorComponent: React.FC<any> = ({ sharedType, provider }) => {
 
   const handleContextMenu = (e: React.MouseEvent) => {
     const [cell] = Editor.nodes(editor, {
-      match: (n) => SlateElement.isElement(n) && n.type === "table-cell",
+      match: (n) =>
+        SlateElement.isElement(n) &&
+        (n.type === "table-cell" || n.type === "header-cell"),
     });
 
     if (cell) {
@@ -155,7 +180,7 @@ const EditorComponent: React.FC<any> = ({ sharedType, provider }) => {
             renderLeaf={renderLeaf}
             placeholder="Start writing..."
             className="outline-none"
-            spellCheck
+            spellCheck={false}
             autoFocus
             onContextMenu={handleContextMenu}
             onClick={() => setContextMenu(null)}
