@@ -13,8 +13,8 @@ const Table: FC<RenderElementProps & { className: string }> = ({
   className,
 }) => {
   const editor = useSlateStatic();
+  useSlateSelection();
   const [isSelecting] = TableCursor.selection(editor);
-
   return (
     <table
       className={`${!!isSelecting ? "table-selection-none" : ""} ${className}`}
@@ -41,7 +41,7 @@ const Th: FC<RenderElementProps & { className: string }> = ({
 
   return (
     <th
-      className={`${selected ? "bg-sky-200" : ""} ${className}`}
+      className={`${selected ? "bg-primary-container" : ""} ${className}`}
       rowSpan={element.rowSpan}
       colSpan={element.colSpan}
       {...attributes}
@@ -67,7 +67,7 @@ const Td: FC<RenderElementProps & { className: string }> = ({
 
   return (
     <td
-      className={`${selected ? "bg-sky-200" : ""} ${className}`}
+      className={`${selected ? "bg-primary-container" : ""} ${className}`}
       rowSpan={element.rowSpan}
       colSpan={element.colSpan}
       {...attributes}

@@ -26,3 +26,7 @@
     @apply bg-surface-container-low text-on-surface antialiased;
   }
 }
+
+.table-selection-none *::selection {
+  background: none;
+}
