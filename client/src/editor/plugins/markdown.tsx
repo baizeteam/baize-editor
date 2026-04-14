@@ -21,6 +21,23 @@ export const MarkdownPlugin: EditorPlugin = {
     const currentLineStart = getCurrentLineStart(editor);
 
     if (event.key === "Enter") {
+      const blockEntry = Editor.above(editor, {
+        match: n => SlateElement.isElement(n) && Editor.isBlock(editor, n),
+      });
+      if (blockEntry) {
+        const [block] = blockEntry;
+        if (SlateElement.isElement(block) && block.type !== "paragraph" && block.type !== "list-item") {
+          const blockText = Array.isArray((block as any).children) 
+            ? (block as any).children.map((c: any) => c.text || "").join("")
+            : "";
+          if (blockText === "") {
+            event.preventDefault();
+            Transforms.setNodes(editor, { type: "paragraph" });
+            return;
+          }
+        }
+      }
+
       const headingTypes: string[] = ["heading-one", "heading-two", "heading-three", "heading-four", "heading-five", "heading-six"];
       const headingPrefixes = ["#", "##", "###", "####", "#####", "######"];
       for (let i = 0; i < headingPrefixes.length; i++) {

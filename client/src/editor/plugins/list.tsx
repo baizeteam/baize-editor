@@ -17,6 +17,47 @@ export const ListPlugin: EditorPlugin = {
         return undefined;
     }
   },
+  onKeyDown: (event, editor) => {
+    if (event.key !== 'Enter') return;
+    if (!editor.selection) return;
+
+    const [listItem] = Editor.nodes(editor, {
+      match: n => SlateElement.isElement(n) && n.type === 'list-item',
+    });
+
+    if (listItem) {
+      const [node] = listItem;
+      const listNode = node as any;
+      const text = Array.isArray(listNode.children)
+        ? listNode.children.map((c: any) => c.text || '').join('')
+        : '';
+
+      if (text === '') {
+        event.preventDefault();
+        
+        const [listParent] = Editor.nodes(editor, {
+          match: n => SlateElement.isElement(n) && (n.type === 'bulleted-list' || n.type === 'numbered-list'),
+        });
+        
+        if (listParent) {
+          const [parent] = listParent;
+          const parentNode = parent as any;
+          const itemCount = Array.isArray(parentNode.children) ? parentNode.children.length : 0;
+          
+          if (itemCount <= 1) {
+            Transforms.setNodes(editor, { type: 'paragraph' });
+            Transforms.unwrapNodes(editor, {
+              match: n => SlateElement.isElement(n) && (n.type === 'bulleted-list' || n.type === 'numbered-list'),
+            });
+          } else {
+            Transforms.setNodes(editor, { type: 'paragraph' });
+          }
+        } else {
+          Transforms.setNodes(editor, { type: 'paragraph' });
+        }
+      }
+    }
+  },
 };
 
 export const toggleList = (editor: Editor, format: 'bulleted-list' | 'numbered-list') => {
