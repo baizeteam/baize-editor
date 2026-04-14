@@ -4,8 +4,10 @@ import {
   useSlateSelection,
   useSlateStatic,
 } from "slate-react";
+import { Editor, NodeEntry } from "slate";
 import { TableCursor, TableEditor } from "slate-table";
 import { EditorPlugin } from "./base";
+import { TableCellElement } from "../types";
 
 const Table: FC<RenderElementProps & { className: string }> = ({
   attributes,
@@ -147,10 +149,4 @@ export const deleteColumn = (editor: any) => {
 
 export const deleteTable = (editor: any) => {
   TableEditor.removeTable(editor);
-};
-
-export const mergeCells = (editor: any) => {
-  if (TableEditor.canMerge(editor)) {
-    TableEditor.merge(editor);
-  }
 };

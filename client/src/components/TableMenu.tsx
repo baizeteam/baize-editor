@@ -1,13 +1,12 @@
 import React from "react";
 import {
-  TablePlugin,
   addRow,
   deleteRow,
   addColumn,
   deleteColumn,
   deleteTable,
-  mergeCells,
 } from "../editor/plugins/table";
+import { TableEditor } from "slate-table";
 import { Dropdown, MenuProps } from "antd";
 
 export default function TableMenu({ editor, contextMenu, setContextMenu }) {
@@ -15,8 +14,17 @@ export default function TableMenu({ editor, contextMenu, setContextMenu }) {
     {
       key: "merge-cells",
       label: "合并单元格",
+      disabled: !TableEditor.canMerge(editor),
       onClick: () => {
-        mergeCells(editor);
+        TableEditor.merge(editor);
+        setContextMenu(null);
+      },
+    },
+    {
+      key: "split-cells",
+      label: "拆分单元格",
+      onClick: () => {
+        TableEditor.split(editor);
         setContextMenu(null);
       },
     },
