@@ -22,6 +22,7 @@ import {
   slateNodesToInsertDelta,
 } from "@slate-yjs/core";
 import { withTable } from "slate-table";
+import { Cursors } from "../components/Cursors";
 
 import { plugins } from "./plugins";
 
@@ -48,6 +49,14 @@ const EMPTY_VALUE: Descendant[] = [
   },
 ];
 
+// 生成随机颜色
+const randomColor = () => {
+  const hue = Math.floor(Math.random() * 360);
+  const saturation = 70 + Math.floor(Math.random() * 30); // 70-100%
+  const lightness = 50 + Math.floor(Math.random() * 20); // 50-70%
+  return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+};
+
 const EditorComponent: React.FC<any> = ({ sharedType, provider }) => {
   /**
    * ✅ 创建 editor
@@ -63,7 +72,7 @@ const EditorComponent: React.FC<any> = ({ sharedType, provider }) => {
           {
             data: {
               name: Date.now().toString(),
-              color: "#00ff00",
+              color: randomColor(),
             },
           },
         ),
@@ -107,15 +116,6 @@ const EditorComponent: React.FC<any> = ({ sharedType, provider }) => {
     YjsEditor.connect(editor);
     return () => YjsEditor.disconnect(editor);
   }, [editor]);
-
-  /**
-   * awareness 日志
-   */
-  useEffect(() => {
-    provider.awareness.on("change", () => {
-      console.log("🟢 awareness:", provider.awareness.getStates());
-    });
-  }, [provider]);
 
   /**
    * UI
@@ -173,30 +173,31 @@ const EditorComponent: React.FC<any> = ({ sharedType, provider }) => {
     <div className="min-h-screen flex flex-col items-center pb-20">
       <Slate editor={editor} initialValue={EMPTY_VALUE}>
         <Toolbar />
+        <Cursors>
+          <div className="max-w-4xl w-full bg-white min-h-screen p-8 mt-4 relative">
+            <Editable
+              renderElement={renderElement}
+              renderLeaf={renderLeaf}
+              placeholder="Start writing..."
+              className="outline-none"
+              spellCheck={false}
+              autoFocus
+              onContextMenu={handleContextMenu}
+              onClick={() => setContextMenu(null)}
+              onKeyDown={(event) => {
+                for (const plugin of plugins) {
+                  plugin.onKeyDown?.(event, editor);
+                }
+              }}
+            />
 
-        <div className="max-w-4xl w-full bg-white min-h-screen p-8 mt-4 relative">
-          <Editable
-            renderElement={renderElement}
-            renderLeaf={renderLeaf}
-            placeholder="Start writing..."
-            className="outline-none"
-            spellCheck={false}
-            autoFocus
-            onContextMenu={handleContextMenu}
-            onClick={() => setContextMenu(null)}
-            onKeyDown={(event) => {
-              for (const plugin of plugins) {
-                plugin.onKeyDown?.(event, editor);
-              }
-            }}
-          />
-
-          <TableMenu
-            editor={editor}
-            contextMenu={contextMenu}
-            setContextMenu={setContextMenu}
-          />
-        </div>
+            <TableMenu
+              editor={editor}
+              contextMenu={contextMenu}
+              setContextMenu={setContextMenu}
+            />
+          </div>
+        </Cursors>
       </Slate>
     </div>
   );
