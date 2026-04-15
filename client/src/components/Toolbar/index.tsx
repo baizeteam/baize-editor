@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Editor, Transforms, Element as SlateElement } from "slate";
 import { useSlate } from "slate-react";
 import {
@@ -8,9 +8,7 @@ import {
   MenuProps,
   Popover,
   Input,
-  ColorPicker,
 } from "antd";
-import type { Color } from "antd/es/color-picker";
 import {
   BoldOutlined,
   ItalicOutlined,
@@ -22,46 +20,19 @@ import {
   TableOutlined,
   OrderedListOutlined,
   PictureOutlined,
-  BgColorsOutlined,
 } from "@ant-design/icons";
 import { Quote } from "lucide-react";
 import { toggleList } from "../../editor/plugins/list";
 import { insertImage } from "../../editor/plugins/image";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import * as styles from "./styles";
+import { styles } from "./styles";
+import { ColorPickerButton } from "./ColorPickerButton";
 import "./index.less";
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
-
-const PRESET_COLORS = [
-  "#ef4444",
-  "#f97316",
-  "#f59e0b",
-  "#eab308",
-  "#84cc16",
-  "#22c55e",
-  "#10b981",
-  "#14b8a6",
-  "#06b6d4",
-  "#0ea5e9",
-  "#3b82f6",
-  "#6366f1",
-  "#8b5cf6",
-  "#a855f7",
-  "#d946ef",
-  "#ec4899",
-  "#000000",
-  "#374151",
-  "#6b7280",
-  "#9ca3af",
-  "#d1d5db",
-  "#f3f4f6",
-  "#ffffff",
-  "#0053db",
-];
 
 export const Toolbar: React.FC = () => {
   const editor = useSlate();
@@ -143,153 +114,45 @@ export const Toolbar: React.FC = () => {
     Transforms.insertNodes(editor, table);
   };
 
-  const getCurrentColor = (format: string): string => {
-    const marks = Editor.marks(editor);
-    return (marks as any)?.[format] || "#000000";
-  };
-
-  const getCurrentBgColor = (): string => {
-    const marks = Editor.marks(editor);
-    return (marks as any)?.backgroundColor || "#ffffff";
-  };
-
-  const handleTextColorChange = (color: Color) => {
-    const hex = color.toHexString();
-    Editor.addMark(editor, "color", hex);
-    setTextColor(hex);
-  };
-
-  const handleBgColorChange = (color: Color) => {
-    const hex = color.toHexString();
-    Editor.addMark(editor, "backgroundColor", hex);
-    setBgColor(hex);
-  };
-
-  const clearTextColor = () => {
-    Editor.removeMark(editor, "color");
-  };
-
-  const clearBgColor = () => {
-    Editor.removeMark(editor, "backgroundColor");
-  };
-
-  const [textColor, setTextColor] = useState("#000000");
-  const [bgColor, setBgColor] = useState("#ffffff");
-  const [textColorOpen, setTextColorOpen] = useState(false);
-  const [bgColorOpen, setBgColorOpen] = useState(false);
-
-  useEffect(() => {
-    if (!textColorOpen) {
-      setTextColor(getCurrentColor("color"));
-    }
-    if (!bgColorOpen) {
-      setBgColor(getCurrentBgColor());
-    }
-  }, [editor.selection]);
-
   const headingItems: MenuProps["items"] = [
-    {
-      key: "heading-one",
-      label: "标题 1",
-      onClick: () => toggleBlock("heading-one"),
-    },
-    {
-      key: "heading-two",
-      label: "标题 2",
-      onClick: () => toggleBlock("heading-two"),
-    },
-    {
-      key: "heading-three",
-      label: "标题 3",
-      onClick: () => toggleBlock("heading-three"),
-    },
-    {
-      key: "heading-four",
-      label: "标题 4",
-      onClick: () => toggleBlock("heading-four"),
-    },
-    {
-      key: "heading-five",
-      label: "标题 5",
-      onClick: () => toggleBlock("heading-five"),
-    },
-    {
-      key: "heading-six",
-      label: "标题 6",
-      onClick: () => toggleBlock("heading-six"),
-    },
-    {
-      key: "paragraph",
-      label: "正文",
-      onClick: () => toggleBlock("paragraph"),
-    },
+    { key: "heading-one", label: "标题 1", onClick: () => toggleBlock("heading-one") },
+    { key: "heading-two", label: "标题 2", onClick: () => toggleBlock("heading-two") },
+    { key: "heading-three", label: "标题 3", onClick: () => toggleBlock("heading-three") },
+    { key: "heading-four", label: "标题 4", onClick: () => toggleBlock("heading-four") },
+    { key: "heading-five", label: "标题 5", onClick: () => toggleBlock("heading-five") },
+    { key: "heading-six", label: "标题 6", onClick: () => toggleBlock("heading-six") },
+    { key: "paragraph", label: "正文", onClick: () => toggleBlock("paragraph") },
   ];
 
-  const MarkButton = ({
-    format,
-    icon,
-    title,
-  }: {
-    format: string;
-    icon: React.ReactNode;
-    title: string;
-  }) => {
+  const MarkButton = ({ format, icon, title }: { format: string; icon: React.ReactNode; title: string }) => {
     const active = isMarkActive(format);
     return (
       <Tooltip title={title}>
         <Button
           type="text"
           icon={icon}
-          onMouseDown={(e) => {
-            e.preventDefault();
-            toggleMark(format);
-          }}
-          className={cn(
-            styles.iconButton.base,
-            active ? styles.iconButton.active : styles.iconButton.inactive,
-          )}
+          onMouseDown={(e) => { e.preventDefault(); toggleMark(format); }}
+          className={cn(styles.iconButton.base, active ? styles.iconButton.active : styles.iconButton.inactive)}
         />
       </Tooltip>
     );
   };
 
-  const BlockButton = ({
-    format,
-    icon,
-    title,
-  }: {
-    format: string;
-    icon: React.ReactNode;
-    title: string;
-  }) => {
+  const BlockButton = ({ format, icon, title }: { format: string; icon: React.ReactNode; title: string }) => {
     const active = isBlockActive(format);
     return (
       <Tooltip title={title}>
         <Button
           type="text"
           icon={icon}
-          onMouseDown={(e) => {
-            e.preventDefault();
-            toggleBlock(format);
-          }}
-          className={cn(
-            styles.iconButton.base,
-            active ? styles.iconButton.active : styles.iconButton.inactive,
-          )}
+          onMouseDown={(e) => { e.preventDefault(); toggleBlock(format); }}
+          className={cn(styles.iconButton.base, active ? styles.iconButton.active : styles.iconButton.inactive)}
         />
       </Tooltip>
     );
   };
 
-  const ListButton = ({
-    format,
-    icon,
-    title,
-  }: {
-    format: "bulleted-list" | "numbered-list";
-    icon: React.ReactNode;
-    title: string;
-  }) => {
+  const ListButton = ({ format, icon, title }: { format: "bulleted-list" | "numbered-list"; icon: React.ReactNode; title: string }) => {
     const active = isListActive(format);
     return (
       <Tooltip title={title}>
@@ -297,14 +160,8 @@ export const Toolbar: React.FC = () => {
           type="text"
           shape="circle"
           icon={icon}
-          onMouseDown={(e) => {
-            e.preventDefault();
-            toggleList(editor, format);
-          }}
-          className={cn(
-            styles.listButton.base,
-            active ? styles.listButton.active : styles.listButton.inactive,
-          )}
+          onMouseDown={(e) => { e.preventDefault(); toggleList(editor, format); }}
+          className={cn(styles.listButton.base, active ? styles.listButton.active : styles.listButton.inactive)}
         />
       </Tooltip>
     );
@@ -320,138 +177,18 @@ export const Toolbar: React.FC = () => {
         <div className={styles.toolbar.buttonGroup}>
           <MarkButton format="bold" icon={<BoldOutlined />} title="粗体" />
           <MarkButton format="italic" icon={<ItalicOutlined />} title="斜体" />
-          <MarkButton
-            format="underline"
-            icon={<UnderlineOutlined />}
-            title="下划线"
-          />
-          <MarkButton
-            format="strikethrough"
-            icon={<StrikethroughOutlined />}
-            title="删除线"
-          />
+          <MarkButton format="underline" icon={<UnderlineOutlined />} title="下划线" />
+          <MarkButton format="strikethrough" icon={<StrikethroughOutlined />} title="删除线" />
 
-          <Popover
-            content={
-              <div className={styles.popoverContent.colorPicker}>
-                <div className={styles.popoverContent.colorLabel}>
-                  文字颜色
-                </div>
-                <ColorPicker
-                  value={textColor}
-                  presets={[
-                    {
-                      label: "预设",
-                      colors: PRESET_COLORS,
-                    },
-                  ]}
-                  showText
-                  onChange={handleTextColorChange}
-                />
-                <Button size="small" onClick={clearTextColor}>
-                  清除颜色
-                </Button>
-              </div>
-            }
-            title="文字颜色"
-            trigger="click"
-            open={textColorOpen}
-            onOpenChange={(open) => {
-              if (open) {
-                setTextColor(getCurrentColor("color"));
-              }
-              setTextColorOpen(open);
-            }}
-          >
-            <Tooltip title="文字颜色">
-              <Button
-                type="text"
-                icon={
-                  <span className="flex items-center justify-center">
-                    <span
-                      className={styles.colorSwatch}
-                      style={{ backgroundColor: textColor }}
-                    />
-                  </span>
-                }
-                onMouseDown={(e) => e.preventDefault()}
-                className={styles.colorPickerButton}
-              />
-            </Tooltip>
-          </Popover>
-
-          <Popover
-            content={
-              <div className={styles.popoverContent.colorPicker}>
-                <div className={styles.popoverContent.colorLabel}>
-                  背景颜色
-                </div>
-                <ColorPicker
-                  value={bgColor}
-                  presets={[
-                    {
-                      label: "预设",
-                      colors: PRESET_COLORS,
-                    },
-                  ]}
-                  showText
-                  onChange={handleBgColorChange}
-                />
-                <Button size="small" onClick={clearBgColor}>
-                  清除颜色
-                </Button>
-              </div>
-            }
-            title="背景颜色"
-            trigger="click"
-            open={bgColorOpen}
-            onOpenChange={(open) => {
-              if (open) {
-                setBgColor(getCurrentBgColor());
-              }
-              setBgColorOpen(open);
-            }}
-          >
-            <Tooltip title="背景颜色">
-              <Button
-                type="text"
-                icon={
-                  <span className="flex items-center justify-center">
-                    <BgColorsOutlined
-                      style={{
-                        color: bgColor,
-                        backgroundColor:
-                          bgColor === "#ffffff" ? "#eee" : "transparent",
-                        padding: "2px",
-                        borderRadius: "2px",
-                        border: "1px solid #ddd",
-                      }}
-                    />
-                  </span>
-                }
-                onMouseDown={(e) => e.preventDefault()}
-                className={styles.colorPickerButton}
-              />
-            </Tooltip>
-          </Popover>
+          <ColorPickerButton title="文字颜色" format="color" defaultColor="#000000" />
+          <ColorPickerButton title="背景颜色" format="backgroundColor" defaultColor="#ffffff" />
 
           <div className={styles.divider} />
 
-          <ListButton
-            format="bulleted-list"
-            icon={<UnorderedListOutlined />}
-            title="无序列表"
-          />
-          <ListButton
-            format="numbered-list"
-            icon={<OrderedListOutlined />}
-            title="有序列表"
-          />
-          <BlockButton
-            format="block-quote"
-            icon={<Quote size={16} />}
-            title="引用"
-          />
+          <ListButton format="bulleted-list" icon={<UnorderedListOutlined />} title="无序列表" />
+          <ListButton format="numbered-list" icon={<OrderedListOutlined />} title="有序列表" />
+          <BlockButton format="block-quote" icon={<Quote size={16} />} title="引用" />
+
           <Popover
             content={
               <div className={styles.popoverContent.imageInput}>
@@ -460,34 +197,14 @@ export const Toolbar: React.FC = () => {
                   value={imageUrl}
                   onChange={(e) => setImageUrl(e.target.value)}
                   onPressEnter={() => {
-                    if (imageUrl) {
-                      insertImage(editor, imageUrl);
-                      setImageUrl("");
-                      setImagePopoverVisible(false);
-                    }
+                    if (imageUrl) { insertImage(editor, imageUrl); setImageUrl(""); setImagePopoverVisible(false); }
                   }}
                   autoFocus
                   className={styles.popoverContent.imageInputWidth}
                 />
                 <div className={styles.popoverContent.imageActions}>
-                  <Button
-                    size="small"
-                    onClick={() => setImagePopoverVisible(false)}
-                  >
-                    取消
-                  </Button>
-                  <Button
-                    size="small"
-                    type="primary"
-                    disabled={!imageUrl}
-                    onClick={() => {
-                      insertImage(editor, imageUrl);
-                      setImageUrl("");
-                      setImagePopoverVisible(false);
-                    }}
-                  >
-                    插入
-                  </Button>
+                  <Button size="small" onClick={() => setImagePopoverVisible(false)}>取消</Button>
+                  <Button size="small" type="primary" disabled={!imageUrl} onClick={() => { insertImage(editor, imageUrl); setImageUrl(""); setImagePopoverVisible(false); }}>插入</Button>
                 </div>
               </div>
             }
@@ -497,34 +214,19 @@ export const Toolbar: React.FC = () => {
             onOpenChange={setImagePopoverVisible}
           >
             <Tooltip title="插入图片">
-              <Button
-                type="text"
-                shape="circle"
-                icon={<PictureOutlined />}
-                className="flex-shrink-0"
-              />
+              <Button type="text" shape="circle" icon={<PictureOutlined />} className="flex-shrink-0" />
             </Tooltip>
           </Popover>
+
           <Tooltip title="插入表格">
-            <Button
-              type="text"
-              shape="circle"
-              icon={<TableOutlined />}
-              onMouseDown={(e) => {
-                e.preventDefault();
-                insertTable();
-              }}
-              className="flex-shrink-0"
-            />
+            <Button type="text" shape="circle" icon={<TableOutlined />} onMouseDown={(e) => { e.preventDefault(); insertTable(); }} className="flex-shrink-0" />
           </Tooltip>
 
           <div className={styles.divider} />
 
           <Dropdown menu={{ items: headingItems }} trigger={["click"]}>
             <Button type="text" className={styles.headingDropdown}>
-              <span className={styles.headingLabel}>
-                {getBlockLabel()}
-              </span>
+              <span className={styles.headingLabel}>{getBlockLabel()}</span>
               <DownOutlined className="text-[10px]" />
             </Button>
           </Dropdown>
@@ -532,19 +234,10 @@ export const Toolbar: React.FC = () => {
 
         <div className={styles.toolbar.rightGroup}>
           <div className={styles.charCount.container}>
-            <span className={styles.charCount.label}>
-              字节数:
-            </span>
-            <span className={styles.charCount.value}>
-              {getCharacterCount().toLocaleString()}
-            </span>
+            <span className={styles.charCount.label}>字节数:</span>
+            <span className={styles.charCount.value}>{getCharacterCount().toLocaleString()}</span>
           </div>
-          <Button
-            type="primary"
-            icon={<SendOutlined />}
-            onClick={saveData}
-            className={styles.saveButton}
-          >
+          <Button type="primary" icon={<SendOutlined />} onClick={saveData} className={styles.saveButton}>
             <span className="hidden sm:inline">保存</span>
           </Button>
         </div>
