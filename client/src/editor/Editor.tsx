@@ -15,12 +15,7 @@ import {
   RenderLeafProps,
 } from "slate-react";
 import { withHistory } from "slate-history";
-import {
-  withYjs,
-  withCursors,
-  YjsEditor,
-  slateNodesToInsertDelta,
-} from "@slate-yjs/core";
+import { withYjs, withCursors, YjsEditor } from "@slate-yjs/core";
 import { withTable } from "slate-table";
 import { Cursors } from "../components/Cursors";
 

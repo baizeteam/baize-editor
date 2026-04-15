@@ -1,8 +1,3 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
 import EditorComponent from "./editor/CollaborativeEditor";
 import { ConfigProvider } from "antd";
 

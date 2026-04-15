@@ -15,12 +15,9 @@ import {
   BoldOutlined,
   ItalicOutlined,
   UnderlineOutlined,
-  AlignCenterOutlined,
-  AlignLeftOutlined,
   UnorderedListOutlined,
   SendOutlined,
   DownOutlined,
-  FontSizeOutlined,
   StrikethroughOutlined,
   TableOutlined,
   OrderedListOutlined,
@@ -28,10 +25,12 @@ import {
   BgColorsOutlined,
 } from "@ant-design/icons";
 import { Quote } from "lucide-react";
-import { toggleList } from "../editor/plugins/list";
-import { insertImage } from "../editor/plugins/image";
+import { toggleList } from "../../editor/plugins/list";
+import { insertImage } from "../../editor/plugins/image";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import * as styles from "./styles";
+import "./index.less";
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -246,10 +245,8 @@ export const Toolbar: React.FC = () => {
             toggleMark(format);
           }}
           className={cn(
-            "transition-all duration-200 h-8 w-8 flex items-center justify-center rounded-lg",
-            active
-              ? "text-primary bg-primary/15 hover:bg-primary/25 shadow-sm"
-              : "text-on-surface-variant hover:bg-black/5",
+            styles.iconButton.base,
+            active ? styles.iconButton.active : styles.iconButton.inactive,
           )}
         />
       </Tooltip>
@@ -276,10 +273,37 @@ export const Toolbar: React.FC = () => {
             toggleBlock(format);
           }}
           className={cn(
-            "transition-all duration-200 h-8 w-8 flex items-center justify-center rounded-lg",
-            active
-              ? "text-primary bg-primary/15 hover:bg-primary/25 shadow-sm"
-              : "text-on-surface-variant hover:bg-black/5",
+            styles.iconButton.base,
+            active ? styles.iconButton.active : styles.iconButton.inactive,
+          )}
+        />
+      </Tooltip>
+    );
+  };
+
+  const ListButton = ({
+    format,
+    icon,
+    title,
+  }: {
+    format: "bulleted-list" | "numbered-list";
+    icon: React.ReactNode;
+    title: string;
+  }) => {
+    const active = isListActive(format);
+    return (
+      <Tooltip title={title}>
+        <Button
+          type="text"
+          shape="circle"
+          icon={icon}
+          onMouseDown={(e) => {
+            e.preventDefault();
+            toggleList(editor, format);
+          }}
+          className={cn(
+            styles.listButton.base,
+            active ? styles.listButton.active : styles.listButton.inactive,
           )}
         />
       </Tooltip>
@@ -291,9 +315,9 @@ export const Toolbar: React.FC = () => {
   };
 
   return (
-    <div className="sticky top-0 z-50 w-full flex justify-center pt-8 pb-4 px-4 bg-surface-container-low/80 backdrop-blur-md">
-      <div className="max-w-4xl w-full bg-white/90 backdrop-blur-2xl px-6 py-2 rounded-full flex items-center justify-between shadow-sm border border-outline-variant/10">
-        <div className="flex items-center gap-1">
+    <div className={styles.toolbar.wrapper}>
+      <div className={styles.toolbar.container}>
+        <div className={styles.toolbar.buttonGroup}>
           <MarkButton format="bold" icon={<BoldOutlined />} title="粗体" />
           <MarkButton format="italic" icon={<ItalicOutlined />} title="斜体" />
           <MarkButton
@@ -309,8 +333,8 @@ export const Toolbar: React.FC = () => {
 
           <Popover
             content={
-              <div className="flex flex-col gap-2 p-2">
-                <div className="text-xs font-semibold text-gray-500 mb-1">
+              <div className={styles.popoverContent.colorPicker}>
+                <div className={styles.popoverContent.colorLabel}>
                   文字颜色
                 </div>
                 <ColorPicker
@@ -345,21 +369,21 @@ export const Toolbar: React.FC = () => {
                 icon={
                   <span className="flex items-center justify-center">
                     <span
-                      className="w-4 h-4 rounded border border-gray-300"
+                      className={styles.colorSwatch}
                       style={{ backgroundColor: textColor }}
                     />
                   </span>
                 }
                 onMouseDown={(e) => e.preventDefault()}
-                className="transition-all duration-200 h-8 w-8 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-black/5"
+                className={styles.colorPickerButton}
               />
             </Tooltip>
           </Popover>
 
           <Popover
             content={
-              <div className="flex flex-col gap-2 p-2">
-                <div className="text-xs font-semibold text-gray-500 mb-1">
+              <div className={styles.popoverContent.colorPicker}>
+                <div className={styles.popoverContent.colorLabel}>
                   背景颜色
                 </div>
                 <ColorPicker
@@ -406,47 +430,23 @@ export const Toolbar: React.FC = () => {
                   </span>
                 }
                 onMouseDown={(e) => e.preventDefault()}
-                className="transition-all duration-200 h-8 w-8 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-black/5"
+                className={styles.colorPickerButton}
               />
             </Tooltip>
           </Popover>
 
-          <div className="h-6 w-[1px] bg-outline-variant/20 mx-1" />
+          <div className={styles.divider} />
 
-          <Tooltip title="无序列表">
-            <Button
-              type="text"
-              shape="circle"
-              icon={<UnorderedListOutlined />}
-              onMouseDown={(e) => {
-                e.preventDefault();
-                toggleList(editor, "bulleted-list");
-              }}
-              className={cn(
-                "transition-all duration-200 h-8 w-8 flex items-center justify-center rounded-lg",
-                isListActive("bulleted-list")
-                  ? "text-primary bg-primary/15 hover:bg-primary/25 shadow-sm"
-                  : "text-on-surface-variant hover:bg-black/5",
-              )}
-            />
-          </Tooltip>
-          <Tooltip title="有序列表">
-            <Button
-              type="text"
-              shape="circle"
-              icon={<OrderedListOutlined />}
-              onMouseDown={(e) => {
-                e.preventDefault();
-                toggleList(editor, "numbered-list");
-              }}
-              className={cn(
-                "transition-all duration-200 h-8 w-8 flex items-center justify-center rounded-lg",
-                isListActive("numbered-list")
-                  ? "text-primary bg-primary/15 hover:bg-primary/25 shadow-sm"
-                  : "text-on-surface-variant hover:bg-black/5",
-              )}
-            />
-          </Tooltip>
+          <ListButton
+            format="bulleted-list"
+            icon={<UnorderedListOutlined />}
+            title="无序列表"
+          />
+          <ListButton
+            format="numbered-list"
+            icon={<OrderedListOutlined />}
+            title="有序列表"
+          />
           <BlockButton
             format="block-quote"
             icon={<Quote size={16} />}
@@ -454,7 +454,7 @@ export const Toolbar: React.FC = () => {
           />
           <Popover
             content={
-              <div className="flex flex-col gap-2 p-1">
+              <div className={styles.popoverContent.imageInput}>
                 <Input
                   placeholder="输入图片地址..."
                   value={imageUrl}
@@ -467,9 +467,9 @@ export const Toolbar: React.FC = () => {
                     }
                   }}
                   autoFocus
-                  className="w-64"
+                  className={styles.popoverContent.imageInputWidth}
                 />
-                <div className="flex justify-end gap-2">
+                <div className={styles.popoverContent.imageActions}>
                   <Button
                     size="small"
                     onClick={() => setImagePopoverVisible(false)}
@@ -497,7 +497,12 @@ export const Toolbar: React.FC = () => {
             onOpenChange={setImagePopoverVisible}
           >
             <Tooltip title="插入图片">
-              <Button type="text" shape="circle" icon={<PictureOutlined />} />
+              <Button
+                type="text"
+                shape="circle"
+                icon={<PictureOutlined />}
+                className="flex-shrink-0"
+              />
             </Tooltip>
           </Popover>
           <Tooltip title="插入表格">
@@ -509,17 +514,15 @@ export const Toolbar: React.FC = () => {
                 e.preventDefault();
                 insertTable();
               }}
+              className="flex-shrink-0"
             />
           </Tooltip>
 
-          <div className="h-6 w-[1px] bg-outline-variant/20 mx-1" />
+          <div className={styles.divider} />
 
           <Dropdown menu={{ items: headingItems }} trigger={["click"]}>
-            <Button
-              type="text"
-              className="flex items-center gap-1 px-3 rounded-full hover:bg-black/5"
-            >
-              <span className="text-xs font-bold text-on-surface-variant">
+            <Button type="text" className={styles.headingDropdown}>
+              <span className={styles.headingLabel}>
                 {getBlockLabel()}
               </span>
               <DownOutlined className="text-[10px]" />
@@ -527,12 +530,12 @@ export const Toolbar: React.FC = () => {
           </Dropdown>
         </div>
 
-        <div className="flex items-center gap-4">
-          <div className="hidden sm:flex items-center gap-2 px-3 py-1 bg-surface-container-low rounded-full">
-            <span className="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider">
+        <div className={styles.toolbar.rightGroup}>
+          <div className={styles.charCount.container}>
+            <span className={styles.charCount.label}>
               字节数:
             </span>
-            <span className="text-xs font-medium text-primary">
+            <span className={styles.charCount.value}>
               {getCharacterCount().toLocaleString()}
             </span>
           </div>
@@ -540,9 +543,9 @@ export const Toolbar: React.FC = () => {
             type="primary"
             icon={<SendOutlined />}
             onClick={saveData}
-            className="rounded-full bg-primary hover:bg-primary-dim border-none h-9 px-6 flex items-center gap-2 shadow-lg shadow-primary/20"
+            className={styles.saveButton}
           >
-            保存
+            <span className="hidden sm:inline">保存</span>
           </Button>
         </div>
       </div>
