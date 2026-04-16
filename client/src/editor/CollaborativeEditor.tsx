@@ -17,7 +17,7 @@ const CollaborativeEditor = () => {
     const getWebSocketUrl = () => {
       // 开发环境
       if (window.location.host === "localhost:3000") {
-        return "ws://localhost:1234";
+        return "ws://localhost:6652";
       } else {
         // 使用当前域名（同源）
         const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";

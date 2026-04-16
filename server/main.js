@@ -43,7 +43,7 @@ wss.on("connection", (conn, req) => {
 });
 
 // 启动服务
-const PORT = 1234;
+const PORT = 6652;
 server.listen(PORT, () => {
   // 只监听 localhost
   console.log(`Server running on http://localhost:${PORT}`);
