@@ -18,23 +18,12 @@ import { withHistory } from "slate-history";
 import { withYjs, withCursors, YjsEditor } from "@slate-yjs/core";
 import { withTable } from "slate-table";
 import { Cursors } from "../components/Cursors";
-
 import { plugins } from "./plugins";
-
 import { Toolbar } from "../components/Toolbar";
 import TableMenu from "../components/TableMenu";
 import { initialValue } from "./data";
-
-const TABLE_BLOCKS = {
-  td: "table-cell",
-  th: "header-cell",
-  tr: "table-row",
-  table: "table",
-  tbody: "table-body",
-  thead: "table-header",
-  tfoot: "table-footer",
-  content: "paragraph",
-} as const;
+import { randomColor, generateId } from "../helpers";
+import { tableConfig } from "../helpers/editor";
 
 // ✅ Slate 必须兜底
 const EMPTY_VALUE: Descendant[] = [
@@ -44,21 +33,12 @@ const EMPTY_VALUE: Descendant[] = [
   },
 ];
 
-// 生成随机颜色
-const randomColor = () => {
-  const hue = Math.floor(Math.random() * 360);
-  const saturation = 70 + Math.floor(Math.random() * 30); // 70-100%
-  const lightness = 50 + Math.floor(Math.random() * 20); // 50-70%
-  return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
-};
-
 const EditorComponent: React.FC<any> = ({ sharedType, provider }) => {
   /**
    * ✅ 创建 editor
    */
   const editor = useMemo(() => {
     console.log("🟢 create editor");
-
     let e = withHistory(
       withTable(
         withCursors(
@@ -66,20 +46,12 @@ const EditorComponent: React.FC<any> = ({ sharedType, provider }) => {
           provider.awareness,
           {
             data: {
-              name: Date.now().toString(),
+              name: "用户" + generateId(),
               color: randomColor(),
             },
           },
         ),
-        {
-          blocks: TABLE_BLOCKS,
-          withDelete: true,
-          withFragments: true,
-          withInsertText: true,
-          withNormalization: true,
-          withSelection: true,
-          withSelectionAdjustment: true,
-        },
+        tableConfig,
       ),
     );
 

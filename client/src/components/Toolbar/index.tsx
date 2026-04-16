@@ -1,14 +1,7 @@
 import React, { useState } from "react";
 import { Editor, Transforms, Element as SlateElement } from "slate";
 import { useSlate } from "slate-react";
-import {
-  Button,
-  Tooltip,
-  Dropdown,
-  MenuProps,
-  Popover,
-  Input,
-} from "antd";
+import { Button, Tooltip, Dropdown, MenuProps, Popover, Input } from "antd";
 import {
   BoldOutlined,
   ItalicOutlined,
@@ -29,6 +22,7 @@ import { twMerge } from "tailwind-merge";
 import { styles } from "./styles";
 import { ColorPickerButton } from "./ColorPickerButton";
 import "./index.less";
+import { defaultTable } from "./helper";
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -92,67 +86,112 @@ export const Toolbar: React.FC = () => {
   };
 
   const insertTable = () => {
-    const table: any = {
-      type: "table",
-      children: [
-        {
-          type: "table-row",
-          children: [
-            { type: "table-cell", children: [{ text: "" }] },
-            { type: "table-cell", children: [{ text: "" }] },
-          ],
-        },
-        {
-          type: "table-row",
-          children: [
-            { type: "table-cell", children: [{ text: "" }] },
-            { type: "table-cell", children: [{ text: "" }] },
-          ],
-        },
-      ],
-    };
-    Transforms.insertNodes(editor, table);
+    Transforms.insertNodes(editor, defaultTable);
   };
 
   const headingItems: MenuProps["items"] = [
-    { key: "heading-one", label: "标题 1", onClick: () => toggleBlock("heading-one") },
-    { key: "heading-two", label: "标题 2", onClick: () => toggleBlock("heading-two") },
-    { key: "heading-three", label: "标题 3", onClick: () => toggleBlock("heading-three") },
-    { key: "heading-four", label: "标题 4", onClick: () => toggleBlock("heading-four") },
-    { key: "heading-five", label: "标题 5", onClick: () => toggleBlock("heading-five") },
-    { key: "heading-six", label: "标题 6", onClick: () => toggleBlock("heading-six") },
-    { key: "paragraph", label: "正文", onClick: () => toggleBlock("paragraph") },
+    {
+      key: "heading-one",
+      label: "标题 1",
+      onClick: () => toggleBlock("heading-one"),
+    },
+    {
+      key: "heading-two",
+      label: "标题 2",
+      onClick: () => toggleBlock("heading-two"),
+    },
+    {
+      key: "heading-three",
+      label: "标题 3",
+      onClick: () => toggleBlock("heading-three"),
+    },
+    {
+      key: "heading-four",
+      label: "标题 4",
+      onClick: () => toggleBlock("heading-four"),
+    },
+    {
+      key: "heading-five",
+      label: "标题 5",
+      onClick: () => toggleBlock("heading-five"),
+    },
+    {
+      key: "heading-six",
+      label: "标题 6",
+      onClick: () => toggleBlock("heading-six"),
+    },
+    {
+      key: "paragraph",
+      label: "正文",
+      onClick: () => toggleBlock("paragraph"),
+    },
   ];
 
-  const MarkButton = ({ format, icon, title }: { format: string; icon: React.ReactNode; title: string }) => {
+  const MarkButton = ({
+    format,
+    icon,
+    title,
+  }: {
+    format: string;
+    icon: React.ReactNode;
+    title: string;
+  }) => {
     const active = isMarkActive(format);
     return (
       <Tooltip title={title}>
         <Button
           type="text"
           icon={icon}
-          onMouseDown={(e) => { e.preventDefault(); toggleMark(format); }}
-          className={cn(styles.iconButton.base, active ? styles.iconButton.active : styles.iconButton.inactive)}
+          onMouseDown={(e) => {
+            e.preventDefault();
+            toggleMark(format);
+          }}
+          className={cn(
+            styles.iconButton.base,
+            active ? styles.iconButton.active : styles.iconButton.inactive,
+          )}
         />
       </Tooltip>
     );
   };
 
-  const BlockButton = ({ format, icon, title }: { format: string; icon: React.ReactNode; title: string }) => {
+  const BlockButton = ({
+    format,
+    icon,
+    title,
+  }: {
+    format: string;
+    icon: React.ReactNode;
+    title: string;
+  }) => {
     const active = isBlockActive(format);
     return (
       <Tooltip title={title}>
         <Button
           type="text"
           icon={icon}
-          onMouseDown={(e) => { e.preventDefault(); toggleBlock(format); }}
-          className={cn(styles.iconButton.base, active ? styles.iconButton.active : styles.iconButton.inactive)}
+          onMouseDown={(e) => {
+            e.preventDefault();
+            toggleBlock(format);
+          }}
+          className={cn(
+            styles.iconButton.base,
+            active ? styles.iconButton.active : styles.iconButton.inactive,
+          )}
         />
       </Tooltip>
     );
   };
 
-  const ListButton = ({ format, icon, title }: { format: "bulleted-list" | "numbered-list"; icon: React.ReactNode; title: string }) => {
+  const ListButton = ({
+    format,
+    icon,
+    title,
+  }: {
+    format: "bulleted-list" | "numbered-list";
+    icon: React.ReactNode;
+    title: string;
+  }) => {
     const active = isListActive(format);
     return (
       <Tooltip title={title}>
@@ -160,8 +199,14 @@ export const Toolbar: React.FC = () => {
           type="text"
           shape="circle"
           icon={icon}
-          onMouseDown={(e) => { e.preventDefault(); toggleList(editor, format); }}
-          className={cn(styles.listButton.base, active ? styles.listButton.active : styles.listButton.inactive)}
+          onMouseDown={(e) => {
+            e.preventDefault();
+            toggleList(editor, format);
+          }}
+          className={cn(
+            styles.listButton.base,
+            active ? styles.listButton.active : styles.listButton.inactive,
+          )}
         />
       </Tooltip>
     );
@@ -177,17 +222,45 @@ export const Toolbar: React.FC = () => {
         <div className={styles.toolbar.buttonGroup}>
           <MarkButton format="bold" icon={<BoldOutlined />} title="粗体" />
           <MarkButton format="italic" icon={<ItalicOutlined />} title="斜体" />
-          <MarkButton format="underline" icon={<UnderlineOutlined />} title="下划线" />
-          <MarkButton format="strikethrough" icon={<StrikethroughOutlined />} title="删除线" />
+          <MarkButton
+            format="underline"
+            icon={<UnderlineOutlined />}
+            title="下划线"
+          />
+          <MarkButton
+            format="strikethrough"
+            icon={<StrikethroughOutlined />}
+            title="删除线"
+          />
 
-          <ColorPickerButton title="文字颜色" format="color" defaultColor="#000000" />
-          <ColorPickerButton title="背景颜色" format="backgroundColor" defaultColor="#ffffff" />
+          <ColorPickerButton
+            title="文字颜色"
+            format="color"
+            defaultColor="#000000"
+          />
+          <ColorPickerButton
+            title="背景颜色"
+            format="backgroundColor"
+            defaultColor="#ffffff"
+          />
 
           <div className={styles.divider} />
 
-          <ListButton format="bulleted-list" icon={<UnorderedListOutlined />} title="无序列表" />
-          <ListButton format="numbered-list" icon={<OrderedListOutlined />} title="有序列表" />
-          <BlockButton format="block-quote" icon={<Quote size={16} />} title="引用" />
+          <ListButton
+            format="bulleted-list"
+            icon={<UnorderedListOutlined />}
+            title="无序列表"
+          />
+          <ListButton
+            format="numbered-list"
+            icon={<OrderedListOutlined />}
+            title="有序列表"
+          />
+          <BlockButton
+            format="block-quote"
+            icon={<Quote size={16} />}
+            title="引用"
+          />
 
           <Popover
             content={
@@ -197,14 +270,34 @@ export const Toolbar: React.FC = () => {
                   value={imageUrl}
                   onChange={(e) => setImageUrl(e.target.value)}
                   onPressEnter={() => {
-                    if (imageUrl) { insertImage(editor, imageUrl); setImageUrl(""); setImagePopoverVisible(false); }
+                    if (imageUrl) {
+                      insertImage(editor, imageUrl);
+                      setImageUrl("");
+                      setImagePopoverVisible(false);
+                    }
                   }}
                   autoFocus
                   className={styles.popoverContent.imageInputWidth}
                 />
                 <div className={styles.popoverContent.imageActions}>
-                  <Button size="small" onClick={() => setImagePopoverVisible(false)}>取消</Button>
-                  <Button size="small" type="primary" disabled={!imageUrl} onClick={() => { insertImage(editor, imageUrl); setImageUrl(""); setImagePopoverVisible(false); }}>插入</Button>
+                  <Button
+                    size="small"
+                    onClick={() => setImagePopoverVisible(false)}
+                  >
+                    取消
+                  </Button>
+                  <Button
+                    size="small"
+                    type="primary"
+                    disabled={!imageUrl}
+                    onClick={() => {
+                      insertImage(editor, imageUrl);
+                      setImageUrl("");
+                      setImagePopoverVisible(false);
+                    }}
+                  >
+                    插入
+                  </Button>
                 </div>
               </div>
             }
@@ -214,12 +307,26 @@ export const Toolbar: React.FC = () => {
             onOpenChange={setImagePopoverVisible}
           >
             <Tooltip title="插入图片">
-              <Button type="text" shape="circle" icon={<PictureOutlined />} className="flex-shrink-0" />
+              <Button
+                type="text"
+                shape="circle"
+                icon={<PictureOutlined />}
+                className="flex-shrink-0"
+              />
             </Tooltip>
           </Popover>
 
           <Tooltip title="插入表格">
-            <Button type="text" shape="circle" icon={<TableOutlined />} onMouseDown={(e) => { e.preventDefault(); insertTable(); }} className="flex-shrink-0" />
+            <Button
+              type="text"
+              shape="circle"
+              icon={<TableOutlined />}
+              onMouseDown={(e) => {
+                e.preventDefault();
+                insertTable();
+              }}
+              className="flex-shrink-0"
+            />
           </Tooltip>
 
           <div className={styles.divider} />
@@ -235,9 +342,16 @@ export const Toolbar: React.FC = () => {
         <div className={styles.toolbar.rightGroup}>
           <div className={styles.charCount.container}>
             <span className={styles.charCount.label}>字节数:</span>
-            <span className={styles.charCount.value}>{getCharacterCount().toLocaleString()}</span>
+            <span className={styles.charCount.value}>
+              {getCharacterCount().toLocaleString()}
+            </span>
           </div>
-          <Button type="primary" icon={<SendOutlined />} onClick={saveData} className={styles.saveButton}>
+          <Button
+            type="primary"
+            icon={<SendOutlined />}
+            onClick={saveData}
+            className={styles.saveButton}
+          >
             <span className="hidden sm:inline">保存</span>
           </Button>
         </div>
