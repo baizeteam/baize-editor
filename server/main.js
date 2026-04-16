@@ -9,6 +9,7 @@ const app = express();
 const ALLOWED_ORIGINS = [
   "http://localhost",
   "http://localhost:3000", // 本地开发
+  "http://localhost:6651", // 本地容器测试
   "https://baize-editor.plume.vip", // 自定义域名
 ];
 

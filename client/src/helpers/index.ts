@@ -8,5 +8,7 @@ export const randomColor = () => {
 
 // 生成 n 位随机 id
 export function generateId(n = 4) {
-  return Math.random().toString(36).substring(2, n);
+  return Math.random()
+    .toString(36)
+    .substring(2, n + 2);
 }
