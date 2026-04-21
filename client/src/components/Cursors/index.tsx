@@ -1,8 +1,5 @@
-import {
-  CursorOverlayData,
-  useRemoteCursorOverlayPositions,
-} from "@slate-yjs/react";
-import { useRef } from "react";
+import { useRemoteCursorOverlayPositions } from "@slate-yjs/react";
+import { Fragment, useRef } from "react";
 import "./index.less";
 
 export function Cursors({ children }) {
@@ -13,7 +10,13 @@ export function Cursors({ children }) {
     <div className="cursors" ref={containerRef}>
       {children}
       {cursors.map((cursor) => (
-        <Selection key={cursor.clientId} {...cursor} />
+        <Fragment key={cursor.clientId}>
+          <Selection
+            data={cursor.data}
+            selectionRects={cursor.selectionRects}
+            caretPosition={cursor.caretPosition}
+          />
+        </Fragment>
       ))}
     </div>
   );
