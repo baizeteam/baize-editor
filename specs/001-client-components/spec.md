@@ -9,6 +9,8 @@
 
 本规格描述 `client/src/components` **目录级**约定：模块划分、规格文件位置、公开 API 与质量门禁。具体交互细节以各子目录下的 `module.spec.md` 为准。
 
+**布局说明**：协作编辑壳层位于 `components/editor/`（`CollaborativeEditor`、`Editor`、示例 `data`）；Slate 插件与文档类型在 `client/src/core/`（原 `editor/plugins` 与类型/table 配置），与 UI 解耦。
+
 ## User Scenarios & Testing
 
 ### User Story 1 - 从规格理解组件职责 (Priority: P1)

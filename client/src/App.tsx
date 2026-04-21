@@ -1,4 +1,4 @@
-import EditorComponent from "./editor/CollaborativeEditor";
+import { CollaborativeEditor } from "./components";
 import { ConfigProvider } from "antd";
 
 export default function App() {
@@ -12,7 +12,7 @@ export default function App() {
         },
       }}
     >
-      <EditorComponent />
+      <CollaborativeEditor />
     </ConfigProvider>
   );
 }

@@ -16,7 +16,7 @@
 
 - `slate` / `slate-react`：当前编辑器实例、节点变换。
 - `antd`：按钮、下拉、气泡等。
-- 项目内 `editor/plugins`：列表、图片、表格辅助逻辑。
+- 项目内 `core/plugins`：列表、图片、表格辅助逻辑。
 - 样式：`styles.ts`、`index.less`、Tailwind 工具类（`cn`）。
 
 ## Boundaries / Non-goals

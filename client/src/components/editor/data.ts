@@ -1,10 +1,5 @@
-import {
-  createEditor,
-  Descendant,
-  Editor,
-  Element as SlateElement,
-  Path,
-} from "slate";
+import { Descendant } from "slate";
+
 export const initialValue: Descendant[] = [
   {
     type: "paragraph",

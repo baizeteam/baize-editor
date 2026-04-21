@@ -15,8 +15,8 @@ import {
   PictureOutlined,
 } from "@ant-design/icons";
 import { Quote } from "lucide-react";
-import { toggleList } from "../../editor/plugins/list";
-import { insertImage } from "../../editor/plugins/image";
+import { toggleList } from "../../core/plugins/list";
+import { insertImage } from "../../core/plugins/image";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { styles } from "./styles";

@@ -25,3 +25,7 @@ alwaysApply: false
 ## 与 spec-kit 的关系
 
 - 更大范围的功能仍使用 `/speckit-specify`、`/speckit-plan` 等在 `specs/<branch>/` 下落地；本目录 `module.spec.md` 是**实现侧**与规格追溯的锚点，不替代特性级 `spec.md`。
+
+## 与 `client/src/core`
+
+- Slate 插件、自定义类型与 `tableConfig` 位于 `client/src/core/`，与 UI 组件解耦；`components/editor/` 仅负责组合 Yjs、工具栏与可编辑区。

@@ -17,11 +17,13 @@ import {
 import { withHistory } from "slate-history";
 import { withYjs, withCursors, YjsEditor } from "@slate-yjs/core";
 import { withTable } from "slate-table";
-import { plugins } from "./plugins";
-import { Cursors, Toolbar, TableMenu } from "../components";
+import { plugins } from "../../core/plugins";
+import { Cursors } from "../Cursors";
+import { Toolbar } from "../Toolbar";
+import TableMenu from "../TableMenu";
 import { initialValue } from "./data";
-import { randomColor, generateId } from "../helpers";
-import { tableConfig } from "../helpers/editor";
+import { randomColor, generateId } from "../../helpers";
+import { tableConfig } from "../../core/tableConfig";
 
 // ✅ Slate 必须兜底
 const EMPTY_VALUE: Descendant[] = [
