@@ -4,7 +4,7 @@ import type { Color } from "antd/es/color-picker";
 import { BgColorsOutlined } from "@ant-design/icons";
 import { useSlate } from "slate-react";
 import { Editor } from "slate";
-import { styles } from "./styles";
+import { styles } from "../styles";
 
 const PRESET_COLORS = [
   "#ef4444", "#f97316", "#f59e0b", "#eab308", "#84cc16", "#22c55e",

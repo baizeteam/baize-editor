@@ -17,7 +17,8 @@
 - `slate` / `slate-react`：当前编辑器实例、节点变换。
 - `antd`：按钮、下拉、气泡等。
 - 项目内 `core/plugins`：列表、图片、表格辅助逻辑。
-- 样式：`styles.ts`、`index.less`、Tailwind 工具类（`cn`）。
+- 样式：`styles.ts`、`index.less`；Tailwind 类名合并见 `modules/cn.ts`。
+- `modules/toolbar-editor.ts`：与 Slate 相关的纯函数（块/标记查询与切换、标题菜单、字数），无 React 依赖。
 
 ## Boundaries / Non-goals
 
@@ -28,6 +29,11 @@
 
 - **Export**: `Toolbar` — 无 props，依赖 `useSlate()` 上下文。
 
-## Subcomponents
+## Subcomponents（`modules/`）
 
-- `ColorPickerButton.tsx`：颜色类 mark 切换，仅供 Toolbar 内部使用。
+- `ColorPickerButton.tsx`：颜色类 mark 切换。
+- `MarkButton` / `BlockButton` / `ListButton`：格式化与列表按钮。
+- `ImageInsertButton.tsx`：图片 URL 弹层与插入。
+- `InsertTableButton.tsx`：插入默认表格。
+- `HeadingDropdown.tsx`：标题级别下拉。
+- `ToolbarRight.tsx`：字数与保存。
