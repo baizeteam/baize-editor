@@ -17,10 +17,8 @@ import {
 import { withHistory } from "slate-history";
 import { withYjs, withCursors, YjsEditor } from "@slate-yjs/core";
 import { withTable } from "slate-table";
-import { Cursors } from "../components/Cursors";
 import { plugins } from "./plugins";
-import { Toolbar } from "../components/Toolbar";
-import TableMenu from "../components/TableMenu";
+import { Cursors, Toolbar, TableMenu } from "../components";
 import { initialValue } from "./data";
 import { randomColor, generateId } from "../helpers";
 import { tableConfig } from "../helpers/editor";
