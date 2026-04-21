@@ -1,9 +1,9 @@
-import React from 'react';
-import { RenderLeafProps } from 'slate-react';
-import { EditorPlugin } from './base';
+import React from "react";
+import { RenderLeafProps } from "slate-react";
+import { EditorPlugin } from "../base";
 
 export const ColorPlugin: EditorPlugin = {
-  name: 'color',
+  name: "color",
   renderLeaf: ({ attributes, children, leaf }) => {
     const textLeaf = leaf as any;
     const style: React.CSSProperties = {};

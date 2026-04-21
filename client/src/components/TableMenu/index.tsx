@@ -5,7 +5,7 @@ import {
   addColumn,
   deleteColumn,
   deleteTable,
-} from "../../core/plugins/table";
+} from "../../core/plugins/modules/table";
 import { TableEditor } from "slate-table";
 import { Dropdown, MenuProps } from "antd";
 

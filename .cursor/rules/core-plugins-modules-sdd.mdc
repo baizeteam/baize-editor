@@ -1,0 +1,26 @@
+---
+description: client/src/core/plugins/modules 下 Slate 插件的 SDD 规格门禁
+globs: client/src/core/plugins/modules/**/*
+alwaysApply: false
+---
+
+# core/plugins/modules SDD 约定
+
+## 目录结构（每个插件一个文件夹）
+
+- `modules/<name>/index.tsx` — 实现。
+- `modules/<name>/module.spec.md` — SDD 规格（Intent、User-visible behavior、Dependencies、Boundaries、Public API）。
+- 新增插件时**新建目录**，勿在 `modules/` 根下平铺 `.tsx`。
+
+## 聚合入口
+
+- 插件注册顺序与对外再导出见 `client/src/core/plugins/index.ts`；增删插件或调整顺序时，同步更新对应 `module.spec.md`。
+
+## 变更门禁
+
+- 修改节点类型、快捷键、或对外工具函数时，**同 PR** 更新该目录下的 `module.spec.md`。
+- 与 UI 的契约在规格中引用 `client/src/components` 侧模块名即可。
+
+## 与 spec-kit
+
+- 特性级需求仍以 `specs/<branch>/spec.md` 为主；各插件目录内的 `module.spec.md` 是实现侧锚点。

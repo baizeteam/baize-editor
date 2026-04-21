@@ -4,10 +4,8 @@ import {
   useSlateSelection,
   useSlateStatic,
 } from "slate-react";
-import { Editor, NodeEntry } from "slate";
 import { TableCursor, TableEditor } from "slate-table";
-import { EditorPlugin } from "./base";
-import { TableCellElement } from "../types";
+import { EditorPlugin } from "../base";
 
 const Table: FC<RenderElementProps & { className: string }> = ({
   attributes,

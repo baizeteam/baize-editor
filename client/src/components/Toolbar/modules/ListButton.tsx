@@ -1,7 +1,7 @@
 import React from "react";
 import { useSlate } from "slate-react";
 import { Button, Tooltip } from "antd";
-import { toggleList } from "../../../core/plugins/list";
+import { toggleList } from "../../../core/plugins/modules/list";
 import { styles } from "../styles";
 import { cn } from "./cn";
 import { isBlockActive } from "./toolbar-editor";

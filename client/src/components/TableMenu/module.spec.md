@@ -13,7 +13,7 @@
 ## Dependencies
 
 - `slate-table`：`TableEditor` 合并/拆分能力判断与执行。
-- 项目内 `core/plugins/table`：`addRow`、`deleteRow`、`addColumn`、`deleteColumn`、`deleteTable`。
+- 项目内 `core/plugins/modules/table`：`addRow`、`deleteRow`、`addColumn`、`deleteColumn`、`deleteTable`。
 - `antd`：`Dropdown` 与菜单项。
 
 ## Boundaries / Non-goals

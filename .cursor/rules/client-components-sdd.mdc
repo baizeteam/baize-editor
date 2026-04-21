@@ -29,3 +29,4 @@ alwaysApply: false
 ## 与 `client/src/core`
 
 - Slate 插件、自定义类型与 `tableConfig` 位于 `client/src/core/`，与 UI 组件解耦；`components/editor/` 仅负责组合 Yjs、工具栏与可编辑区。
+- 各 Slate 插件实现与 SDD 见 `client/src/core/plugins/modules/<name>/module.spec.md`（规则：`core-plugins-modules-sdd.mdc`）。

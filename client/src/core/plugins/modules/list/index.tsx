@@ -1,7 +1,7 @@
 import React from "react";
 import { Editor, Transforms, Element as SlateElement } from "slate";
 import { RenderElementProps } from "slate-react";
-import { EditorPlugin } from "./base";
+import { EditorPlugin } from "../base";
 
 export const ListPlugin: EditorPlugin = {
   name: "list",

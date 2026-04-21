@@ -1,5 +1,5 @@
 import { Editor, Transforms, Element as SlateElement, Text } from "slate";
-import { EditorPlugin } from "./base";
+import { EditorPlugin } from "../base";
 
 const getCurrentLineStart = (editor: Editor): string => {
   const { selection } = editor;

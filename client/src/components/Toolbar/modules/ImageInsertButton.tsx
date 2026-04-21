@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useSlate } from "slate-react";
 import { Button, Tooltip, Popover, Input } from "antd";
 import { PictureOutlined } from "@ant-design/icons";
-import { insertImage } from "../../../core/plugins/image";
+import { insertImage } from "../../../core/plugins/modules/image";
 import { styles } from "../styles";
 
 export function ImageInsertButton() {

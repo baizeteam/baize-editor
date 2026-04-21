@@ -16,7 +16,7 @@
 
 - `slate` / `slate-react`：当前编辑器实例、节点变换。
 - `antd`：按钮、下拉、气泡等。
-- 项目内 `core/plugins`：列表、图片、表格辅助逻辑。
+- 项目内 `core/plugins/modules/{list,image}`：列表切换、`insertImage` 等。
 - 样式：`styles.ts`、`index.less`；Tailwind 类名合并见 `modules/cn.ts`。
 - `modules/toolbar-editor.ts`：与 Slate 相关的纯函数（块/标记查询与切换、标题菜单、字数），无 React 依赖。
 

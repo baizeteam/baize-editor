@@ -1,9 +1,9 @@
-import { BasePlugin } from "./base";
-import { TablePlugin } from "./table";
-import { ColorPlugin } from "./color";
-import { ImagePlugin } from "./image";
-import { ListPlugin } from "./list";
-import { MarkdownPlugin } from "./markdown";
+import { BasePlugin } from "./modules/base";
+import { TablePlugin } from "./modules/table";
+import { ColorPlugin } from "./modules/color";
+import { ImagePlugin } from "./modules/image";
+import { ListPlugin } from "./modules/list";
+import { MarkdownPlugin } from "./modules/markdown";
 
 export const plugins = [
   BasePlugin,
@@ -14,4 +14,4 @@ export const plugins = [
   MarkdownPlugin,
 ];
 
-export * from "./base";
+export * from "./modules/base";
