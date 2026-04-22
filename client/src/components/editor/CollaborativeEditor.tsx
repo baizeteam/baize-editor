@@ -107,8 +107,12 @@ const CollaborativeEditor = ({ sessionRole }: Props) => {
     });
   }, [metaSynced, collabEnabled, contentSynced, contentDoc, sharedType]);
 
-  /** 正文房间：仅在 collabEnabled 时连接 */
-  useEffect(() => {
+  /**
+   * 正文房间：仅在 collabEnabled 时连接。
+   * 必须用 useLayoutEffect：若用 useEffect，协同关闭后会出现一帧仍把「已 destroy 的 WS awareness」传给
+   * Editor，子组件 layout 先于父 effect 运行 → withCursors/connect 抛错白屏。
+   */
+  useLayoutEffect(() => {
     if (!metaSynced) return;
 
     if (!collabEnabled) {
@@ -166,8 +170,12 @@ const CollaborativeEditor = ({ sessionRole }: Props) => {
     ],
   );
 
+  const localAw = localAwarenessRef.current;
   const editorReady =
-    metaSynced && awareness && (!collabEnabled || contentSynced);
+    metaSynced &&
+    (collabEnabled
+      ? Boolean(awareness) && contentSynced
+      : Boolean(localAw) && awareness === localAw);
 
   if (!editorReady) {
     return <div className="p-8 text-center text-gray-600">加载中…</div>;
