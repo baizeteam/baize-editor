@@ -1,15 +1,22 @@
 import { useRemoteCursorOverlayPositions } from "@slate-yjs/react";
-import { Fragment, useRef } from "react";
+import { Fragment, useMemo, useRef } from "react";
+import { useCollabSession } from "../editor/CollabSessionContext";
 import "./index.less";
 
 export function Cursors({ children }) {
   const containerRef = useRef(null);
   const [cursors] = useRemoteCursorOverlayPositions({ containerRef });
+  const { collabEnabled } = useCollabSession();
+
+  const visibleCursors = useMemo(() => {
+    if (collabEnabled) return cursors;
+    return cursors.filter((c) => c.data?.sessionRole !== "guest");
+  }, [cursors, collabEnabled]);
 
   return (
     <div className="cursors" ref={containerRef}>
       {children}
-      {cursors.map((cursor) => (
+      {visibleCursors.map((cursor) => (
         <Fragment key={cursor.clientId}>
           <Selection
             data={cursor.data}

@@ -46,7 +46,7 @@ const EditorComponent: React.FC<EditorProps> = ({
   awareness,
   cursorDisplayName,
 }) => {
-  const { canEdit } = useCollabSession();
+  const { canEdit, sessionRole } = useCollabSession();
   /**
    * ✅ 创建 editor
    */
@@ -61,6 +61,7 @@ const EditorComponent: React.FC<EditorProps> = ({
             data: {
               name: cursorDisplayName,
               color: randomColor(),
+              sessionRole,
             },
           },
         ),
@@ -90,7 +91,7 @@ const EditorComponent: React.FC<EditorProps> = ({
     };
 
     return e;
-  }, [sharedType, awareness, cursorDisplayName]);
+  }, [sharedType, awareness, cursorDisplayName, sessionRole]);
 
   useEffect(() => {
     YjsEditor.connect(editor);
