@@ -29,7 +29,7 @@ export const Toolbar: React.FC = () => {
         <div
           className={`${styles.toolbar.buttonGroup}${!canEdit ? " pointer-events-none opacity-55" : ""}`}
           title={
-            !canEdit ? "协同已关闭，当前为只读（仅管理员可编辑）" : undefined
+            !canEdit ? "当前禁止访客编辑，仅管理员可改（文档仍与大家同步）" : undefined
           }
         >
           <MarkButton format="bold" icon={<BoldOutlined />} title="粗体" />

@@ -9,7 +9,7 @@ import React, {
 import * as Y from "yjs";
 import { slateNodesToInsertDelta } from "@slate-yjs/core";
 import { WebsocketProvider } from "y-websocket";
-import { Awareness } from "y-protocols/awareness";
+import type { Awareness } from "y-protocols/awareness";
 import EditorComponent from "./Editor";
 import {
   CollabSessionProvider,
@@ -40,7 +40,6 @@ const CollaborativeEditor = ({ sessionRole }: Props) => {
   );
 
   const appConfigRef = useRef<Y.Map<boolean> | null>(null);
-  const localAwarenessRef = useRef<Awareness | null>(null);
 
   const [metaSynced, setMetaSynced] = useState(false);
   const [collabEnabled, setCollabEnabled] = useState(true);
@@ -55,7 +54,7 @@ const CollaborativeEditor = ({ sessionRole }: Props) => {
     [sessionRole, contentDoc.clientID],
   );
 
-  /** meta 房间：仅同步 appConfig（协同总开关） */
+  /** meta 房间：同步 appConfig（访客是否可编辑等） */
   useEffect(() => {
     const metaDoc = new Y.Doc();
     const appConfig = metaDoc.getMap<boolean>("appConfig");
@@ -92,39 +91,12 @@ const CollaborativeEditor = ({ sessionRole }: Props) => {
   }, []);
 
   /**
-   * 空 Y.XmlText 经 slate-yjs connect 会变成根下仅含裸文本节点，违反 Slate 块结构，导致无法输入。
-   * 在「可展示编辑器」之前写入与产品一致的初始文档（访客仅连 meta、协同关闭时也会走此路径）。
-   */
-  useLayoutEffect(() => {
-    if (!metaSynced) return;
-    if (collabEnabled && !contentSynced) return;
-    if (sharedType.toDelta().length > 0) return;
-
-    contentDoc.transact(() => {
-      sharedType.applyDelta(slateNodesToInsertDelta(initialValue), {
-        sanitize: false,
-      });
-    });
-  }, [metaSynced, collabEnabled, contentSynced, contentDoc, sharedType]);
-
-  /**
-   * 正文房间：仅在 collabEnabled 时连接。
-   * 必须用 useLayoutEffect：若用 useEffect，协同关闭后会出现一帧仍把「已 destroy 的 WS awareness」传给
-   * Editor，子组件 layout 先于父 effect 运行 → withCursors/connect 抛错白屏。
+   * 正文房间：始终连接，保证所有人文档与 awareness 实时一致。
+   * 「协同关闭」仅表示访客不可编辑（见 canEdit），不断开同步。
    */
   useLayoutEffect(() => {
     if (!metaSynced) return;
 
-    if (!collabEnabled) {
-      setContentSynced(true);
-      if (!localAwarenessRef.current) {
-        localAwarenessRef.current = new Awareness(contentDoc);
-      }
-      setAwareness(localAwarenessRef.current);
-      return;
-    }
-
-    setContentSynced(false);
     const p = new WebsocketProvider(
       getWebSocketUrl(),
       CONTENT_ROOM,
@@ -141,7 +113,22 @@ const CollaborativeEditor = ({ sessionRole }: Props) => {
       p.off("sync", onContentSync);
       p.destroy();
     };
-  }, [metaSynced, collabEnabled, contentDoc]);
+  }, [metaSynced, contentDoc]);
+
+  /**
+   * 空 Y.XmlText 经 slate-yjs connect 会变成根下仅含裸文本节点，违反 Slate 块结构。
+   * 在正文首次同步完成且仍为空时写入初始文档。
+   */
+  useLayoutEffect(() => {
+    if (!contentSynced) return;
+    if (sharedType.toDelta().length > 0) return;
+
+    contentDoc.transact(() => {
+      sharedType.applyDelta(slateNodesToInsertDelta(initialValue), {
+        sanitize: false,
+      });
+    });
+  }, [contentSynced, contentDoc, sharedType]);
 
   const setCollabEnabledAction = useCallback(
     (next: boolean) => {
@@ -157,7 +144,7 @@ const CollaborativeEditor = ({ sessionRole }: Props) => {
     () => ({
       sessionRole,
       collabEnabled,
-      collabSynced: !collabEnabled || contentSynced,
+      collabSynced: contentSynced,
       setCollabEnabled: setCollabEnabledAction,
       canEdit,
     }),
@@ -170,12 +157,7 @@ const CollaborativeEditor = ({ sessionRole }: Props) => {
     ],
   );
 
-  const localAw = localAwarenessRef.current;
-  const editorReady =
-    metaSynced &&
-    (collabEnabled
-      ? Boolean(awareness) && contentSynced
-      : Boolean(localAw) && awareness === localAw);
+  const editorReady = metaSynced && Boolean(awareness) && contentSynced;
 
   if (!editorReady) {
     return <div className="p-8 text-center text-gray-600">加载中…</div>;
@@ -184,7 +166,6 @@ const CollaborativeEditor = ({ sessionRole }: Props) => {
   return (
     <CollabSessionProvider value={sessionValue}>
       <EditorComponent
-        key={collabEnabled ? "collab-on" : "collab-off"}
         sharedType={sharedType}
         awareness={awareness}
         cursorDisplayName={cursorDisplayName}

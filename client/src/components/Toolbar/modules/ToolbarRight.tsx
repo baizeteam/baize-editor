@@ -23,11 +23,11 @@ export function ToolbarRight() {
   return (
     <div className={styles.toolbar.rightGroup}>
       <Tag color={collabEnabled ? "blue" : "default"} className="!mr-2">
-        协同：{collabEnabled ? "开启" : "关闭"}
-        {collabEnabled && !collabSynced ? "（同步中）" : ""}
+        访客编辑：{collabEnabled ? "允许" : "禁止"}
+        {!collabSynced ? "（正文同步中）" : ""}
       </Tag>
       {sessionRole === "admin" ? (
-        <Tooltip title="对所有在线用户生效；关闭后正文不再经实时通道同步">
+        <Tooltip title="对所有在线用户生效；关闭后访客不可编辑，正文仍实时同步">
           <span className="inline-flex items-center gap-2 mr-3">
             <span className="text-sm text-gray-600 hidden md:inline">
               协同编辑

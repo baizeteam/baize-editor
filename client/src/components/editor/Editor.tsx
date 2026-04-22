@@ -103,6 +103,14 @@ const EditorComponent: React.FC<EditorProps> = ({
     }
   }, [canEdit]);
 
+  /** 访客只读时禁止 Slate/DOM 选区，避免仍可拖选、全选等 */
+  useEffect(() => {
+    if (canEdit) return;
+    Transforms.deselect(editor);
+    const dom = window.getSelection?.();
+    dom?.removeAllRanges();
+  }, [canEdit, editor]);
+
   /**
    * UI
    */
@@ -112,6 +120,30 @@ const EditorComponent: React.FC<EditorProps> = ({
     visible: boolean;
     path?: Path;
   } | null>(null);
+
+  const blockGuestSelectKeys = (e: React.KeyboardEvent) => {
+    if (e.ctrlKey || e.metaKey) {
+      const k = e.key.toLowerCase();
+      if (k === "a" || k === "c" || k === "x") {
+        e.preventDefault();
+      }
+    }
+    if (
+      e.shiftKey &&
+      [
+        "ArrowLeft",
+        "ArrowRight",
+        "ArrowUp",
+        "ArrowDown",
+        "Home",
+        "End",
+        "PageUp",
+        "PageDown",
+      ].includes(e.key)
+    ) {
+      e.preventDefault();
+    }
+  };
 
   const handleContextMenu = (e: React.MouseEvent) => {
     if (!canEdit) {
@@ -170,13 +202,26 @@ const EditorComponent: React.FC<EditorProps> = ({
               renderElement={renderElement}
               renderLeaf={renderLeaf}
               placeholder="Start writing..."
-              className="outline-none"
+              className={`outline-none${!canEdit ? " select-none cursor-default" : ""}`}
               spellCheck={false}
               autoFocus={canEdit}
               onContextMenu={handleContextMenu}
               onClick={() => setContextMenu(null)}
+              onDoubleClick={(e) => !canEdit && e.preventDefault()}
+              onDragStart={(e) => !canEdit && e.preventDefault()}
+              onCopy={(e) => !canEdit && e.preventDefault()}
+              onCut={(e) => !canEdit && e.preventDefault()}
+              onSelect={() => {
+                if (!canEdit) {
+                  Transforms.deselect(editor);
+                  window.getSelection()?.removeAllRanges();
+                }
+              }}
               onKeyDown={(event) => {
-                if (!canEdit) return;
+                if (!canEdit) {
+                  blockGuestSelectKeys(event);
+                  return;
+                }
                 for (const plugin of plugins) {
                   plugin.onKeyDown?.(event, editor);
                 }

@@ -4,12 +4,15 @@ export type SessionRole = "guest" | "admin";
 
 export type CollabSessionValue = {
   sessionRole: SessionRole;
-  /** 来自 meta 房间的共享开关；关闭时不建立正文 WebSocket */
+  /**
+   * 来自 meta 房间：访客可编辑开关（true=访客可改文档）。
+   * 正文 Yjs 始终经 WebSocket 同步；关闭时仅禁止访客编辑，文档仍实时同步。
+   */
   collabEnabled: boolean;
-  /** 仅当 collabEnabled 为 true 时：正文是否与房间完成首次同步 */
+  /** 正文房间是否已完成首次 Yjs 同步 */
   collabSynced: boolean;
   setCollabEnabled: (next: boolean) => void;
-  /** 访客在协同关闭时为只读；管理员始终可编辑 */
+  /** 访客在 collabEnabled 为 false 时为只读；管理员始终可编辑 */
   canEdit: boolean;
 };
 
