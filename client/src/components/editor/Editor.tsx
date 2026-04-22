@@ -54,17 +54,13 @@ const EditorComponent: React.FC<EditorProps> = ({
     console.log("🟢 create editor");
     let e = withHistory(
       withTable(
-        withCursors(
-          withReact(withYjs(createEditor(), sharedType)),
-          awareness,
-          {
-            data: {
-              name: cursorDisplayName,
-              color: randomColor(),
-              sessionRole,
-            },
+        withCursors(withReact(withYjs(createEditor(), sharedType)), awareness, {
+          data: {
+            name: cursorDisplayName,
+            color: randomColor(),
+            sessionRole,
           },
-        ),
+        }),
         tableConfig,
       ),
     );
@@ -203,7 +199,7 @@ const EditorComponent: React.FC<EditorProps> = ({
               renderElement={renderElement}
               renderLeaf={renderLeaf}
               placeholder="Start writing..."
-              className={`outline-none${!canEdit ? " select-none cursor-default" : ""}`}
+              className={`outline-none focus:outline-none focus-visible:outline-none ring-0 focus:ring-0 focus-visible:ring-0${!canEdit ? " select-none cursor-default" : ""}`}
               spellCheck={false}
               autoFocus={canEdit}
               onContextMenu={handleContextMenu}
