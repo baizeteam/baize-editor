@@ -1,3 +1,6 @@
+# Local feature specs / speckit output (not versioned)
+specs/
+
 node_modules/
 build/
 dist/
