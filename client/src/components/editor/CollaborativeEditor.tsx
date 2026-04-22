@@ -1,54 +1,188 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import * as Y from "yjs";
+import { slateNodesToInsertDelta } from "@slate-yjs/core";
 import { WebsocketProvider } from "y-websocket";
+import { Awareness } from "y-protocols/awareness";
 import EditorComponent from "./Editor";
+import {
+  CollabSessionProvider,
+  type SessionRole,
+} from "./CollabSessionContext";
+import { initialValue } from "./data";
 
-const CollaborativeEditor = () => {
-  const [sharedType, setSharedType] = useState<any>();
-  const [provider, setProvider] = useState<any>();
-  const [connected, setConnected] = useState(false);
+const META_ROOM = "baize-editor-meta";
+const CONTENT_ROOM = "baize-editor";
 
+function getWebSocketUrl(): string {
+  if (window.location.host === "localhost:3000") {
+    return "ws://localhost:6652";
+  }
+  const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
+  return `${protocol}//${window.location.host}/ws`;
+}
+
+type Props = {
+  sessionRole: SessionRole;
+};
+
+const CollaborativeEditor = ({ sessionRole }: Props) => {
+  const contentDoc = useMemo(() => new Y.Doc(), []);
+  const sharedType = useMemo(
+    () => contentDoc.get("slate", Y.XmlText),
+    [contentDoc],
+  );
+
+  const appConfigRef = useRef<Y.Map<boolean> | null>(null);
+  const localAwarenessRef = useRef<Awareness | null>(null);
+
+  const [metaSynced, setMetaSynced] = useState(false);
+  const [collabEnabled, setCollabEnabled] = useState(true);
+  const [contentSynced, setContentSynced] = useState(false);
+  const [awareness, setAwareness] = useState<Awareness | null>(null);
+
+  const cursorDisplayName = useMemo(
+    () =>
+      sessionRole === "admin"
+        ? "管理员"
+        : `访客·${String(contentDoc.clientID).slice(-4)}`,
+    [sessionRole, contentDoc.clientID],
+  );
+
+  /** meta 房间：仅同步 appConfig（协同总开关） */
   useEffect(() => {
-    console.log("🟡 init Yjs");
+    const metaDoc = new Y.Doc();
+    const appConfig = metaDoc.getMap<boolean>("appConfig");
+    appConfigRef.current = appConfig;
 
-    const yDoc = new Y.Doc();
-    const shared = yDoc.get("slate", Y.XmlText);
+    const metaP = new WebsocketProvider(
+      getWebSocketUrl(),
+      META_ROOM,
+      metaDoc,
+    );
 
-    const getWebSocketUrl = () => {
-      // 开发环境
-      if (window.location.host === "localhost:3000") {
-        return "ws://localhost:6652";
-      } else {
-        // 使用当前域名（同源）
-        const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
-        return `${protocol}//${window.location.host}/ws`;
+    const applyFromMap = () => {
+      const raw = appConfig.get("collabEnabled");
+      setCollabEnabled(raw !== false);
+    };
+
+    const onMetaSync = (synced: boolean) => {
+      if (synced) {
+        setMetaSynced(true);
+        applyFromMap();
       }
     };
 
-    const p = new WebsocketProvider(getWebSocketUrl(), "baize-editor", yDoc);
-
-    p.on("status", (e: any) => {
-      console.log("🟢 ws:", e.status);
-    });
-
-    p.on("sync", setConnected);
-
-    setSharedType(shared);
-    setProvider(p);
+    metaP.on("sync", onMetaSync);
+    appConfig.observe(applyFromMap);
 
     return () => {
-      yDoc.destroy();
-      p?.off("sync", setConnected);
-      p.destroy();
+      appConfig.unobserve(applyFromMap);
+      metaP.off("sync", onMetaSync);
+      metaP.destroy();
+      metaDoc.destroy();
+      appConfigRef.current = null;
     };
   }, []);
 
-  // ❗ 必须等同步完成
-  if (!connected || !sharedType || !provider) {
-    return <div>Loading ...</div>;
+  /**
+   * 空 Y.XmlText 经 slate-yjs connect 会变成根下仅含裸文本节点，违反 Slate 块结构，导致无法输入。
+   * 在「可展示编辑器」之前写入与产品一致的初始文档（访客仅连 meta、协同关闭时也会走此路径）。
+   */
+  useLayoutEffect(() => {
+    if (!metaSynced) return;
+    if (collabEnabled && !contentSynced) return;
+    if (sharedType.toDelta().length > 0) return;
+
+    contentDoc.transact(() => {
+      sharedType.applyDelta(slateNodesToInsertDelta(initialValue), {
+        sanitize: false,
+      });
+    });
+  }, [metaSynced, collabEnabled, contentSynced, contentDoc, sharedType]);
+
+  /** 正文房间：仅在 collabEnabled 时连接 */
+  useEffect(() => {
+    if (!metaSynced) return;
+
+    if (!collabEnabled) {
+      setContentSynced(true);
+      if (!localAwarenessRef.current) {
+        localAwarenessRef.current = new Awareness(contentDoc);
+      }
+      setAwareness(localAwarenessRef.current);
+      return;
+    }
+
+    setContentSynced(false);
+    const p = new WebsocketProvider(
+      getWebSocketUrl(),
+      CONTENT_ROOM,
+      contentDoc,
+    );
+
+    const onContentSync = (synced: boolean) => {
+      if (synced) setContentSynced(true);
+    };
+    p.on("sync", onContentSync);
+    setAwareness(p.awareness);
+
+    return () => {
+      p.off("sync", onContentSync);
+      p.destroy();
+    };
+  }, [metaSynced, collabEnabled, contentDoc]);
+
+  const setCollabEnabledAction = useCallback(
+    (next: boolean) => {
+      if (sessionRole !== "admin") return;
+      appConfigRef.current?.set("collabEnabled", next);
+    },
+    [sessionRole],
+  );
+
+  const canEdit = sessionRole === "admin" || collabEnabled;
+
+  const sessionValue = useMemo(
+    () => ({
+      sessionRole,
+      collabEnabled,
+      collabSynced: !collabEnabled || contentSynced,
+      setCollabEnabled: setCollabEnabledAction,
+      canEdit,
+    }),
+    [
+      sessionRole,
+      collabEnabled,
+      contentSynced,
+      setCollabEnabledAction,
+      canEdit,
+    ],
+  );
+
+  const editorReady =
+    metaSynced && awareness && (!collabEnabled || contentSynced);
+
+  if (!editorReady) {
+    return <div className="p-8 text-center text-gray-600">加载中…</div>;
   }
 
-  return <EditorComponent sharedType={sharedType} provider={provider} />;
+  return (
+    <CollabSessionProvider value={sessionValue}>
+      <EditorComponent
+        key={collabEnabled ? "collab-on" : "collab-off"}
+        sharedType={sharedType}
+        awareness={awareness}
+        cursorDisplayName={cursorDisplayName}
+      />
+    </CollabSessionProvider>
+  );
 };
 
 export default CollaborativeEditor;

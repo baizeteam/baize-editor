@@ -8,8 +8,11 @@ import {
 } from "../../core/plugins/modules/table";
 import { TableEditor } from "slate-table";
 import { Dropdown, MenuProps } from "antd";
+import { useCollabSession } from "../editor/CollabSessionContext";
 
 export default function TableMenu({ editor, contextMenu, setContextMenu }) {
+  const { canEdit } = useCollabSession();
+
   const tableMenuItems: MenuProps["items"] = [
     {
       key: "merge-cells",
@@ -92,6 +95,11 @@ export default function TableMenu({ editor, contextMenu, setContextMenu }) {
       },
     },
   ];
+
+  if (!canEdit) {
+    return null;
+  }
+
   return (
     <>
       {contextMenu && contextMenu.visible && (

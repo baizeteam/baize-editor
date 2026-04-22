@@ -15,6 +15,7 @@ import {
   RenderLeafProps,
 } from "slate-react";
 import { withHistory } from "slate-history";
+import type { Awareness } from "y-protocols/awareness";
 import { withYjs, withCursors, YjsEditor } from "@slate-yjs/core";
 import { withTable } from "slate-table";
 import { plugins } from "../../core/plugins";
@@ -22,8 +23,9 @@ import { Cursors } from "../Cursors";
 import { Toolbar } from "../Toolbar";
 import TableMenu from "../TableMenu";
 import { initialValue } from "./data";
-import { randomColor, generateId } from "../../helpers";
+import { randomColor } from "../../helpers";
 import { tableConfig } from "../../core/tableConfig";
+import { useCollabSession } from "./CollabSessionContext";
 
 // ✅ Slate 必须兜底
 const EMPTY_VALUE: Descendant[] = [
@@ -33,7 +35,18 @@ const EMPTY_VALUE: Descendant[] = [
   },
 ];
 
-const EditorComponent: React.FC<any> = ({ sharedType, provider }) => {
+type EditorProps = {
+  sharedType: any;
+  awareness: Awareness;
+  cursorDisplayName: string;
+};
+
+const EditorComponent: React.FC<EditorProps> = ({
+  sharedType,
+  awareness,
+  cursorDisplayName,
+}) => {
+  const { canEdit } = useCollabSession();
   /**
    * ✅ 创建 editor
    */
@@ -43,10 +56,10 @@ const EditorComponent: React.FC<any> = ({ sharedType, provider }) => {
       withTable(
         withCursors(
           withReact(withYjs(createEditor(), sharedType)),
-          provider.awareness,
+          awareness,
           {
             data: {
-              name: "用户" + generateId(),
+              name: cursorDisplayName,
               color: randomColor(),
             },
           },
@@ -77,12 +90,18 @@ const EditorComponent: React.FC<any> = ({ sharedType, provider }) => {
     };
 
     return e;
-  }, [sharedType, provider]);
+  }, [sharedType, awareness, cursorDisplayName]);
 
   useEffect(() => {
     YjsEditor.connect(editor);
     return () => YjsEditor.disconnect(editor);
   }, [editor]);
+
+  useEffect(() => {
+    if (!canEdit) {
+      setContextMenu(null);
+    }
+  }, [canEdit]);
 
   /**
    * UI
@@ -95,6 +114,10 @@ const EditorComponent: React.FC<any> = ({ sharedType, provider }) => {
   } | null>(null);
 
   const handleContextMenu = (e: React.MouseEvent) => {
+    if (!canEdit) {
+      setContextMenu(null);
+      return;
+    }
     const [cell] = Editor.nodes(editor, {
       match: (n) =>
         SlateElement.isElement(n) &&
@@ -143,15 +166,17 @@ const EditorComponent: React.FC<any> = ({ sharedType, provider }) => {
         <Cursors>
           <div className="max-w-4xl w-full bg-white min-h-screen p-8 mt-4 relative">
             <Editable
+              readOnly={!canEdit}
               renderElement={renderElement}
               renderLeaf={renderLeaf}
               placeholder="Start writing..."
               className="outline-none"
               spellCheck={false}
-              autoFocus
+              autoFocus={canEdit}
               onContextMenu={handleContextMenu}
               onClick={() => setContextMenu(null)}
               onKeyDown={(event) => {
+                if (!canEdit) return;
                 for (const plugin of plugins) {
                   plugin.onKeyDown?.(event, editor);
                 }

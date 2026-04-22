@@ -18,12 +18,20 @@ import { ImageInsertButton } from "./modules/ImageInsertButton";
 import { InsertTableButton } from "./modules/InsertTableButton";
 import { HeadingDropdown } from "./modules/HeadingDropdown";
 import { ToolbarRight } from "./modules/ToolbarRight";
+import { useCollabSession } from "../editor/CollabSessionContext";
 
 export const Toolbar: React.FC = () => {
+  const { canEdit } = useCollabSession();
+
   return (
     <div className={styles.toolbar.wrapper}>
       <div className={styles.toolbar.container}>
-        <div className={styles.toolbar.buttonGroup}>
+        <div
+          className={`${styles.toolbar.buttonGroup}${!canEdit ? " pointer-events-none opacity-55" : ""}`}
+          title={
+            !canEdit ? "协同已关闭，当前为只读（仅管理员可编辑）" : undefined
+          }
+        >
           <MarkButton format="bold" icon={<BoldOutlined />} title="粗体" />
           <MarkButton format="italic" icon={<ItalicOutlined />} title="斜体" />
           <MarkButton
