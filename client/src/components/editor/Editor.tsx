@@ -26,6 +26,7 @@ import { initialValue } from "./data";
 import { randomColor } from "../../helpers";
 import { tableConfig } from "../../core/tableConfig";
 import { useCollabSession } from "./CollabSessionContext";
+import { HelpDrawer } from "../HelpDrawer";
 
 // ✅ Slate 必须兜底
 const EMPTY_VALUE: Descendant[] = [
@@ -233,6 +234,7 @@ const EditorComponent: React.FC<EditorProps> = ({
           </div>
         </Cursors>
       </Slate>
+      <HelpDrawer />
     </div>
   );
 };
