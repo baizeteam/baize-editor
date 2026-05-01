@@ -16,4 +16,10 @@ services:
     image: sulgweb/baize-editor-server:latest
     environment:
       - NODE_ENV=production
+      - YPERSISTENCE=/data/yjs
+    volumes:
+      - yjs-data:/data/yjs
     restart: unless-stopped
+
+volumes:
+  yjs-data:
