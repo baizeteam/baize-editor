@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, ColorPicker, Popover, Tooltip } from "antd";
 import type { Color } from "antd/es/color-picker";
-import { BgColorsOutlined } from "@ant-design/icons";
+import { FontColorsOutlined, BgColorsOutlined } from "@ant-design/icons";
 import { useSlate } from "slate-react";
 import { Editor } from "slate";
 import { styles } from "../styles";
@@ -78,23 +78,20 @@ export const ColorPickerButton: React.FC<ColorPickerButtonProps> = ({
           type="text"
           icon={
             format === "color" ? (
-              <span className="flex items-center justify-center">
-                <span
-                  className={styles.colorSwatch}
-                  style={{ backgroundColor: getColor() }}
-                />
-              </span>
+              <FontColorsOutlined
+                style={{
+                  color: getColor(),
+                  filter: getColor() === "#ffffff" ? "drop-shadow(0 0 1px rgba(0,0,0,0.5))" : undefined,
+                }}
+              />
             ) : (
               <span className="flex items-center justify-center">
-                <BgColorsOutlined
-                  style={{
-                    color: getColor(),
-                    backgroundColor: getColor() === "#ffffff" ? "#eee" : "transparent",
-                    padding: "2px",
-                    borderRadius: "2px",
-                    border: "1px solid #ddd",
-                  }}
-                />
+                <span
+                  className="flex items-center justify-center rounded border border-gray-300 p-0.5"
+                  style={{ backgroundColor: getColor() }}
+                >
+                  <BgColorsOutlined style={{ color: "#000000" }} />
+                </span>
               </span>
             )
           }

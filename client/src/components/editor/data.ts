@@ -18,14 +18,15 @@ export const initialValue: Descendant[] = [
   {
     type: "paragraph",
     children: [
-      { text: "白泽编辑器是一个基于 " },
+      { text: "白泽编辑器", bold: true, color: "#0053db" },
+      { text: "是一个基于 " },
       { text: "Slate", bold: true },
       { text: " 和 " },
       { text: "Yjs", bold: true },
       {
         text: " 构建的实时富文本协同编辑器。多人可以同时编辑同一篇文档，所有变更通过 ",
       },
-      { text: "CRDT", code: true },
+      { text: "CRDT" },
       { text: " 算法自动合并，无需手动解决冲突。" },
     ],
   },
