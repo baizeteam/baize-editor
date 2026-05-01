@@ -20,8 +20,11 @@ function toggleBadge(editor: Editor): void {
       match: (n) => SlateElement.isElement(n) && n.type === "badge",
     });
   } else {
-    const badge = { type: "badge" as const, children: [] };
-    Transforms.wrapNodes(editor, badge, { split: true });
+    const { selection } = editor;
+    const text = selection ? Editor.string(editor, selection) : "";
+    if (selection) Transforms.delete(editor);
+    const badge: SlateElement = { type: "badge", children: [{ text }] };
+    Transforms.insertNodes(editor, [{ text: " " }, badge, { text: " " }]);
   }
 }
 
