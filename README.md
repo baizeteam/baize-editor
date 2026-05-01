@@ -69,14 +69,15 @@ pnpm run client
 pnpm run server
 ```
 
+- 前端：`http://localhost:3000`
+- 后端：`ws://localhost:6652`
+
 ### Docker 部署
 
 ```bash
+docker-compose build
 docker-compose up -d
 ```
-
-- 前端：`http://localhost:3000`
-- 后端：`ws://localhost:6652`
 
 ## 插件一览
 
