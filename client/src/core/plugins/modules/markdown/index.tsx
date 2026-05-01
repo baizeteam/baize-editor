@@ -22,12 +22,16 @@ export const MarkdownPlugin: EditorPlugin = {
 
     if (event.key === "Enter") {
       const blockEntry = Editor.above(editor, {
-        match: n => SlateElement.isElement(n) && Editor.isBlock(editor, n),
+        match: (n) => SlateElement.isElement(n) && Editor.isBlock(editor, n),
       });
       if (blockEntry) {
         const [block] = blockEntry;
-        if (SlateElement.isElement(block) && block.type !== "paragraph" && block.type !== "list-item") {
-          const blockText = Array.isArray((block as any).children) 
+        if (
+          SlateElement.isElement(block) &&
+          block.type !== "paragraph" &&
+          block.type !== "list-item"
+        ) {
+          const blockText = Array.isArray((block as any).children)
             ? (block as any).children.map((c: any) => c.text || "").join("")
             : "";
           if (blockText === "") {
@@ -38,7 +42,14 @@ export const MarkdownPlugin: EditorPlugin = {
         }
       }
 
-      const headingTypes: string[] = ["heading-one", "heading-two", "heading-three", "heading-four", "heading-five", "heading-six"];
+      const headingTypes: string[] = [
+        "heading-one",
+        "heading-two",
+        "heading-three",
+        "heading-four",
+        "heading-five",
+        "heading-six",
+      ];
       const headingPrefixes = ["#", "##", "###", "####", "#####", "######"];
       for (let i = 0; i < headingPrefixes.length; i++) {
         if (currentLineStart === headingPrefixes[i]) {
@@ -89,7 +100,14 @@ export const MarkdownPlugin: EditorPlugin = {
     }
 
     if (event.key === " " && currentLineStart) {
-      const headingTypes: string[] = ["heading-one", "heading-two", "heading-three", "heading-four", "heading-five", "heading-six"];
+      const headingTypes: string[] = [
+        "heading-one",
+        "heading-two",
+        "heading-three",
+        "heading-four",
+        "heading-five",
+        "heading-six",
+      ];
       const headingPrefixes = ["#", "##", "###", "####", "#####", "######"];
       for (let i = 0; i < headingPrefixes.length; i++) {
         if (currentLineStart === headingPrefixes[i]) {
@@ -145,11 +163,14 @@ export const MarkdownPlugin: EditorPlugin = {
         const fullMatchLen = match[0].length;
         event.preventDefault();
         const anchor = editor.selection!.anchor;
-        const start = { path: anchor.path, offset: anchor.offset - fullMatchLen };
+        const start = {
+          path: anchor.path,
+          offset: anchor.offset - fullMatchLen,
+        };
         const end = { path: anchor.path, offset: anchor.offset };
         Transforms.delete(editor, { at: { anchor: start, focus: end } });
         const badge: SlateElement = { type: "badge", children: [{ text }] };
-        Transforms.insertNodes(editor, badge);
+        Transforms.insertNodes(editor, [{ text: " " }, badge, { text: " " }]);
         Transforms.move(editor);
         return;
       }
