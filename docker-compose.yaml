@@ -6,7 +6,7 @@ services:
       dockerfile: Dockerfile
     image: sulgweb/baize-editor-client:latest
     ports:
-      - "3000:80"
+      - "6651:80"
     restart: unless-stopped
 
   server:
@@ -14,8 +14,6 @@ services:
       context: ./server
       dockerfile: Dockerfile
     image: sulgweb/baize-editor-server:latest
-    ports:
-      - "1234:1234"
     environment:
       - NODE_ENV=production
     restart: unless-stopped
