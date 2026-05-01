@@ -189,11 +189,11 @@ const EditorComponent: React.FC<EditorProps> = ({
   );
 
   return (
-    <div className="min-h-screen flex flex-col items-center pb-20">
+    <div className="min-h-screen flex flex-col items-center pb-0 md:pb-20">
       <Slate editor={editor} initialValue={EMPTY_VALUE}>
         <Toolbar />
         <Cursors>
-          <div className="max-w-4xl w-full bg-white min-h-screen p-8 mt-4 relative">
+          <div className="max-w-4xl w-full bg-white min-h-screen p-8 relative">
             <Editable
               readOnly={!canEdit}
               renderElement={renderElement}

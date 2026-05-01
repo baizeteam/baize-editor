@@ -30,7 +30,7 @@ export const BasePlugin: EditorPlugin = {
         return (
           <h1
             {...attributes}
-            className="text-5xl font-bold mb-8 mt-12 font-headline leading-tight"
+            className="text-5xl font-bold mb-8 mt-8 font-headline leading-tight"
           >
             {children}
           </h1>
