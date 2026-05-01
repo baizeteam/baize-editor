@@ -18,8 +18,5 @@ services:
       - NODE_ENV=production
       - YPERSISTENCE=/data/yjs
     volumes:
-      - yjs-data:/data/yjs
+      - ./data/yjs:/data/yjs
     restart: unless-stopped
-
-volumes:
-  yjs-data:
