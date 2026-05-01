@@ -6,7 +6,6 @@ import {
   UnorderedListOutlined,
   OrderedListOutlined,
   StrikethroughOutlined,
-  TagOutlined,
 } from "@ant-design/icons";
 import { Quote } from "lucide-react";
 import { ColorPickerButton } from "./modules/ColorPickerButton";
@@ -17,6 +16,7 @@ import { BlockButton } from "./modules/BlockButton";
 import { ListButton } from "./modules/ListButton";
 import { ImageInsertButton } from "./modules/ImageInsertButton";
 import { InsertTableButton } from "./modules/InsertTableButton";
+import { BadgeButton } from "./modules/BadgeButton";
 import { HeadingDropdown } from "./modules/HeadingDropdown";
 import { ToolbarRight } from "./modules/ToolbarRight";
 import { useCollabSession } from "../editor/CollabSessionContext";
@@ -45,7 +45,7 @@ export const Toolbar: React.FC = () => {
             icon={<StrikethroughOutlined />}
             title="删除线"
           />
-          <MarkButton format="badge" icon={<TagOutlined />} title="徽章" />
+          <BadgeButton />
 
           <ColorPickerButton
             title="文字颜色"

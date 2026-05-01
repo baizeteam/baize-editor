@@ -4,7 +4,7 @@ export const initialValue: Descendant[] = [
   {
     type: "paragraph",
     children: [
-      { text: "文章", badge: true },
+      { type: "badge", children: [{ text: "文章" }] } as any,
       { text: " 4 小时前修改", color: "secondary" } as any,
     ],
   },

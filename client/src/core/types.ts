@@ -49,6 +49,11 @@ export type ListItemElement = {
   children: CustomText[];
 };
 
+export type BadgeElement = {
+  type: "badge";
+  children: CustomText[];
+};
+
 export type TableElement = {
   type: "table";
   children: TableSectionElement[];
@@ -76,6 +81,7 @@ export type CustomElement =
   | HeadingElement
   | BlockQuoteElement
   | ImageElement
+  | BadgeElement
   | TableElement
   | TableRowElement
   | TableCellElement
@@ -91,7 +97,6 @@ export type CustomText = {
   underline?: boolean;
   strikethrough?: boolean;
   code?: boolean;
-  badge?: boolean;
   color?: string;
   backgroundColor?: string;
 };

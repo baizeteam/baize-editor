@@ -65,6 +65,10 @@ const EditorComponent: React.FC<EditorProps> = ({
       ),
     );
 
+    const { isInline } = e;
+    e.isInline = (element) =>
+      element.type === "badge" ? true : isInline(element);
+
     plugins.forEach((plugin) => {
       if (plugin.withPlugin) {
         e = plugin.withPlugin(e);

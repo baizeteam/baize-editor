@@ -89,6 +89,15 @@ export const BasePlugin: EditorPlugin = {
             {children}
           </blockquote>
         );
+      case "badge":
+        return (
+          <span
+            {...attributes}
+            className="inline-block bg-primary-container text-on-primary-container text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-widest"
+          >
+            {children}
+          </span>
+        );
       default:
         return undefined;
     }
@@ -113,13 +122,6 @@ export const BasePlugin: EditorPlugin = {
         <code className="bg-surface-container px-1 rounded font-mono text-sm">
           {children}
         </code>
-      );
-    }
-    if (textLeaf.badge) {
-      children = (
-        <span className="inline-block bg-primary-container text-on-primary-container text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-widest">
-          {children}
-        </span>
       );
     }
 

@@ -138,7 +138,7 @@ export const MarkdownPlugin: EditorPlugin = {
         return;
       }
 
-      // `` `xxx `` + space → badge
+      // `` `xxx `` + space → badge element
       const backtickIdx = currentLineStart.lastIndexOf("`");
       if (backtickIdx >= 0) {
         const textAfter = currentLineStart.slice(backtickIdx + 1);
@@ -148,8 +148,9 @@ export const MarkdownPlugin: EditorPlugin = {
           const start = { path: anchor.path, offset: anchor.offset - textAfter.length - 1 };
           const end = { path: anchor.path, offset: anchor.offset };
           Transforms.delete(editor, { at: { anchor: start, focus: end } });
-          Transforms.insertText(editor, textAfter);
-          Editor.addMark(editor, "badge", true);
+          const badge: SlateElement = { type: "badge", children: [{ text: textAfter }] };
+          Transforms.insertNodes(editor, badge);
+          Transforms.move(editor);
           return;
         }
       }
