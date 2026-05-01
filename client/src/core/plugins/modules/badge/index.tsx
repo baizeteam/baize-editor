@@ -7,13 +7,11 @@ export const BadgePlugin: EditorPlugin = {
   renderElement: ({ attributes, children, element }: RenderElementProps) => {
     if (element.type === "badge") {
       return (
-        <span className="display-flex align-centen">
-          <span
-            {...attributes}
-            className="inline-block bg-primary-container text-on-primary-container text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-widest"
-          >
-            {children}
-          </span>
+        <span
+          {...attributes}
+          className="bg-primary-container text-on-primary-container font-bold px-2 py-0.5 rounded uppercase tracking-widest"
+        >
+          {children}
         </span>
       );
     }
