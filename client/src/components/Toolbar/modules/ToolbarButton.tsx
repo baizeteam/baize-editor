@@ -1,4 +1,5 @@
 import React from "react";
+import { Tooltip } from "antd";
 import { cn } from "./cn";
 import { styles } from "../styles";
 
@@ -11,19 +12,20 @@ type ToolbarButtonProps = {
 
 export function ToolbarButton({ icon, title, active, onMouseDown }: ToolbarButtonProps) {
   return (
-    <button
-      type="button"
-      title={title}
-      onMouseDown={(e) => {
-        e.preventDefault();
-        onMouseDown(e);
-      }}
-      className={cn(
-        styles.iconButton.base,
-        active ? styles.iconButton.active : styles.iconButton.inactive,
-      )}
-    >
-      {icon}
-    </button>
+    <Tooltip title={title}>
+      <button
+        type="button"
+        onMouseDown={(e) => {
+          e.preventDefault();
+          onMouseDown(e);
+        }}
+        className={cn(
+          styles.iconButton.base,
+          active ? styles.iconButton.active : styles.iconButton.inactive,
+        )}
+      >
+        {icon}
+      </button>
+    </Tooltip>
   );
 }

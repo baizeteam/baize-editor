@@ -12,7 +12,7 @@ const shortcuts = [
   { keys: "> + 空格", desc: "引用" },
   { keys: "- + 空格", desc: "无序列表" },
   { keys: "1. + 空格", desc: "有序列表" },
-  { keys: "`文字` + 空格", desc: "徽章" },
+  { keys: "`文字` + 空格", desc: "标签" },
 ];
 
 const inlineShortcuts = [

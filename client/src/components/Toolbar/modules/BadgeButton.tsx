@@ -33,7 +33,7 @@ export function BadgeButton() {
   return (
     <ToolbarButton
       icon={<TagOutlined />}
-      title="徽章"
+      title="标签"
       active={active}
       onMouseDown={() => toggleBadge(editor)}
     />

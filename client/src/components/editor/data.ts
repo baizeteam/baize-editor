@@ -47,7 +47,7 @@ export const initialValue: Descendant[] = [
       },
       {
         type: "list-item",
-        children: [{ text: "Markdown 快捷键：标题、引用、列表、徽章" }],
+        children: [{ text: "Markdown 快捷键：标题、引用、列表、标签" }],
       },
       {
         type: "list-item",
@@ -119,7 +119,7 @@ export const initialValue: Descendant[] = [
               {
                 type: "table-cell",
                 children: [
-                  { text: "行内徽章元素，支持插入、删除、工具栏切换" },
+                  { text: "行内标签元素，支持插入、删除、工具栏切换" },
                 ] as any,
               },
               {
@@ -169,7 +169,7 @@ export const initialValue: Descendant[] = [
               {
                 type: "table-cell",
                 children: [
-                  { text: "标题、引用、列表、徽章的键盘快捷转换" },
+                  { text: "标题、引用、列表、标签的键盘快捷转换" },
                 ] as any,
               },
               {
