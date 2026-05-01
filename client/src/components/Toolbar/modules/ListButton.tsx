@@ -1,9 +1,7 @@
 import React from "react";
 import { useSlate } from "slate-react";
-import { Button, Tooltip } from "antd";
 import { toggleList } from "../../../core/plugins/modules/list";
-import { styles } from "../styles";
-import { cn } from "./cn";
+import { ToolbarButton } from "./ToolbarButton";
 import { isBlockActive } from "./toolbar-editor";
 
 type ListButtonProps = {
@@ -17,20 +15,11 @@ export function ListButton({ format, icon, title }: ListButtonProps) {
   const active = isBlockActive(editor, format);
 
   return (
-    <Tooltip title={title}>
-      <Button
-        type="text"
-        shape="circle"
-        icon={icon}
-        onMouseDown={(e) => {
-          e.preventDefault();
-          toggleList(editor, format);
-        }}
-        className={cn(
-          styles.listButton.base,
-          active ? styles.listButton.active : styles.listButton.inactive,
-        )}
-      />
-    </Tooltip>
+    <ToolbarButton
+      icon={icon}
+      title={title}
+      active={active}
+      onMouseDown={() => toggleList(editor, format)}
+    />
   );
 }

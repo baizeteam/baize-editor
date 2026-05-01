@@ -1,10 +1,8 @@
 import React from "react";
 import { useSlate } from "slate-react";
 import { Editor, Transforms, Element as SlateElement } from "slate";
-import { Button, Tooltip } from "antd";
 import { TagOutlined } from "@ant-design/icons";
-import { styles } from "../styles";
-import { cn } from "./cn";
+import { ToolbarButton } from "./ToolbarButton";
 
 function isBadgeActive(editor: Editor): boolean {
   const [match] = Editor.nodes(editor, {
@@ -33,19 +31,11 @@ export function BadgeButton() {
   const active = isBadgeActive(editor);
 
   return (
-    <Tooltip title="徽章">
-      <Button
-        type="text"
-        icon={<TagOutlined />}
-        onMouseDown={(e) => {
-          e.preventDefault();
-          toggleBadge(editor);
-        }}
-        className={cn(
-          styles.iconButton.base,
-          active ? styles.iconButton.active : styles.iconButton.inactive,
-        )}
-      />
-    </Tooltip>
+    <ToolbarButton
+      icon={<TagOutlined />}
+      title="徽章"
+      active={active}
+      onMouseDown={() => toggleBadge(editor)}
+    />
   );
 }

@@ -1,8 +1,6 @@
 import React from "react";
 import { useSlate } from "slate-react";
-import { Button, Tooltip } from "antd";
-import { styles } from "../styles";
-import { cn } from "./cn";
+import { ToolbarButton } from "./ToolbarButton";
 import { isMarkActive, toggleMark } from "./toolbar-editor";
 
 type MarkButtonProps = {
@@ -16,19 +14,11 @@ export function MarkButton({ format, icon, title }: MarkButtonProps) {
   const active = isMarkActive(editor, format);
 
   return (
-    <Tooltip title={title}>
-      <Button
-        type="text"
-        icon={icon}
-        onMouseDown={(e) => {
-          e.preventDefault();
-          toggleMark(editor, format);
-        }}
-        className={cn(
-          styles.iconButton.base,
-          active ? styles.iconButton.active : styles.iconButton.inactive,
-        )}
-      />
-    </Tooltip>
+    <ToolbarButton
+      icon={icon}
+      title={title}
+      active={active}
+      onMouseDown={() => toggleMark(editor, format)}
+    />
   );
 }
