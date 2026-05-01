@@ -6,6 +6,7 @@ import {
   UnorderedListOutlined,
   OrderedListOutlined,
   StrikethroughOutlined,
+  TagOutlined,
 } from "@ant-design/icons";
 import { Quote } from "lucide-react";
 import { ColorPickerButton } from "./modules/ColorPickerButton";
@@ -44,6 +45,7 @@ export const Toolbar: React.FC = () => {
             icon={<StrikethroughOutlined />}
             title="删除线"
           />
+          <MarkButton format="badge" icon={<TagOutlined />} title="徽章" />
 
           <ColorPickerButton
             title="文字颜色"

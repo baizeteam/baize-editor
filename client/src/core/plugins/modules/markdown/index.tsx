@@ -137,6 +137,22 @@ export const MarkdownPlugin: EditorPlugin = {
         Transforms.insertText(editor, ". ");
         return;
       }
+
+      // `` `xxx `` + space → badge
+      const backtickIdx = currentLineStart.lastIndexOf("`");
+      if (backtickIdx >= 0) {
+        const textAfter = currentLineStart.slice(backtickIdx + 1);
+        if (textAfter.length > 0 && !textAfter.includes("`")) {
+          event.preventDefault();
+          const anchor = editor.selection!.anchor;
+          const start = { path: anchor.path, offset: anchor.offset - textAfter.length - 1 };
+          const end = { path: anchor.path, offset: anchor.offset };
+          Transforms.delete(editor, { at: { anchor: start, focus: end } });
+          Transforms.insertText(editor, textAfter);
+          Editor.addMark(editor, "badge", true);
+          return;
+        }
+      }
     }
   },
 };
