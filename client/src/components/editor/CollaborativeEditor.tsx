@@ -62,11 +62,7 @@ const CollaborativeEditor = ({ sessionRole, roomId }: Props) => {
     appConfigRef.current = appConfig;
 
     const metaRoom = `${META_ROOM_PREFIX}-${roomId}`;
-    const metaP = new WebsocketProvider(
-      getWebSocketUrl(),
-      metaRoom,
-      metaDoc,
-    );
+    const metaP = new WebsocketProvider(getWebSocketUrl(), metaRoom, metaDoc);
 
     const applyFromMap = () => {
       const raw = appConfig.get("collabEnabled");
@@ -100,11 +96,7 @@ const CollaborativeEditor = ({ sessionRole, roomId }: Props) => {
     if (!metaSynced) return;
 
     const contentRoom = `${CONTENT_ROOM_PREFIX}-${roomId}`;
-    const p = new WebsocketProvider(
-      getWebSocketUrl(),
-      contentRoom,
-      contentDoc,
-    );
+    const p = new WebsocketProvider(getWebSocketUrl(), contentRoom, contentDoc);
 
     const onContentSync = (synced: boolean) => {
       if (synced) setContentSynced(true);
@@ -163,7 +155,7 @@ const CollaborativeEditor = ({ sessionRole, roomId }: Props) => {
   const editorReady = metaSynced && Boolean(awareness) && contentSynced;
 
   if (!editorReady) {
-    return <div className="p-8 text-center text-gray-600">加载中…</div>;
+    return <div className="p-20 text-center text-gray-600">加载中…</div>;
   }
 
   return (
