@@ -138,21 +138,20 @@ export const MarkdownPlugin: EditorPlugin = {
         return;
       }
 
-      // `` `xxx `` + space → badge element
-      const backtickIdx = currentLineStart.lastIndexOf("`");
-      if (backtickIdx >= 0) {
-        const textAfter = currentLineStart.slice(backtickIdx + 1);
-        if (textAfter.length > 0 && !textAfter.includes("`")) {
-          event.preventDefault();
-          const anchor = editor.selection!.anchor;
-          const start = { path: anchor.path, offset: anchor.offset - textAfter.length - 1 };
-          const end = { path: anchor.path, offset: anchor.offset };
-          Transforms.delete(editor, { at: { anchor: start, focus: end } });
-          const badge: SlateElement = { type: "badge", children: [{ text: textAfter }] };
-          Transforms.insertNodes(editor, badge);
-          Transforms.move(editor);
-          return;
-        }
+      // `` `xxx `` or `` `xxx` `` + space → badge element
+      const match = currentLineStart.match(/`([^`]+)`?$/);
+      if (match) {
+        const text = match[1];
+        const fullMatchLen = match[0].length;
+        event.preventDefault();
+        const anchor = editor.selection!.anchor;
+        const start = { path: anchor.path, offset: anchor.offset - fullMatchLen };
+        const end = { path: anchor.path, offset: anchor.offset };
+        Transforms.delete(editor, { at: { anchor: start, focus: end } });
+        const badge: SlateElement = { type: "badge", children: [{ text }] };
+        Transforms.insertNodes(editor, badge);
+        Transforms.move(editor);
+        return;
       }
     }
   },
