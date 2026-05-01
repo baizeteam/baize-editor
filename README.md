@@ -1,6 +1,6 @@
-# 白泽编辑器
+# 白泽协同文档
 
-基于 [Slate](https://docs.slatejs.org/) + [Yjs](https://yjs.dev/) 的实时协同富文本编辑器。
+基于 [Slate](https://docs.slatejs.org/) + [Yjs](https://yjs.dev/) 的协同富文本编辑器。
 
 ## 特性
 
