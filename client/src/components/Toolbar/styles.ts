@@ -9,7 +9,7 @@ const toolbar = {
 };
 
 const iconButton = {
-  base: "transition-all duration-200 h-8 w-8 flex items-center justify-center rounded-lg",
+  base: "transition-all duration-200 h-6 md:h-8 w-8 flex items-center justify-center rounded-sm md:rounded-lg",
   active: "text-primary bg-primary/15 hover:bg-primary/25",
   inactive: "text-on-surface-variant hover:bg-black/5",
 };
