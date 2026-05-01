@@ -17,8 +17,8 @@ import {
 } from "./CollabSessionContext";
 import { initialValue } from "./data";
 
-const META_ROOM = "baize-editor-meta";
-const CONTENT_ROOM = "baize-editor";
+const META_ROOM_PREFIX = "baize-editor-meta";
+const CONTENT_ROOM_PREFIX = "baize-editor";
 
 function getWebSocketUrl(): string {
   if (window.location.host === "localhost:3000") {
@@ -30,9 +30,10 @@ function getWebSocketUrl(): string {
 
 type Props = {
   sessionRole: SessionRole;
+  roomId: number;
 };
 
-const CollaborativeEditor = ({ sessionRole }: Props) => {
+const CollaborativeEditor = ({ sessionRole, roomId }: Props) => {
   const contentDoc = useMemo(() => new Y.Doc(), []);
   const sharedType = useMemo(
     () => contentDoc.get("slate", Y.XmlText),
@@ -60,9 +61,10 @@ const CollaborativeEditor = ({ sessionRole }: Props) => {
     const appConfig = metaDoc.getMap<boolean>("appConfig");
     appConfigRef.current = appConfig;
 
+    const metaRoom = `${META_ROOM_PREFIX}-${roomId}`;
     const metaP = new WebsocketProvider(
       getWebSocketUrl(),
-      META_ROOM,
+      metaRoom,
       metaDoc,
     );
 
@@ -88,7 +90,7 @@ const CollaborativeEditor = ({ sessionRole }: Props) => {
       metaDoc.destroy();
       appConfigRef.current = null;
     };
-  }, []);
+  }, [roomId]);
 
   /**
    * 正文房间：始终连接，保证所有人文档与 awareness 实时一致。
@@ -97,9 +99,10 @@ const CollaborativeEditor = ({ sessionRole }: Props) => {
   useLayoutEffect(() => {
     if (!metaSynced) return;
 
+    const contentRoom = `${CONTENT_ROOM_PREFIX}-${roomId}`;
     const p = new WebsocketProvider(
       getWebSocketUrl(),
-      CONTENT_ROOM,
+      contentRoom,
       contentDoc,
     );
 
@@ -113,7 +116,7 @@ const CollaborativeEditor = ({ sessionRole }: Props) => {
       p.off("sync", onContentSync);
       p.destroy();
     };
-  }, [metaSynced, contentDoc]);
+  }, [metaSynced, contentDoc, roomId]);
 
   /**
    * 空 Y.XmlText 经 slate-yjs connect 会变成根下仅含裸文本节点，违反 Slate 块结构。
