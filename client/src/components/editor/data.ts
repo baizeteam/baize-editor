@@ -4,16 +4,13 @@ export const initialValue: Descendant[] = [
   {
     type: "paragraph",
     children: [
-      {
-        type: "badge",
-        children: [{ text: "Essay" }],
-      } as any,
-      { text: " Modified 4 hours ago", color: "secondary" } as any,
+      { text: "文章", badge: true },
+      { text: " 4 小时前修改", color: "secondary" } as any,
     ],
   },
   {
     type: "heading-one",
-    children: [{ text: "The Architecture of Minimalist Interfaces" }],
+    children: [{ text: "极简界面的架构设计" }],
   },
   {
     type: "table",
@@ -162,15 +159,15 @@ export const initialValue: Descendant[] = [
           {
             type: "table-row",
             children: [
-              { type: "table-cell", children: [{ text: "Component" }] as any },
-              { type: "table-cell", children: [{ text: "Role" }] as any },
+              { type: "table-cell", children: [{ text: "组件" }] as any },
+              { type: "table-cell", children: [{ text: "作用" }] as any },
             ],
           },
           {
             type: "table-row",
             children: [
-              { type: "table-cell", children: [{ text: "Typography" }] as any },
-              { type: "table-cell", children: [{ text: "Structure" }] as any },
+              { type: "table-cell", children: [{ text: "排版" }] as any },
+              { type: "table-cell", children: [{ text: "结构" }] as any },
             ],
           },
         ],
@@ -181,7 +178,7 @@ export const initialValue: Descendant[] = [
     type: "paragraph",
     children: [
       {
-        text: "Modern editorial design systems, like ProScript Mono, prioritize tonal layering over harsh borders. By using subtle background shifts—moving from the pure canvas of surface-container-lowest to the environmental surface-container-low—the eye is guided through hierarchy without the fatigue of technical grids.",
+        text: "现代编辑器设计系统，如 ProScript Mono，更注重色调层次而非生硬的边框。通过微妙的背景色变化——从最底层的纯净画布到环境层的表面容器——视线被自然地引导穿过层级结构，而不会因技术网格产生视觉疲劳。",
       },
     ],
   },
@@ -189,7 +186,7 @@ export const initialValue: Descendant[] = [
     type: "block-quote",
     children: [
       {
-        text: '"The best editor is the one that disappears at the moment you begin to speak."',
+        text: "「最好的编辑器，是在你开始书写的那一刻便隐于无形的那一个。」",
       },
     ],
   },
