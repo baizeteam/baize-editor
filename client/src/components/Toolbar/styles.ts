@@ -22,7 +22,7 @@ const colorPickerButton =
 const colorSwatch = "w-4 h-4 rounded border border-gray-300";
 
 const headingDropdown =
-  "flex items-center gap-1 px-3 rounded-full hover:bg-black/5 flex-shrink-0";
+  "flex items-center justify-center gap-1 w-14 mb:w-20 rounded-full hover:bg-black/5 flex-shrink-0";
 
 const headingLabel = "text-xs font-bold text-on-surface-variant";
 

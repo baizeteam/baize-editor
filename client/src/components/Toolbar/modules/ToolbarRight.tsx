@@ -22,7 +22,7 @@ export function ToolbarRight() {
 
   return (
     <div className={styles.toolbar.rightGroup}>
-      <Tag color={collabEnabled ? "blue" : "default"} className="!mr-2">
+      <Tag color={collabEnabled ? "#0053db" : "default"} className="!mr-2">
         访客编辑：{collabEnabled ? "允许" : "禁止"}
         {!collabSynced ? "（正文同步中）" : ""}
       </Tag>
