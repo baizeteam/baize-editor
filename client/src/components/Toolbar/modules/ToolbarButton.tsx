@@ -1,6 +1,10 @@
 import React from "react";
-import { Tooltip } from "antd";
-import { cn } from "./cn";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "../../ui/tooltip";
+import { cn } from "../../../lib/utils";
 import { styles } from "../styles";
 
 type ToolbarButtonProps = {
@@ -12,20 +16,23 @@ type ToolbarButtonProps = {
 
 export function ToolbarButton({ icon, title, active, onMouseDown }: ToolbarButtonProps) {
   return (
-    <Tooltip title={title}>
-      <button
-        type="button"
-        onMouseDown={(e) => {
-          e.preventDefault();
-          onMouseDown(e);
-        }}
-        className={cn(
-          styles.iconButton.base,
-          active ? styles.iconButton.active : styles.iconButton.inactive,
-        )}
-      >
-        {icon}
-      </button>
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <button
+          type="button"
+          onMouseDown={(e) => {
+            e.preventDefault();
+            onMouseDown(e);
+          }}
+          className={cn(
+            styles.iconButton.base,
+            active ? styles.iconButton.active : styles.iconButton.inactive,
+          )}
+        >
+          {icon}
+        </button>
+      </TooltipTrigger>
+      <TooltipContent>{title}</TooltipContent>
     </Tooltip>
   );
 }

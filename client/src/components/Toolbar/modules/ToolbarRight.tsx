@@ -1,7 +1,12 @@
-import React from "react";
 import { useSlate } from "slate-react";
-import { Button, Switch, Tag, Tooltip } from "antd";
-import { SendOutlined } from "@ant-design/icons";
+import { Button } from "../../ui/button";
+import { Switch } from "../../ui/switch";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "../../ui/tooltip";
+import { Send } from "lucide-react";
 import { styles } from "../styles";
 import { getCharacterCount } from "./toolbar-editor";
 import { useCollabSession } from "../../editor/CollabSessionContext";
@@ -22,23 +27,32 @@ export function ToolbarRight() {
 
   return (
     <div className={styles.toolbar.rightGroup}>
-      <Tag color={collabEnabled ? "#0053db" : "default"} className="!mr-2">
+      <span
+        className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium ${
+          collabEnabled
+            ? "bg-primary/10 text-primary"
+            : "bg-muted text-muted-foreground"
+        } !mr-2`}
+      >
         访客编辑：{collabEnabled ? "允许" : "禁止"}
         {!collabSynced ? "（正文同步中）" : ""}
-      </Tag>
+      </span>
       {sessionRole === "admin" ? (
-        <Tooltip title="对所有在线用户生效；关闭后访客不可编辑，正文仍实时同步">
-          <span className="inline-flex items-center gap-2 mr-3">
-            <span className="text-sm text-gray-600 hidden md:inline">
-              协同编辑
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <span className="inline-flex items-center gap-2 mr-3">
+              <span className="text-sm text-gray-600 hidden md:inline">
+                协同编辑
+              </span>
+              <Switch
+                checked={collabEnabled}
+                onCheckedChange={setCollabEnabled}
+              />
             </span>
-            <Switch
-              checked={collabEnabled}
-              onChange={setCollabEnabled}
-              checkedChildren="开"
-              unCheckedChildren="关"
-            />
-          </span>
+          </TooltipTrigger>
+          <TooltipContent>
+            对所有在线用户生效；关闭后访客不可编辑，正文仍实时同步
+          </TooltipContent>
         </Tooltip>
       ) : null}
       <div className={styles.charCount.container}>
@@ -48,12 +62,11 @@ export function ToolbarRight() {
         </span>
       </div>
       <Button
-        type="primary"
-        icon={<SendOutlined />}
         onClick={saveData}
         disabled={!canEdit}
         className={styles.saveButton}
       >
+        <Send size={16} />
         <span className="hidden sm:inline">保存</span>
       </Button>
     </div>

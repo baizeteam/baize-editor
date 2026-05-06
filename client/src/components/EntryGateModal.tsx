@@ -1,5 +1,14 @@
 import React, { useState } from "react";
-import { Button, Form, Input, Modal, Space, Typography } from "antd";
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
+import { Label } from "./ui/label";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "./ui/dialog";
 import { ADMIN_PASSWORD, ADMIN_USERNAME } from "../auth/adminCredentials";
 
 type Props = {
@@ -11,95 +20,104 @@ type Props = {
 export function EntryGateModal({ open, onGuest, onAdminSuccess }: Props) {
   const [showAdminForm, setShowAdminForm] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const [form] = Form.useForm();
   const [lastError, setLastError] = useState<string | null>(null);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   const resetAdminFlow = () => {
     setShowAdminForm(false);
     setLastError(null);
-    form.resetFields();
+    setUsername("");
+    setPassword("");
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitting(true);
+    setLastError(null);
+    const ok = username === ADMIN_USERNAME && password === ADMIN_PASSWORD;
+    setSubmitting(false);
+    if (ok) {
+      onAdminSuccess();
+    } else {
+      setLastError("用户名或密码不正确，请重试。");
+    }
   };
 
   return (
-    <Modal
-      title="进入编辑器"
+    <Dialog
       open={open}
-      footer={null}
-      closable={false}
-      maskClosable={false}
-      keyboard={false}
-      centered
-      afterOpenChange={(nextOpen) => {
+      onOpenChange={(nextOpen) => {
         if (!nextOpen) resetAdminFlow();
       }}
     >
-      <Typography.Paragraph type="secondary" className="!mb-4">
-        请选择身份。未通过管理员验证的访问将视为访客。
-      </Typography.Paragraph>
+      <DialogContent
+        className="sm:max-w-[400px]"
+        closable={false}
+        onPointerDownOutside={(e) => e.preventDefault()}
+        onEscapeKeyDown={(e) => e.preventDefault()}
+      >
+        <DialogHeader>
+          <DialogTitle>进入编辑器</DialogTitle>
+          <DialogDescription>
+            请选择身份。未通过管理员验证的访问将视为访客。
+          </DialogDescription>
+        </DialogHeader>
 
-      {!showAdminForm ? (
-        <Space direction="vertical" size="middle" className="w-full">
-          <Button type="primary" block size="large" onClick={onGuest}>
-            以访客继续
-          </Button>
-          <Button block size="large" onClick={() => setShowAdminForm(true)}>
-            管理员登录
-          </Button>
-        </Space>
-      ) : (
-        <Form
-          form={form}
-          layout="vertical"
-          onFinish={(values: { username: string; password: string }) => {
-            setSubmitting(true);
-            setLastError(null);
-            const ok =
-              values.username === ADMIN_USERNAME &&
-              values.password === ADMIN_PASSWORD;
-            setSubmitting(false);
-            if (ok) {
-              onAdminSuccess();
-            } else {
-              setLastError("用户名或密码不正确，请重试。");
-            }
-          }}
-        >
-          <Form.Item
-            label="用户名"
-            name="username"
-            rules={[{ required: true, message: "请输入用户名" }]}
-          >
-            <Input autoComplete="username" />
-          </Form.Item>
-          <Form.Item
-            label="密码"
-            name="password"
-            rules={[{ required: true, message: "请输入密码" }]}
-          >
-            <Input.Password autoComplete="current-password" />
-          </Form.Item>
-          {lastError ? (
-            <Typography.Text type="danger" className="block mb-3">
-              {lastError}
-            </Typography.Text>
-          ) : null}
-          <Space wrap>
-            <Button type="primary" htmlType="submit" loading={submitting}>
-              登录
+        {!showAdminForm ? (
+          <div className="flex flex-col gap-3">
+            <Button size="lg" className="w-full" onClick={onGuest}>
+              以访客继续
             </Button>
             <Button
-              onClick={() => {
-                resetAdminFlow();
-              }}
+              variant="outline"
+              size="lg"
+              className="w-full"
+              onClick={() => setShowAdminForm(true)}
             >
-              返回
+              管理员登录
             </Button>
-            <Button type="link" onClick={onGuest}>
-              改选访客继续
-            </Button>
-          </Space>
-        </Form>
-      )}
-    </Modal>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="username">用户名</Label>
+              <Input
+                id="username"
+                autoComplete="username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="password">密码</Label>
+              <Input
+                id="password"
+                type="password"
+                autoComplete="current-password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+            {lastError ? (
+              <p className="text-sm text-destructive">{lastError}</p>
+            ) : null}
+            <div className="flex flex-wrap gap-2">
+              <Button type="submit" disabled={submitting}>
+                {submitting ? "登录中..." : "登录"}
+              </Button>
+              <Button type="button" variant="outline" onClick={resetAdminFlow}>
+                返回
+              </Button>
+              <Button type="button" variant="link" onClick={onGuest}>
+                改选访客继续
+              </Button>
+            </div>
+          </form>
+        )}
+      </DialogContent>
+    </Dialog>
   );
 }

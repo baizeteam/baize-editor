@@ -1,25 +1,33 @@
-import React from "react";
 import { useSlate } from "slate-react";
 import { Transforms } from "slate";
-import { Button, Tooltip } from "antd";
-import { TableOutlined } from "@ant-design/icons";
+import { Button } from "../../ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "../../ui/tooltip";
+import { Table2 } from "lucide-react";
 import { defaultTable } from "../helper";
 
 export function InsertTableButton() {
   const editor = useSlate();
 
   return (
-    <Tooltip title="插入表格">
-      <Button
-        type="text"
-        shape="circle"
-        icon={<TableOutlined />}
-        onMouseDown={(e) => {
-          e.preventDefault();
-          Transforms.insertNodes(editor, defaultTable);
-        }}
-        className="flex-shrink-0"
-      />
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="flex-shrink-0"
+          onMouseDown={(e) => {
+            e.preventDefault();
+            Transforms.insertNodes(editor, defaultTable);
+          }}
+        >
+          <Table2 size={16} />
+        </Button>
+      </TooltipTrigger>
+      <TooltipContent>插入表格</TooltipContent>
     </Tooltip>
   );
 }

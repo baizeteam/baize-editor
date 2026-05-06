@@ -1,7 +1,18 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useSlate } from "slate-react";
-import { Button, Tooltip, Popover, Input } from "antd";
-import { PictureOutlined } from "@ant-design/icons";
+import { Button } from "../../ui/button";
+import { Input } from "../../ui/input";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "../../ui/tooltip";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "../../ui/popover";
+import { Image } from "lucide-react";
 import { insertImage } from "../../../core/plugins/modules/image";
 import { styles } from "../styles";
 
@@ -18,24 +29,36 @@ export function ImageInsertButton() {
   };
 
   return (
-    <Popover
-      content={
+    <Popover open={open} onOpenChange={setOpen}>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <PopoverTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="flex-shrink-0"
+            >
+              <Image size={16} />
+            </Button>
+          </PopoverTrigger>
+        </TooltipTrigger>
+        <TooltipContent>插入图片</TooltipContent>
+      </Tooltip>
+      <PopoverContent className={styles.popoverContent.imageInputWidth}>
         <div className={styles.popoverContent.imageInput}>
           <Input
             placeholder="输入图片地址..."
             value={imageUrl}
             onChange={(e) => setImageUrl(e.target.value)}
-            onPressEnter={commit}
+            onKeyDown={(e) => e.key === "Enter" && commit()}
             autoFocus
-            className={styles.popoverContent.imageInputWidth}
           />
           <div className={styles.popoverContent.imageActions}>
-            <Button size="small" onClick={() => setOpen(false)}>
+            <Button size="sm" variant="outline" onClick={() => setOpen(false)}>
               取消
             </Button>
             <Button
-              size="small"
-              type="primary"
+              size="sm"
               disabled={!imageUrl}
               onClick={commit}
             >
@@ -43,20 +66,7 @@ export function ImageInsertButton() {
             </Button>
           </div>
         </div>
-      }
-      title="插入图片"
-      trigger="click"
-      open={open}
-      onOpenChange={setOpen}
-    >
-      <Tooltip title="插入图片">
-        <Button
-          type="text"
-          shape="circle"
-          icon={<PictureOutlined />}
-          className="flex-shrink-0"
-        />
-      </Tooltip>
+      </PopoverContent>
     </Popover>
   );
 }

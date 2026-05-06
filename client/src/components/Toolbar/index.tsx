@@ -1,15 +1,15 @@
 import React from "react";
 import {
-  BoldOutlined,
-  ItalicOutlined,
-  UnderlineOutlined,
-  UnorderedListOutlined,
-  OrderedListOutlined,
-  StrikethroughOutlined,
-} from "@ant-design/icons";
+  Bold,
+  Italic,
+  Underline,
+  List,
+  ListOrdered,
+  Strikethrough,
+} from "lucide-react";
 import { Quote } from "lucide-react";
 import { ColorPickerButton } from "./modules/ColorPickerButton";
-import "./index.less";
+import "./index.css";
 import { styles } from "./styles";
 import { MarkButton } from "./modules/MarkButton";
 import { BlockButton } from "./modules/BlockButton";
@@ -33,16 +33,16 @@ export const Toolbar: React.FC = () => {
             !canEdit ? "当前禁止访客编辑，仅管理员可改（文档仍与大家同步）" : undefined
           }
         >
-          <MarkButton format="bold" icon={<BoldOutlined />} title="粗体" />
-          <MarkButton format="italic" icon={<ItalicOutlined />} title="斜体" />
+          <MarkButton format="bold" icon={<Bold size={16} />} title="粗体" />
+          <MarkButton format="italic" icon={<Italic size={16} />} title="斜体" />
           <MarkButton
             format="underline"
-            icon={<UnderlineOutlined />}
+            icon={<Underline size={16} />}
             title="下划线"
           />
           <MarkButton
             format="strikethrough"
-            icon={<StrikethroughOutlined />}
+            icon={<Strikethrough size={16} />}
             title="删除线"
           />
           <BadgeButton />
@@ -62,12 +62,12 @@ export const Toolbar: React.FC = () => {
 
           <ListButton
             format="bulleted-list"
-            icon={<UnorderedListOutlined />}
+            icon={<List size={16} />}
             title="无序列表"
           />
           <ListButton
             format="numbered-list"
-            icon={<OrderedListOutlined />}
+            icon={<ListOrdered size={16} />}
             title="有序列表"
           />
           <BlockButton

@@ -1,7 +1,7 @@
 import { useRemoteCursorOverlayPositions } from "@slate-yjs/react";
 import { Fragment, useMemo, useRef } from "react";
 import { useCollabSession } from "../editor/CollabSessionContext";
-import "./index.less";
+import "./index.css";
 
 export function Cursors({ children }) {
   const containerRef = useRef(null);

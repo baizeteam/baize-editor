@@ -1,7 +1,6 @@
-import React from "react";
 import { useSlate } from "slate-react";
 import { Editor, Transforms, Element as SlateElement } from "slate";
-import { TagOutlined } from "@ant-design/icons";
+import { Tag } from "lucide-react";
 import { ToolbarButton } from "./ToolbarButton";
 
 function isBadgeActive(editor: Editor): boolean {
@@ -32,7 +31,7 @@ export function BadgeButton() {
 
   return (
     <ToolbarButton
-      icon={<TagOutlined />}
+      icon={<Tag size={16} />}
       title="标签"
       active={active}
       onMouseDown={() => toggleBadge(editor)}

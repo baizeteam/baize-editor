@@ -36,7 +36,7 @@ type Props = {
 const CollaborativeEditor = ({ sessionRole, roomId }: Props) => {
   const contentDoc = useMemo(() => new Y.Doc(), []);
   const sharedType = useMemo(
-    () => contentDoc.get("slate", Y.XmlText),
+    () => contentDoc.get("slate", Y.XmlText) as Y.XmlText,
     [contentDoc],
   );
 
@@ -162,7 +162,7 @@ const CollaborativeEditor = ({ sessionRole, roomId }: Props) => {
     <CollabSessionProvider value={sessionValue}>
       <EditorComponent
         sharedType={sharedType}
-        awareness={awareness}
+        awareness={awareness as Awareness}
         cursorDisplayName={cursorDisplayName}
       />
     </CollabSessionProvider>

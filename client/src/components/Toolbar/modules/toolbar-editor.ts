@@ -1,5 +1,4 @@
 import { Editor, Transforms, Element as SlateElement } from "slate";
-import type { MenuProps } from "antd";
 
 export function isMarkActive(editor: Editor, format: string): boolean {
   const marks = Editor.marks(editor);
@@ -67,7 +66,13 @@ const HEADING_LABELS: Record<(typeof HEADING_KEYS)[number], string> = {
   paragraph: "正文",
 };
 
-export function getHeadingMenuItems(editor: Editor): MenuProps["items"] {
+type HeadingMenuItem = {
+  key: string;
+  label: string;
+  onClick: () => void;
+};
+
+export function getHeadingMenuItems(editor: Editor): HeadingMenuItem[] {
   return HEADING_KEYS.map((key) => ({
     key,
     label: HEADING_LABELS[key],

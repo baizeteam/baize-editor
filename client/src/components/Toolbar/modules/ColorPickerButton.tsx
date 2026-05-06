@@ -1,7 +1,17 @@
 import React from "react";
-import { Button, ColorPicker, Popover, Tooltip } from "antd";
-import type { Color } from "antd/es/color-picker";
-import { FontColorsOutlined, BgColorsOutlined } from "@ant-design/icons";
+import { HexColorPicker } from "react-colorful";
+import { Button } from "../../ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "../../ui/tooltip";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "../../ui/popover";
+import { Baseline, PaintBucket } from "lucide-react";
 import { useSlate } from "slate-react";
 import { Editor } from "slate";
 import { styles } from "../styles";
@@ -33,8 +43,7 @@ export const ColorPickerButton: React.FC<ColorPickerButtonProps> = ({
     return (marks as any)?.[format] || defaultColor;
   };
 
-  const handleChange = (color: Color) => {
-    const hex = color.toHexString();
+  const handleChange = (hex: string) => {
     Editor.addMark(editor, format, hex);
     setCurrentColor(hex);
   };
@@ -51,54 +60,58 @@ export const ColorPickerButton: React.FC<ColorPickerButtonProps> = ({
   };
 
   return (
-    <Popover
-      content={
+    <Popover open={open} onOpenChange={handleOpenChange}>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <PopoverTrigger asChild>
+            <button
+              type="button"
+              className={styles.colorPickerButton}
+              onMouseDown={(e) => e.preventDefault()}
+            >
+              {format === "color" ? (
+                <Baseline
+                  size={16}
+                  style={{
+                    color: getColor(),
+                    filter: getColor() === "#ffffff" ? "drop-shadow(0 0 1px rgba(0,0,0,0.5))" : undefined,
+                  }}
+                />
+              ) : (
+                <span className="flex items-center justify-center">
+                  <span
+                    className="flex items-center justify-center rounded border border-gray-300 p-0.5"
+                    style={{ backgroundColor: getColor() }}
+                  >
+                    <PaintBucket size={16} style={{ color: "#000000" }} />
+                  </span>
+                </span>
+              )}
+            </button>
+          </PopoverTrigger>
+        </TooltipTrigger>
+        <TooltipContent>{title}</TooltipContent>
+      </Tooltip>
+      <PopoverContent className="w-auto p-3">
         <div className={styles.popoverContent.colorPicker}>
-          <div className={styles.popoverContent.colorLabel}>
-            {title}
+          <div className={styles.popoverContent.colorLabel}>{title}</div>
+          <HexColorPicker color={currentColor} onChange={handleChange} />
+          <div className="flex flex-wrap gap-1 mt-2">
+            {PRESET_COLORS.map((color) => (
+              <button
+                key={color}
+                type="button"
+                className="w-5 h-5 rounded border border-gray-300 cursor-pointer hover:scale-110 transition-transform"
+                style={{ backgroundColor: color }}
+                onClick={() => handleChange(color)}
+              />
+            ))}
           </div>
-          <ColorPicker
-            value={currentColor}
-            presets={[{ label: "预设", colors: PRESET_COLORS }]}
-            showText
-            onChange={handleChange}
-          />
-          <Button size="small" onClick={handleClear}>
+          <Button size="sm" variant="outline" onClick={handleClear}>
             清除颜色
           </Button>
         </div>
-      }
-      title={title}
-      trigger="click"
-      open={open}
-      onOpenChange={handleOpenChange}
-    >
-      <Tooltip title={title}>
-        <Button
-          type="text"
-          icon={
-            format === "color" ? (
-              <FontColorsOutlined
-                style={{
-                  color: getColor(),
-                  filter: getColor() === "#ffffff" ? "drop-shadow(0 0 1px rgba(0,0,0,0.5))" : undefined,
-                }}
-              />
-            ) : (
-              <span className="flex items-center justify-center">
-                <span
-                  className="flex items-center justify-center rounded border border-gray-300 p-0.5"
-                  style={{ backgroundColor: getColor() }}
-                >
-                  <BgColorsOutlined style={{ color: "#000000" }} />
-                </span>
-              </span>
-            )
-          }
-          onMouseDown={(e) => e.preventDefault()}
-          className={styles.colorPickerButton}
-        />
-      </Tooltip>
+      </PopoverContent>
     </Popover>
   );
 };

@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { CollaborativeEditor } from "./components";
-import { ConfigProvider } from "antd";
 import { EntryGateModal } from "./components/EntryGateModal";
 import InvalidRoom from "./components/InvalidRoom";
 import type { SessionRole } from "./components/editor/CollabSessionContext";
+import { TooltipProvider } from "./components/ui/tooltip";
 
 const VALID_ROOM_IDS = Array.from({ length: 10 }, (_, i) => i + 1);
 
@@ -19,15 +19,7 @@ export default function App() {
   const [sessionRole, setSessionRole] = useState<SessionRole | null>(null);
 
   return (
-    <ConfigProvider
-      theme={{
-        token: {
-          colorPrimary: "#0053db",
-          borderRadius: 8,
-          fontFamily: "Inter, sans-serif",
-        },
-      }}
-    >
+    <TooltipProvider>
       {roomId !== null ? (
         <>
           <EntryGateModal
@@ -42,6 +34,6 @@ export default function App() {
       ) : (
         <InvalidRoom />
       )}
-    </ConfigProvider>
+    </TooltipProvider>
   );
 }
