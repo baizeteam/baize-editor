@@ -1,26 +1,38 @@
 import React from "react";
 import { HexColorPicker } from "react-colorful";
 import { Button } from "../../ui/button";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "../../ui/tooltip";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "../../ui/popover";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../../ui/tooltip";
+import { Popover, PopoverContent, PopoverTrigger } from "../../ui/popover";
 import { Baseline, PaintBucket } from "lucide-react";
 import { useSlate } from "slate-react";
 import { Editor } from "slate";
 import { styles } from "../styles";
 
 const PRESET_COLORS = [
-  "#ef4444", "#f97316", "#f59e0b", "#eab308", "#84cc16", "#22c55e",
-  "#10b981", "#14b8a6", "#06b6d4", "#0ea5e9", "#3b82f6", "#6366f1",
-  "#8b5cf6", "#a855f7", "#d946ef", "#ec4899", "#000000", "#374151",
-  "#6b7280", "#9ca3af", "#d1d5db", "#f3f4f6", "#ffffff", "#0053db",
+  "#ef4444",
+  "#f97316",
+  "#f59e0b",
+  "#eab308",
+  "#84cc16",
+  "#22c55e",
+  "#10b981",
+  "#14b8a6",
+  "#06b6d4",
+  "#0ea5e9",
+  "#3b82f6",
+  "#6366f1",
+  "#8b5cf6",
+  "#a855f7",
+  "#d946ef",
+  "#ec4899",
+  "#000000",
+  "#374151",
+  "#6b7280",
+  "#9ca3af",
+  "#d1d5db",
+  "#f3f4f6",
+  "#ffffff",
+  "#0053db",
 ];
 
 export interface ColorPickerButtonProps {
@@ -74,7 +86,10 @@ export const ColorPickerButton: React.FC<ColorPickerButtonProps> = ({
                   size={16}
                   style={{
                     color: getColor(),
-                    filter: getColor() === "#ffffff" ? "drop-shadow(0 0 1px rgba(0,0,0,0.5))" : undefined,
+                    filter:
+                      getColor() === "#ffffff"
+                        ? "drop-shadow(0 0 1px rgba(0,0,0,0.5))"
+                        : undefined,
                   }}
                 />
               ) : (

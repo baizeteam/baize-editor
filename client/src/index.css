@@ -75,3 +75,7 @@
 .table-selection-none *::selection {
   background: none;
 }
+
+.shadow-center{
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
