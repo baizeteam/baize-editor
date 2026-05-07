@@ -8,7 +8,7 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "awsome";
+} from "@pkg/awsome";
 import { Baseline, PaintBucket } from "lucide-react";
 import { useSlate } from "slate-react";
 import { Editor } from "slate";

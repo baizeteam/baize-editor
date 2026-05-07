@@ -10,6 +10,9 @@ importers:
 
   app/client:
     dependencies:
+      '@pkg/awsome':
+        specifier: workspace:*
+        version: link:../../packages/awsome
       '@slate-yjs/core':
         specifier: ^1.0.2
         version: 1.0.2(slate@0.124.1)(yjs@13.5.43)
@@ -19,9 +22,6 @@ importers:
       '@tailwindcss/vite':
         specifier: ^4.1.14
         version: 4.2.2(vite@8.0.9(@types/node@22.19.17)(esbuild@0.27.7)(jiti@2.6.1)(less@4.6.4)(tsx@4.21.0))
-      awsome:
-        specifier: workspace:*
-        version: link:../../packages/awsome
       dotenv:
         specifier: ^17.2.3
         version: 17.4.2

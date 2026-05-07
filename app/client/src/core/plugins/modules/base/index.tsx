@@ -1,7 +1,7 @@
 import React from "react";
 import { RenderElementProps, RenderLeafProps } from "slate-react";
 import { CustomText } from "../../../types";
-import { cn } from "awsome";
+import { cn } from "@pkg/awsome";
 
 export interface EditorPlugin {
   name: string;

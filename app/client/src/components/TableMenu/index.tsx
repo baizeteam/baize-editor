@@ -12,7 +12,7 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "awsome";
+} from "@pkg/awsome";
 import { useCollabSession } from "../editor/CollabSessionContext";
 import type { Editor } from "slate";
 

@@ -5,7 +5,7 @@ import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "awsome";
+} from "@pkg/awsome";
 import { Table2 } from "lucide-react";
 import { defaultTable } from "../helper";
 

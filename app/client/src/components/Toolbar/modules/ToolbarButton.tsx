@@ -4,7 +4,7 @@ import {
   TooltipContent,
   TooltipTrigger,
   cn,
-} from "awsome";
+} from "@pkg/awsome";
 import { styles } from "../styles";
 
 type ToolbarButtonProps = {

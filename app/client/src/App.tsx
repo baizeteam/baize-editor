@@ -3,7 +3,7 @@ import { CollaborativeEditor } from "./components";
 import { EntryGateModal } from "./components/EntryGateModal";
 import InvalidRoom from "./components/InvalidRoom";
 import type { SessionRole } from "./components/editor/CollabSessionContext";
-import { TooltipProvider } from "awsome";
+import { TooltipProvider } from "@pkg/awsome";
 
 const VALID_ROOM_IDS = Array.from({ length: 10 }, (_, i) => i + 1);
 

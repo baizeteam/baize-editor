@@ -8,7 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogDescription,
-} from "awsome";
+} from "@pkg/awsome";
 import { ADMIN_PASSWORD, ADMIN_USERNAME } from "../auth/adminCredentials";
 
 type Props = {

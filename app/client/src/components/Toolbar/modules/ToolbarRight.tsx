@@ -5,7 +5,7 @@ import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "awsome";
+} from "@pkg/awsome";
 import { Send } from "lucide-react";
 import { styles } from "../styles";
 import { getCharacterCount } from "./toolbar-editor";

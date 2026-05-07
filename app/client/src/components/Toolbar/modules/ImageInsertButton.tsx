@@ -9,7 +9,7 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "awsome";
+} from "@pkg/awsome";
 import { Image } from "lucide-react";
 import { insertImage } from "../../../core/plugins/modules/image";
 import { styles } from "../styles";

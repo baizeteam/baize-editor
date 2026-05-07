@@ -5,7 +5,7 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerDescription,
-} from "awsome";
+} from "@pkg/awsome";
 import { HelpCircle } from "lucide-react";
 
 const shortcuts = [

@@ -5,7 +5,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "awsome";
+} from "@pkg/awsome";
 import { ChevronDown } from "lucide-react";
 import { styles } from "../styles";
 import { getBlockLabel, getHeadingMenuItems } from "./toolbar-editor";

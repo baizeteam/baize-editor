@@ -1,4 +1,4 @@
-@import "awsome/style.css";
+@import "@pkg/awsome/style.css";
 @import "tailwindcss";
 
 @theme inline {
