@@ -1,5 +1,3 @@
-import "./theme.css"
-
 // Components
 export { Button, buttonVariants } from "./components/ui/button"
 export {
