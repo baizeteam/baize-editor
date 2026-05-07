@@ -2,7 +2,7 @@ name: baize-editor
 services:
   client:
     build:
-      context: ./client
+      context: ./packages/client
       dockerfile: Dockerfile
     image: sulgweb/baize-editor-client:latest
     ports:
@@ -11,7 +11,7 @@ services:
 
   server:
     build:
-      context: ./server
+      context: ./packages/server
       dockerfile: Dockerfile
     image: sulgweb/baize-editor-server:latest
     environment:
