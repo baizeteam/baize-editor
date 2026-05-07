@@ -1,5 +1,4 @@
 @import "@pkg/awsome/theme.css";
-@import "tailwindcss";
 
 @theme inline {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
@@ -20,27 +19,6 @@
   --color-on-surface-variant: #566166;
   --color-outline-variant: #a9b4b9;
   --color-on-background: #2a3439;
-}
-
-:root {
-  --background: oklch(0.985 0.002 247);
-  --foreground: oklch(0.17 0.02 260);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.17 0.02 260);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.17 0.02 260);
-  --secondary: oklch(0.96 0.005 247);
-  --secondary-foreground: oklch(0.21 0.02 260);
-  --muted: oklch(0.96 0.005 247);
-  --muted-foreground: oklch(0.56 0.01 260);
-  --accent: oklch(0.96 0.005 247);
-  --accent-foreground: oklch(0.21 0.02 260);
-  --destructive: oklch(0.58 0.22 29);
-  --destructive-foreground: oklch(1 0 0);
-  --border: oklch(0.92 0.005 247);
-  --input: oklch(0.92 0.005 247);
-  --ring: oklch(0.55 0.15 255);
-  --radius: 0.5rem;
 }
 
 @layer base {
