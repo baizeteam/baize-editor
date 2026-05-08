@@ -4,8 +4,8 @@ import { useCollabSession } from "../editor/CollabSessionContext";
 import "./index.css";
 
 export function Cursors({ children }) {
-  const containerRef = useRef(null);
-  const [cursors] = useRemoteCursorOverlayPositions({ containerRef });
+  const containerRef = useRef<HTMLDivElement>(null!);
+  const [cursors] = useRemoteCursorOverlayPositions({ containerRef});
   const { collabEnabled } = useCollabSession();
 
   const visibleCursors = useMemo(() => {

@@ -23,7 +23,7 @@ import { Cursors } from "../Cursors";
 import { Toolbar } from "../Toolbar";
 import TableMenu from "../TableMenu";
 import { initialValue } from "./data";
-import { randomColor } from "../../helpers";
+import { randomColor } from "../../lib/helpers";
 import { tableConfig } from "../../core/tableConfig";
 import { useCollabSession } from "./CollabSessionContext";
 import { HelpDrawer } from "../HelpDrawer";

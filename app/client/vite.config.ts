@@ -9,7 +9,8 @@ export default defineConfig(({ mode }) => {
     resolve: {
       alias: {
         "@": path.resolve(__dirname, "./src"),
-        '@pkg/awsome': path.resolve(__dirname, '../../packages/awsome/src')
+        '@pkg/awsome': path.resolve(__dirname, '../../packages/awsome/src'),
+        '@pkg/editor': path.resolve(__dirname, '../../packages/editor/src')
       },
     },
     server: {

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { CollaborativeEditor } from "./components";
 import { EntryGateModal } from "./components/EntryGateModal";
 import InvalidRoom from "./components/InvalidRoom";
-import type { SessionRole } from "./components/editor/CollabSessionContext";
+import type { SessionRole } from "@pkg/editor";
 import { TooltipProvider } from "@pkg/awsome";
 
 const VALID_ROOM_IDS = Array.from({ length: 10 }, (_, i) => i + 1);

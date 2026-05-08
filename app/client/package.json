@@ -11,21 +11,12 @@
     "lint": "tsc --noEmit"
   },
   "dependencies": {
-    "@slate-yjs/core": "^1.0.2",
-    "@slate-yjs/react": "^1.1.0",
+    "@pkg/editor": "workspace:*",
     "@tailwindcss/vite": "^4.1.14",
     "@pkg/awsome": "workspace:*",
     "dotenv": "^17.2.3",
-    "lucide-react": "^0.546.0",
     "react": "^19.0.0",
-    "react-colorful": "^5.6.1",
-    "react-dom": "^19.0.0",
-    "slate": "^0.124.0",
-    "slate-history": "^0.113.1",
-    "slate-react": "^0.124.0",
-    "slate-table": "^0.1.1",
-    "y-websocket": "^3.0.0",
-    "yjs": "13.5.43"
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",
