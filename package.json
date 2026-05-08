@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "client": "cd client && pnpm run dev",
-    "server": "cd server && npm run dev"
+    "client": "cd app/client && pnpm run dev",
+    "server": "cd app/server && npm run dev"
   },
   "keywords": [],
   "author": "",

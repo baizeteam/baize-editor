@@ -20,7 +20,7 @@
 | 协同引擎 | Yjs + y-websocket + @slate-yjs/core |
 | 前端框架 | React 19 + TypeScript               |
 | 样式     | Tailwind CSS 4                      |
-| UI 组件  | Ant Design 6                        |
+| UI 组件  | shadcn/ui + Radix UI                |
 | 构建工具 | Vite 8                              |
 | 后端     | Express + ws（WebSocket）           |
 | 部署     | Docker Compose                      |
@@ -29,28 +29,43 @@
 
 ```
 baize-editor/
-├── client/                     # 前端
-│   └── src/
-│       ├── components/
-│       │   ├── editor/         # 编辑器核心（Editor、CollaborativeEditor、data）
-│       │   ├── Toolbar/        # 工具栏（按钮、样式）
-│       │   ├── HelpDrawer/     # 帮助抽屉
-│       │   ├── Cursors/        # 协同光标
-│       │   └── TableMenu/      # 表格右键菜单
-│       └── core/
-│           ├── plugins/        # 插件系统
-│           │   └── modules/
-│           │       ├── base/       # 段落、标题、引用、行内样式
-│           │       ├── badge/      # 标签行内元素
-│           │       ├── color/      # 文字/背景颜色
-│           │       ├── image/      # 图片
-│           │       ├── list/       # 有序/无序列表
-│           │       ├── markdown/   # Markdown 快捷键
-│           │       └── table/      # 表格
-│           └── types.ts        # Slate 类型定义
-├── server/                     # 后端（Yjs WebSocket 服务）
-│   └── main.js
+├── app/
+│   ├── client/                     # 前端
+│   │   └── src/
+│   │       ├── components/
+│   │       │   ├── editor/         # 编辑器核心（Editor、CollaborativeEditor、data）
+│   │       │   ├── Toolbar/        # 工具栏（按钮、样式）
+│   │       │   ├── HelpDrawer/     # 帮助抽屉
+│   │       │   ├── Cursors/        # 协同光标
+│   │       │   └── TableMenu/      # 表格右键菜单
+│   │       └── core/
+│   │           ├── plugins/        # 插件系统
+│   │           │   └── modules/
+│   │           │       ├── base/       # 段落、标题、引用、行内样式
+│   │           │       ├── badge/      # 标签行内元素
+│   │           │       ├── color/      # 文字/背景颜色
+│   │           │       ├── image/      # 图片
+│   │           │       ├── list/       # 有序/无序列表
+│   │           │       ├── markdown/   # Markdown 快捷键
+│   │           │       └── table/      # 表格
+│   │           └── types.ts        # Slate 类型定义
+│   └── server/                     # 后端（Yjs WebSocket 服务）
+│       └── main.js
+├── packages/
+│   └── awsome/                      # 共享 UI 组件库
+│       └── src/
+│           ├── components/
+│           │   ├── ui/             # shadcn/ui 组件（Button、Dialog、Drawer 等）
+│           │   └── theme-provider.tsx
+│           ├── lib/
+│           │   └── utils.ts        # cn() 等工具函数
+│           ├── theme.css           # Tailwind 主题与 CSS 变量
+│           └── index.ts            # 包入口
+├── docker/
+│   ├── client-dockerfile           # 前端 Dockerfile
+│   └── server-dockerfile           # 后端 Dockerfile
 ├── docker-compose.yaml
+├── pnpm-workspace.yaml
 └── package.json
 ```
 
