@@ -12,5 +12,5 @@ export default function InvalidRoom() {
         <p className="mt-1 text-sm text-gray-400">可用房间号：1 ~ 10</p>
       </div>
     </div>
-  );
+  )
 }

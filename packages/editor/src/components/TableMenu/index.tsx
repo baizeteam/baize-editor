@@ -4,31 +4,35 @@ import {
   addColumn,
   deleteColumn,
   deleteTable,
-} from "../../core/plugins/modules/table";
-import { TableEditor } from "slate-table";
+} from "../../core/plugins/modules/table"
+import { TableEditor } from "slate-table"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@pkg/awsome";
-import { useCollabSession } from "../editor/CollabSessionContext";
-import type { Editor } from "slate";
+} from "@pkg/awsome"
+import { useCollabSession } from "../editor/CollabSessionContext"
+import type { Editor } from "slate"
 
-type ContextMenu = { visible: boolean; x: number; y: number } | null;
+type ContextMenu = { visible: boolean; x: number; y: number } | null
 
 type TableMenuProps = {
-  editor: Editor;
-  contextMenu: ContextMenu;
-  setContextMenu: (menu: ContextMenu) => void;
-};
+  editor: Editor
+  contextMenu: ContextMenu
+  setContextMenu: (menu: ContextMenu) => void
+}
 
-export default function TableMenu({ editor, contextMenu, setContextMenu }: TableMenuProps) {
-  const { canEdit } = useCollabSession();
+export default function TableMenu({
+  editor,
+  contextMenu,
+  setContextMenu,
+}: TableMenuProps) {
+  const { canEdit } = useCollabSession()
 
   if (!canEdit) {
-    return null;
+    return null
   }
 
   return (
@@ -49,16 +53,16 @@ export default function TableMenu({ editor, contextMenu, setContextMenu }: Table
               <DropdownMenuItem
                 disabled={!TableEditor.canMerge(editor)}
                 onClick={() => {
-                  TableEditor.merge(editor);
-                  setContextMenu(null);
+                  TableEditor.merge(editor)
+                  setContextMenu(null)
                 }}
               >
                 合并单元格
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() => {
-                  TableEditor.split(editor);
-                  setContextMenu(null);
+                  TableEditor.split(editor)
+                  setContextMenu(null)
                 }}
               >
                 拆分单元格
@@ -66,16 +70,16 @@ export default function TableMenu({ editor, contextMenu, setContextMenu }: Table
               <DropdownMenuSeparator />
               <DropdownMenuItem
                 onClick={() => {
-                  addRow(editor, "above");
-                  setContextMenu(null);
+                  addRow(editor, "above")
+                  setContextMenu(null)
                 }}
               >
                 在上方插入行
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() => {
-                  addRow(editor, "below");
-                  setContextMenu(null);
+                  addRow(editor, "below")
+                  setContextMenu(null)
                 }}
               >
                 在下方插入行
@@ -83,16 +87,16 @@ export default function TableMenu({ editor, contextMenu, setContextMenu }: Table
               <DropdownMenuSeparator />
               <DropdownMenuItem
                 onClick={() => {
-                  addColumn(editor, "left");
-                  setContextMenu(null);
+                  addColumn(editor, "left")
+                  setContextMenu(null)
                 }}
               >
                 在左侧插入列
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() => {
-                  addColumn(editor, "right");
-                  setContextMenu(null);
+                  addColumn(editor, "right")
+                  setContextMenu(null)
                 }}
               >
                 在右侧插入列
@@ -101,8 +105,8 @@ export default function TableMenu({ editor, contextMenu, setContextMenu }: Table
               <DropdownMenuItem
                 className="text-destructive focus:text-destructive"
                 onClick={() => {
-                  deleteRow(editor);
-                  setContextMenu(null);
+                  deleteRow(editor)
+                  setContextMenu(null)
                 }}
               >
                 删除行
@@ -110,8 +114,8 @@ export default function TableMenu({ editor, contextMenu, setContextMenu }: Table
               <DropdownMenuItem
                 className="text-destructive focus:text-destructive"
                 onClick={() => {
-                  deleteColumn(editor);
-                  setContextMenu(null);
+                  deleteColumn(editor)
+                  setContextMenu(null)
                 }}
               >
                 删除列
@@ -120,8 +124,8 @@ export default function TableMenu({ editor, contextMenu, setContextMenu }: Table
               <DropdownMenuItem
                 className="text-destructive focus:text-destructive"
                 onClick={() => {
-                  deleteTable(editor);
-                  setContextMenu(null);
+                  deleteTable(editor)
+                  setContextMenu(null)
                 }}
               >
                 删除表格
@@ -131,5 +135,5 @@ export default function TableMenu({ editor, contextMenu, setContextMenu }: Table
         </div>
       )}
     </>
-  );
+  )
 }

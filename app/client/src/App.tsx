@@ -1,22 +1,22 @@
-import { useState } from "react";
-import { CollaborativeEditor } from "./components";
-import { EntryGateModal } from "./components/EntryGateModal";
-import InvalidRoom from "./components/InvalidRoom";
-import type { SessionRole } from "@pkg/editor";
-import { TooltipProvider } from "@pkg/awsome";
+import { useState } from "react"
+import { CollaborativeEditor } from "./components"
+import { EntryGateModal } from "./components/EntryGateModal"
+import InvalidRoom from "./components/InvalidRoom"
+import type { SessionRole } from "@pkg/editor"
+import { TooltipProvider } from "@pkg/awsome"
 
-const VALID_ROOM_IDS = Array.from({ length: 10 }, (_, i) => i + 1);
+const VALID_ROOM_IDS = Array.from({ length: 10 }, (_, i) => i + 1)
 
 function getRoomId(): number | null {
-  const raw = new URLSearchParams(window.location.search).get("roomid");
-  if (!raw) return null;
-  const id = Number(raw);
-  return VALID_ROOM_IDS.includes(id) ? id : null;
+  const raw = new URLSearchParams(window.location.search).get("roomid")
+  if (!raw) return null
+  const id = Number(raw)
+  return VALID_ROOM_IDS.includes(id) ? id : null
 }
 
 export default function App() {
-  const roomId = getRoomId();
-  const [sessionRole, setSessionRole] = useState<SessionRole | null>(null);
+  const roomId = getRoomId()
+  const [sessionRole, setSessionRole] = useState<SessionRole | null>(null)
 
   return (
     <TooltipProvider>
@@ -35,5 +35,5 @@ export default function App() {
         <InvalidRoom />
       )}
     </TooltipProvider>
-  );
+  )
 }

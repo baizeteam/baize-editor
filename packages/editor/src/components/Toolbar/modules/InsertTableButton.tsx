@@ -1,16 +1,11 @@
-import { useSlate } from "slate-react";
-import { Transforms } from "slate";
-import {
-  Button,
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@pkg/awsome";
-import { Table2 } from "lucide-react";
-import { defaultTable } from "../helper";
+import { useSlate } from "slate-react"
+import { Transforms } from "slate"
+import { Button, Tooltip, TooltipContent, TooltipTrigger } from "@pkg/awsome"
+import { Table2 } from "lucide-react"
+import { defaultTable } from "../helper"
 
 export function InsertTableButton() {
-  const editor = useSlate();
+  const editor = useSlate()
 
   return (
     <Tooltip>
@@ -20,8 +15,8 @@ export function InsertTableButton() {
           size="icon"
           className="flex-shrink-0"
           onMouseDown={(e) => {
-            e.preventDefault();
-            Transforms.insertNodes(editor, defaultTable);
+            e.preventDefault()
+            Transforms.insertNodes(editor, defaultTable)
           }}
         >
           <Table2 size={16} />
@@ -29,5 +24,5 @@ export function InsertTableButton() {
       </TooltipTrigger>
       <TooltipContent>插入表格</TooltipContent>
     </Tooltip>
-  );
+  )
 }

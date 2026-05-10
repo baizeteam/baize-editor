@@ -7,7 +7,7 @@ const TABLE_BLOCKS = {
   thead: "table-header",
   tfoot: "table-footer",
   content: "paragraph",
-} as const;
+} as const
 
 export const tableConfig = {
   blocks: TABLE_BLOCKS,
@@ -17,4 +17,4 @@ export const tableConfig = {
   withNormalization: true,
   withSelection: true,
   withSelectionAdjustment: true,
-};
+}

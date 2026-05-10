@@ -1,34 +1,34 @@
-import { useSlate } from "slate-react";
+import { useSlate } from "slate-react"
 import {
   Button,
   Switch,
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@pkg/awsome";
-import { Send } from "lucide-react";
-import { styles } from "../styles";
-import { getCharacterCount } from "./toolbar-editor";
-import { useCollabSession } from "../../editor/CollabSessionContext";
+} from "@pkg/awsome"
+import { Send } from "lucide-react"
+import { styles } from "../styles"
+import { getCharacterCount } from "./toolbar-editor"
+import { useCollabSession } from "../../editor/CollabSessionContext"
 
 export function ToolbarRight() {
-  const editor = useSlate();
+  const editor = useSlate()
   const {
     sessionRole,
     collabEnabled,
     collabSynced,
     setCollabEnabled,
     canEdit,
-  } = useCollabSession();
+  } = useCollabSession()
 
   const saveData = () => {
-    console.log(editor.children);
-  };
+    console.log(editor.children)
+  }
 
   return (
     <div className={styles.toolbar.rightGroup}>
       <span
-        className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium ${
+        className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium ${
           collabEnabled
             ? "bg-primary/10 text-primary"
             : "bg-muted text-muted-foreground"
@@ -40,8 +40,8 @@ export function ToolbarRight() {
       {sessionRole === "admin" ? (
         <Tooltip>
           <TooltipTrigger asChild>
-            <span className="inline-flex items-center gap-2 mr-3">
-              <span className="text-sm text-gray-600 hidden md:inline">
+            <span className="mr-3 inline-flex items-center gap-2">
+              <span className="hidden text-sm text-gray-600 md:inline">
                 协同编辑
               </span>
               <Switch
@@ -70,5 +70,5 @@ export function ToolbarRight() {
         <span className="hidden sm:inline">保存</span>
       </Button>
     </div>
-  );
+  )
 }

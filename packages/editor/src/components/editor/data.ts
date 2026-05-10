@@ -1,4 +1,4 @@
-import { Descendant } from "slate";
+import { Descendant } from "slate"
 
 export const initialValue: Descendant[] = [
   {
@@ -277,4 +277,4 @@ export const initialValue: Descendant[] = [
       },
     ],
   },
-];
+]

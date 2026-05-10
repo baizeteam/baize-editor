@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 import {
   Bold,
   Italic,
@@ -6,35 +6,41 @@ import {
   List,
   ListOrdered,
   Strikethrough,
-} from "lucide-react";
-import { Quote } from "lucide-react";
-import { ColorPickerButton } from "./modules/ColorPickerButton";
-import "./index.css";
-import { styles } from "./styles";
-import { MarkButton } from "./modules/MarkButton";
-import { BlockButton } from "./modules/BlockButton";
-import { ListButton } from "./modules/ListButton";
-import { ImageInsertButton } from "./modules/ImageInsertButton";
-import { InsertTableButton } from "./modules/InsertTableButton";
-import { BadgeButton } from "./modules/BadgeButton";
-import { HeadingDropdown } from "./modules/HeadingDropdown";
-import { ToolbarRight } from "./modules/ToolbarRight";
-import { useCollabSession } from "../editor/CollabSessionContext";
+} from "lucide-react"
+import { Quote } from "lucide-react"
+import { ColorPickerButton } from "./modules/ColorPickerButton"
+import "./index.css"
+import { styles } from "./styles"
+import { MarkButton } from "./modules/MarkButton"
+import { BlockButton } from "./modules/BlockButton"
+import { ListButton } from "./modules/ListButton"
+import { ImageInsertButton } from "./modules/ImageInsertButton"
+import { InsertTableButton } from "./modules/InsertTableButton"
+import { BadgeButton } from "./modules/BadgeButton"
+import { HeadingDropdown } from "./modules/HeadingDropdown"
+import { ToolbarRight } from "./modules/ToolbarRight"
+import { useCollabSession } from "../editor/CollabSessionContext"
 
 export const Toolbar: React.FC = () => {
-  const { canEdit } = useCollabSession();
+  const { canEdit } = useCollabSession()
 
   return (
     <div className={styles.toolbar.wrapper}>
       <div className={styles.toolbar.container}>
         <div
-          className={`${styles.toolbar.buttonGroup}${!canEdit ? " pointer-events-none opacity-55" : ""}`}
+          className={`${styles.toolbar.buttonGroup}${!canEdit ? "pointer-events-none opacity-55" : ""}`}
           title={
-            !canEdit ? "当前禁止访客编辑，仅管理员可改（文档仍与大家同步）" : undefined
+            !canEdit
+              ? "当前禁止访客编辑，仅管理员可改（文档仍与大家同步）"
+              : undefined
           }
         >
           <MarkButton format="bold" icon={<Bold size={16} />} title="粗体" />
-          <MarkButton format="italic" icon={<Italic size={16} />} title="斜体" />
+          <MarkButton
+            format="italic"
+            icon={<Italic size={16} />}
+            title="斜体"
+          />
           <MarkButton
             format="underline"
             icon={<Underline size={16} />}
@@ -87,5 +93,5 @@ export const Toolbar: React.FC = () => {
         <ToolbarRight />
       </div>
     </div>
-  );
-};
+  )
+}

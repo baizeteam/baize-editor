@@ -1,5 +1,5 @@
-import React from "react";
-import { HexColorPicker } from "react-colorful";
+import React from "react"
+import { HexColorPicker } from "react-colorful"
 import {
   Button,
   Tooltip,
@@ -8,11 +8,11 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@pkg/awsome";
-import { Baseline, PaintBucket } from "lucide-react";
-import { useSlate } from "slate-react";
-import { Editor } from "slate";
-import { styles } from "../styles";
+} from "@pkg/awsome"
+import { Baseline, PaintBucket } from "lucide-react"
+import { useSlate } from "slate-react"
+import { Editor } from "slate"
+import { styles } from "../styles"
 
 const PRESET_COLORS = [
   "#ef4444",
@@ -39,12 +39,12 @@ const PRESET_COLORS = [
   "#f3f4f6",
   "#ffffff",
   "#0053db",
-];
+]
 
 export interface ColorPickerButtonProps {
-  title: string;
-  format: "color" | "backgroundColor";
-  defaultColor: string;
+  title: string
+  format: "color" | "backgroundColor"
+  defaultColor: string
 }
 
 export const ColorPickerButton: React.FC<ColorPickerButtonProps> = ({
@@ -52,30 +52,30 @@ export const ColorPickerButton: React.FC<ColorPickerButtonProps> = ({
   format,
   defaultColor,
 }) => {
-  const editor = useSlate();
-  const [open, setOpen] = React.useState(false);
-  const [currentColor, setCurrentColor] = React.useState(defaultColor);
+  const editor = useSlate()
+  const [open, setOpen] = React.useState(false)
+  const [currentColor, setCurrentColor] = React.useState(defaultColor)
 
   const getColor = () => {
-    const marks = Editor.marks(editor);
-    return (marks as any)?.[format] || defaultColor;
-  };
+    const marks = Editor.marks(editor)
+    return (marks as any)?.[format] || defaultColor
+  }
 
   const handleChange = (hex: string) => {
-    Editor.addMark(editor, format, hex);
-    setCurrentColor(hex);
-  };
+    Editor.addMark(editor, format, hex)
+    setCurrentColor(hex)
+  }
 
   const handleClear = () => {
-    Editor.removeMark(editor, format);
-  };
+    Editor.removeMark(editor, format)
+  }
 
   const handleOpenChange = (isOpen: boolean) => {
-    setOpen(isOpen);
+    setOpen(isOpen)
     if (isOpen) {
-      setCurrentColor(getColor());
+      setCurrentColor(getColor())
     }
-  };
+  }
 
   return (
     <Popover open={open} onOpenChange={handleOpenChange}>
@@ -117,12 +117,12 @@ export const ColorPickerButton: React.FC<ColorPickerButtonProps> = ({
         <div className={styles.popoverContent.colorPicker}>
           <div className={styles.popoverContent.colorLabel}>{title}</div>
           <HexColorPicker color={currentColor} onChange={handleChange} />
-          <div className="flex flex-wrap gap-1 mt-2">
+          <div className="mt-2 flex flex-wrap gap-1">
             {PRESET_COLORS.map((color) => (
               <button
                 key={color}
                 type="button"
-                className="w-5 h-5 rounded border border-gray-300 cursor-pointer hover:scale-110 transition-transform"
+                className="h-5 w-5 cursor-pointer rounded border border-gray-300 transition-transform hover:scale-110"
                 style={{ backgroundColor: color }}
                 onClick={() => handleChange(color)}
               />
@@ -134,5 +134,5 @@ export const ColorPickerButton: React.FC<ColorPickerButtonProps> = ({
         </div>
       </PopoverContent>
     </Popover>
-  );
-};
+  )
+}

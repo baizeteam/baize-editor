@@ -6,25 +6,25 @@ const toolbar = {
   buttonGroup:
     "flex items-center gap-1 overflow-x-auto scrollbar-hide flex-1 min-w-0",
   rightGroup: "flex items-center gap-2 md:gap-4 flex-shrink-0",
-};
+}
 
 const iconButton = {
   base: "transition-all duration-200 h-6 md:h-8 w-8 flex items-center justify-center rounded-sm md:rounded-lg",
   active: "text-primary bg-primary/15 hover:bg-primary/25",
   inactive: "text-on-surface-variant hover:bg-black/5",
-};
+}
 
-const divider = "h-6 w-[1px] bg-outline-variant/20 mx-1 flex-shrink-0";
+const divider = "h-6 w-[1px] bg-outline-variant/20 mx-1 flex-shrink-0"
 
 const colorPickerButton =
-  "transition-all duration-200 h-8 w-8 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-black/5";
+  "transition-all duration-200 h-8 w-8 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-black/5"
 
-const colorSwatch = "w-4 h-4 rounded border border-gray-300";
+const colorSwatch = "w-4 h-4 rounded border border-gray-300"
 
 const headingDropdown =
-  "flex items-center justify-center gap-1 w-14 mb:w-20 rounded-full hover:bg-black/5 flex-shrink-0";
+  "flex items-center justify-center gap-1 w-14 mb:w-20 rounded-full hover:bg-black/5 flex-shrink-0"
 
-const headingLabel = "text-xs font-bold text-on-surface-variant";
+const headingLabel = "text-xs font-bold text-on-surface-variant"
 
 const charCount = {
   container:
@@ -32,16 +32,16 @@ const charCount = {
   label:
     "text-[10px] font-bold text-on-surface-variant uppercase tracking-wider",
   value: "text-xs font-medium text-primary",
-};
+}
 
 const saveButton =
-  "md:rounded-full rounded-lg bg-primary hover:bg-primary-dim border-none h-9 md:px-6 px-4 flex items-center gap-2 shadow-lg shadow-primary/20";
+  "md:rounded-full rounded-lg bg-primary hover:bg-primary-dim border-none h-9 md:px-6 px-4 flex items-center gap-2 shadow-lg shadow-primary/20"
 
 const listButton = {
   base: "transition-all duration-200 h-8 w-8 flex items-center justify-center rounded-lg flex-shrink-0",
   active: "text-primary bg-primary/15 hover:bg-primary/25 shadow-sm",
   inactive: "text-on-surface-variant hover:bg-black/5",
-};
+}
 
 const popoverContent = {
   colorPicker: "flex flex-col gap-2 p-2",
@@ -49,7 +49,7 @@ const popoverContent = {
   imageInput: "flex flex-col gap-2 p-1",
   imageInputWidth: "w-64",
   imageActions: "flex justify-end gap-2",
-};
+}
 
 export const styles = {
   toolbar,
@@ -63,4 +63,4 @@ export const styles = {
   saveButton,
   listButton,
   popoverContent,
-};
+}

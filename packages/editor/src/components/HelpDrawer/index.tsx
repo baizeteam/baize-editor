@@ -1,12 +1,12 @@
-import { useState } from "react";
+import { useState } from "react"
 import {
   Drawer,
   DrawerContent,
   DrawerHeader,
   DrawerTitle,
   DrawerDescription,
-} from "@pkg/awsome";
-import { HelpCircle } from "lucide-react";
+} from "@pkg/awsome"
+import { HelpCircle } from "lucide-react"
 
 const shortcuts = [
   { keys: "# + 空格", desc: "标题 1" },
@@ -19,37 +19,36 @@ const shortcuts = [
   { keys: "- + 空格", desc: "无序列表" },
   { keys: "1. + 空格", desc: "有序列表" },
   { keys: "`文字` + 空格", desc: "标签" },
-];
-
+]
 
 export function HelpDrawer() {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false)
 
   return (
     <>
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="fixed bottom-6 right-6 z-50 w-10 h-10 rounded-full bg-white text-black flex items-center justify-center shadow-lg hover:opacity-90 transition-opacity cursor-pointer"
+        className="fixed right-6 bottom-6 z-50 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-white text-black shadow-lg transition-opacity hover:opacity-90"
       >
         <HelpCircle size={20} />
       </button>
 
       <Drawer open={open} onOpenChange={setOpen} direction="right">
-        <DrawerContent className="h-full top-0 right-0 left-auto mt-0 w-[360px] rounded-none">
+        <DrawerContent className="top-0 right-0 left-auto mt-0 h-full w-[360px] rounded-none">
           <DrawerHeader>
             <DrawerTitle>帮助</DrawerTitle>
             <DrawerDescription />
           </DrawerHeader>
           <div className="flex flex-col gap-6 overflow-y-auto px-4 pb-4">
             <section>
-              <h3 className="text-base font-bold mb-3">管理员演示账号</h3>
+              <h3 className="mb-3 text-base font-bold">管理员演示账号</h3>
               <div className="flex flex-col gap-2 text-sm">
-                <div className="flex items-center justify-between p-2 bg-surface-container-low rounded">
+                <div className="flex items-center justify-between rounded bg-surface-container-low p-2">
                   <span className="font-medium">账号</span>
                   <span className="text-on-surface-variant">baize</span>
                 </div>
-                <div className="flex items-center justify-between p-2 bg-surface-container-low rounded">
+                <div className="flex items-center justify-between rounded bg-surface-container-low p-2">
                   <span className="font-medium">密码</span>
                   <span className="text-on-surface-variant">baize123</span>
                 </div>
@@ -57,10 +56,10 @@ export function HelpDrawer() {
             </section>
 
             <section>
-              <h3 className="text-base font-bold mb-3">切换房间</h3>
-              <p className="text-sm text-on-surface-variant mb-2">
+              <h3 className="mb-3 text-base font-bold">切换房间</h3>
+              <p className="mb-2 text-sm text-on-surface-variant">
                 通过 URL 参数{" "}
-                <code className="text-xs bg-surface-container px-1 py-0.5 rounded font-mono">
+                <code className="bg-surface-container rounded px-1 py-0.5 font-mono text-xs">
                   ?roomid=1
                 </code>{" "}
                 切换房间，可用房间号 1 ~ 10。
@@ -68,36 +67,36 @@ export function HelpDrawer() {
               <div className="flex flex-wrap gap-2">
                 {Array.from({ length: 10 }, (_, i) => i + 1).map((id) => {
                   const current = new URLSearchParams(
-                    window.location.search,
-                  ).get("roomid");
-                  const isActive = String(id) === current;
+                    window.location.search
+                  ).get("roomid")
+                  const isActive = String(id) === current
                   return (
                     <button
                       key={id}
                       type="button"
                       onClick={() => (window.location.search = `?roomid=${id}`)}
-                      className={`w-8 h-8 flex items-center justify-center rounded text-sm font-medium transition-colors cursor-pointer ${
+                      className={`flex h-8 w-8 cursor-pointer items-center justify-center rounded text-sm font-medium transition-colors ${
                         isActive
                           ? "bg-primary text-white"
-                          : "bg-surface-container-low text-on-surface-variant hover:bg-surface-container"
+                          : "hover:bg-surface-container bg-surface-container-low text-on-surface-variant"
                       }`}
                     >
                       {id}
                     </button>
-                  );
+                  )
                 })}
               </div>
             </section>
 
             <section>
-              <h3 className="text-base font-bold mb-3">Markdown 快捷键</h3>
+              <h3 className="mb-3 text-base font-bold">Markdown 快捷键</h3>
               <div className="flex flex-col gap-1.5">
                 {shortcuts.map((s) => (
                   <div
                     key={s.keys}
                     className="flex items-center justify-between text-sm"
                   >
-                    <code className="text-xs bg-surface-container px-1.5 py-0.5 rounded font-mono">
+                    <code className="bg-surface-container rounded px-1.5 py-0.5 font-mono text-xs">
                       {s.keys}
                     </code>
                     <span className="text-on-surface-variant">{s.desc}</span>
@@ -109,5 +108,5 @@ export function HelpDrawer() {
         </DrawerContent>
       </Drawer>
     </>
-  );
+  )
 }

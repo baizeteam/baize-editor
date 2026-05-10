@@ -1,14 +1,14 @@
-import React from "react";
-import { RenderElementProps, RenderLeafProps } from "slate-react";
-import { CustomText } from "../../../types";
-import { cn } from "@pkg/awsome";
+import React from "react"
+import { RenderElementProps, RenderLeafProps } from "slate-react"
+import { CustomText } from "../../../types"
+import { cn } from "@pkg/awsome"
 
 export interface EditorPlugin {
-  name: string;
-  renderElement?: (props: RenderElementProps) => React.ReactElement | undefined;
-  renderLeaf?: (props: RenderLeafProps) => React.ReactElement | undefined;
-  onKeyDown?: (event: React.KeyboardEvent, editor: any) => void;
-  withPlugin?: (editor: any) => any;
+  name: string
+  renderElement?: (props: RenderElementProps) => React.ReactElement | undefined
+  renderLeaf?: (props: RenderLeafProps) => React.ReactElement | undefined
+  onKeyDown?: (event: React.KeyboardEvent, editor: any) => void
+  withPlugin?: (editor: any) => any
 }
 
 export const BasePlugin: EditorPlugin = {
@@ -17,117 +17,117 @@ export const BasePlugin: EditorPlugin = {
     switch (element.type) {
       case "paragraph":
         return (
-          <p {...attributes} className="mb-4 leading-relaxed text-lg">
+          <p {...attributes} className="mb-4 text-lg leading-relaxed">
             {children}
           </p>
-        );
+        )
       case "heading-one":
         return (
           <h1
             {...attributes}
-            className="text-5xl font-bold mb-8 mt-8 font-headline leading-tight"
+            className="mt-8 mb-8 font-headline text-5xl leading-tight font-bold"
           >
             {children}
           </h1>
-        );
+        )
       case "heading-two":
         return (
           <h2
             {...attributes}
-            className="text-3xl font-bold mb-6 mt-10 font-headline"
+            className="mt-10 mb-6 font-headline text-3xl font-bold"
           >
             {children}
           </h2>
-        );
+        )
       case "heading-three":
         return (
           <h3
             {...attributes}
-            className="text-2xl font-bold mb-4 mt-8 font-headline"
+            className="mt-8 mb-4 font-headline text-2xl font-bold"
           >
             {children}
           </h3>
-        );
+        )
       case "heading-four":
         return (
           <h4
             {...attributes}
-            className="text-xl font-bold mb-3 mt-6 font-headline"
+            className="mt-6 mb-3 font-headline text-xl font-bold"
           >
             {children}
           </h4>
-        );
+        )
       case "heading-five":
         return (
           <h5
             {...attributes}
-            className="text-lg font-bold mb-2 mt-4 font-headline"
+            className="mt-4 mb-2 font-headline text-lg font-bold"
           >
             {children}
           </h5>
-        );
+        )
       case "heading-six":
         return (
           <h6
             {...attributes}
-            className="text-base font-bold mb-2 mt-4 font-headline"
+            className="mt-4 mb-2 font-headline text-base font-bold"
           >
             {children}
           </h6>
-        );
+        )
       case "block-quote":
         return (
           <blockquote
             {...attributes}
-            className="text-2xl font-headline font-semibold text-primary leading-snug pl-6 italic border-l-4 border-primary/20 my-8"
+            className="my-8 border-l-4 border-primary/20 pl-6 font-headline text-2xl leading-snug font-semibold text-primary italic"
           >
             {children}
           </blockquote>
-        );
+        )
       default:
-        return undefined;
+        return undefined
     }
   },
   renderLeaf: ({ attributes, children, leaf }) => {
-    const textLeaf = leaf as CustomText;
+    const textLeaf = leaf as CustomText
 
     if (textLeaf.bold) {
-      children = <strong>{children}</strong>;
+      children = <strong>{children}</strong>
     }
     if (textLeaf.italic) {
-      children = <em>{children}</em>;
+      children = <em>{children}</em>
     }
     if (textLeaf.underline) {
-      children = <u>{children}</u>;
+      children = <u>{children}</u>
     }
     if (textLeaf.strikethrough) {
-      children = <span className="line-through">{children}</span>;
+      children = <span className="line-through">{children}</span>
     }
     if (textLeaf.code) {
       children = (
-        <code className="bg-surface-container px-1 rounded font-mono text-sm">
+        <code className="bg-surface-container rounded px-1 font-mono text-sm">
           {children}
         </code>
-      );
+      )
     }
 
     const className = cn(
       (textLeaf as any).color === "secondary" &&
-        "text-on-surface-variant text-xs",
-    );
+        "text-xs text-on-surface-variant"
+    )
 
-    const style: React.CSSProperties = {};
+    const style: React.CSSProperties = {}
     if (textLeaf.color) {
-      style.color = textLeaf.color;
+      style.color = textLeaf.color
     }
     if (textLeaf.backgroundColor) {
-      style.backgroundColor = textLeaf.backgroundColor;
+      style.backgroundColor = textLeaf.backgroundColor
     }
 
     return (
       <span {...attributes} className={className} style={style}>
         {children}
       </span>
-    );
+    )
   },
-};
+}

@@ -1,18 +1,18 @@
-import { useSlate } from "slate-react";
+import { useSlate } from "slate-react"
 import {
   Button,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@pkg/awsome";
-import { ChevronDown } from "lucide-react";
-import { styles } from "../styles";
-import { getBlockLabel, getHeadingMenuItems } from "./toolbar-editor";
+} from "@pkg/awsome"
+import { ChevronDown } from "lucide-react"
+import { styles } from "../styles"
+import { getBlockLabel, getHeadingMenuItems } from "./toolbar-editor"
 
 export function HeadingDropdown() {
-  const editor = useSlate();
-  const items = getHeadingMenuItems(editor);
+  const editor = useSlate()
+  const items = getHeadingMenuItems(editor)
 
   return (
     <DropdownMenu>
@@ -30,5 +30,5 @@ export function HeadingDropdown() {
         ))}
       </DropdownMenuContent>
     </DropdownMenu>
-  );
+  )
 }

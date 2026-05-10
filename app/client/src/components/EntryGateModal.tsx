@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from "react"
 import {
   Button,
   Input,
@@ -8,47 +8,47 @@ import {
   DialogHeader,
   DialogTitle,
   DialogDescription,
-} from "@pkg/awsome";
-import { ADMIN_PASSWORD, ADMIN_USERNAME } from "../auth/adminCredentials";
+} from "@pkg/awsome"
+import { ADMIN_PASSWORD, ADMIN_USERNAME } from "../auth/adminCredentials"
 
 type Props = {
-  open: boolean;
-  onGuest: () => void;
-  onAdminSuccess: () => void;
-};
+  open: boolean
+  onGuest: () => void
+  onAdminSuccess: () => void
+}
 
 export function EntryGateModal({ open, onGuest, onAdminSuccess }: Props) {
-  const [showAdminForm, setShowAdminForm] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
-  const [lastError, setLastError] = useState<string | null>(null);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [showAdminForm, setShowAdminForm] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+  const [lastError, setLastError] = useState<string | null>(null)
+  const [username, setUsername] = useState("")
+  const [password, setPassword] = useState("")
 
   const resetAdminFlow = () => {
-    setShowAdminForm(false);
-    setLastError(null);
-    setUsername("");
-    setPassword("");
-  };
+    setShowAdminForm(false)
+    setLastError(null)
+    setUsername("")
+    setPassword("")
+  }
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubmitting(true);
-    setLastError(null);
-    const ok = username === ADMIN_USERNAME && password === ADMIN_PASSWORD;
-    setSubmitting(false);
+    e.preventDefault()
+    setSubmitting(true)
+    setLastError(null)
+    const ok = username === ADMIN_USERNAME && password === ADMIN_PASSWORD
+    setSubmitting(false)
     if (ok) {
-      onAdminSuccess();
+      onAdminSuccess()
     } else {
-      setLastError("用户名或密码不正确，请重试。");
+      setLastError("用户名或密码不正确，请重试。")
     }
-  };
+  }
 
   return (
     <Dialog
       open={open}
       onOpenChange={(nextOpen) => {
-        if (!nextOpen) resetAdminFlow();
+        if (!nextOpen) resetAdminFlow()
       }}
     >
       <DialogContent
@@ -119,5 +119,5 @@ export function EntryGateModal({ open, onGuest, onAdminSuccess }: Props) {
         )}
       </DialogContent>
     </Dialog>
-  );
+  )
 }

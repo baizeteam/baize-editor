@@ -5,10 +5,18 @@
   "main": "index.js",
   "scripts": {
     "client": "cd app/client && pnpm run dev",
-    "server": "cd app/server && npm run dev"
+    "server": "cd app/server && npm run dev",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "prepare": "lefthook install"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "packageManager": "pnpm@10.19.0"
+  "packageManager": "pnpm@10.19.0",
+  "devDependencies": {
+    "prettier": "^3.8.1",
+    "prettier-plugin-tailwindcss": "^0.7.2",
+    "lefthook": "^1.11.0"
+  }
 }

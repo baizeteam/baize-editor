@@ -1,14 +1,14 @@
-import { BaseEditor, Descendant } from "slate";
-import { ReactEditor } from "slate-react";
-import { HistoryEditor } from "slate-history";
+import { BaseEditor, Descendant } from "slate"
+import { ReactEditor } from "slate-react"
+import { HistoryEditor } from "slate-history"
 
-export type CustomEditor = BaseEditor & ReactEditor & HistoryEditor;
+export type CustomEditor = BaseEditor & ReactEditor & HistoryEditor
 
 export type ParagraphElement = {
-  type: "paragraph";
-  align?: "left" | "center" | "right" | "justify";
-  children: CustomText[];
-};
+  type: "paragraph"
+  align?: "left" | "center" | "right" | "justify"
+  children: CustomText[]
+}
 
 export type HeadingElement = {
   type:
@@ -17,64 +17,64 @@ export type HeadingElement = {
     | "heading-three"
     | "heading-four"
     | "heading-five"
-    | "heading-six";
-  align?: "left" | "center" | "right" | "justify";
-  children: CustomText[];
-};
+    | "heading-six"
+  align?: "left" | "center" | "right" | "justify"
+  children: CustomText[]
+}
 
 export type BlockQuoteElement = {
-  type: "block-quote";
-  children: CustomText[];
-};
+  type: "block-quote"
+  children: CustomText[]
+}
 
 export type ImageElement = {
-  type: "image";
-  url: string;
-  width?: number;
-  children: EmptyText[];
-};
+  type: "image"
+  url: string
+  width?: number
+  children: EmptyText[]
+}
 
 export type BulletedListElement = {
-  type: "bulleted-list";
-  children: ListItemElement[];
-};
+  type: "bulleted-list"
+  children: ListItemElement[]
+}
 
 export type NumberedListElement = {
-  type: "numbered-list";
-  children: ListItemElement[];
-};
+  type: "numbered-list"
+  children: ListItemElement[]
+}
 
 export type ListItemElement = {
-  type: "list-item";
-  children: CustomText[];
-};
+  type: "list-item"
+  children: CustomText[]
+}
 
 export type BadgeElement = {
-  type: "badge";
-  children: CustomText[];
-};
+  type: "badge"
+  children: CustomText[]
+}
 
 export type TableElement = {
-  type: "table";
-  children: TableSectionElement[];
-};
+  type: "table"
+  children: TableSectionElement[]
+}
 
 export type TableRowElement = {
-  type: "table-row";
-  children: TableCellElement[];
-};
+  type: "table-row"
+  children: TableCellElement[]
+}
 
 export type TableCellElement = {
-  type: "table-cell" | "header-cell";
-  rowSpan?: number;
-  colSpan?: number;
-  children: CustomText[];
-};
+  type: "table-cell" | "header-cell"
+  rowSpan?: number
+  colSpan?: number
+  children: CustomText[]
+}
 
 export type TableSectionElement = {
-  type: "table-header" | "table-body" | "table-footer";
-  children: TableRowElement[];
-};
+  type: "table-header" | "table-body" | "table-footer"
+  children: TableRowElement[]
+}
 
 export type CustomElement =
   | ParagraphElement
@@ -88,27 +88,27 @@ export type CustomElement =
   | TableSectionElement
   | BulletedListElement
   | NumberedListElement
-  | ListItemElement;
+  | ListItemElement
 
 export type CustomText = {
-  text: string;
-  bold?: boolean;
-  italic?: boolean;
-  underline?: boolean;
-  strikethrough?: boolean;
-  code?: boolean;
-  color?: string;
-  backgroundColor?: string;
-};
+  text: string
+  bold?: boolean
+  italic?: boolean
+  underline?: boolean
+  strikethrough?: boolean
+  code?: boolean
+  color?: string
+  backgroundColor?: string
+}
 
 export type EmptyText = {
-  text: "";
-};
+  text: ""
+}
 
 declare module "slate" {
   interface CustomTypes {
-    Editor: CustomEditor;
-    Element: CustomElement;
-    Text: CustomText | EmptyText;
+    Editor: CustomEditor
+    Element: CustomElement
+    Text: CustomText | EmptyText
   }
 }

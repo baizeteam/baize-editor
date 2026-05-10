@@ -1,17 +1,17 @@
-import React from "react";
-import { useSlate } from "slate-react";
-import { ToolbarButton } from "./ToolbarButton";
-import { isBlockActive, toggleBlock } from "./toolbar-editor";
+import React from "react"
+import { useSlate } from "slate-react"
+import { ToolbarButton } from "./ToolbarButton"
+import { isBlockActive, toggleBlock } from "./toolbar-editor"
 
 type BlockButtonProps = {
-  format: string;
-  icon: React.ReactNode;
-  title: string;
-};
+  format: string
+  icon: React.ReactNode
+  title: string
+}
 
 export function BlockButton({ format, icon, title }: BlockButtonProps) {
-  const editor = useSlate();
-  const active = isBlockActive(editor, format);
+  const editor = useSlate()
+  const active = isBlockActive(editor, format)
 
   return (
     <ToolbarButton
@@ -20,5 +20,5 @@ export function BlockButton({ format, icon, title }: BlockButtonProps) {
       active={active}
       onMouseDown={() => toggleBlock(editor, format)}
     />
-  );
+  )
 }

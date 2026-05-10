@@ -1,17 +1,17 @@
-import { useRemoteCursorOverlayPositions } from "@slate-yjs/react";
-import { Fragment, useMemo, useRef } from "react";
-import { useCollabSession } from "../editor/CollabSessionContext";
-import "./index.css";
+import { useRemoteCursorOverlayPositions } from "@slate-yjs/react"
+import { Fragment, useMemo, useRef } from "react"
+import { useCollabSession } from "../editor/CollabSessionContext"
+import "./index.css"
 
 export function Cursors({ children }) {
-  const containerRef = useRef<HTMLDivElement>(null!);
-  const [cursors] = useRemoteCursorOverlayPositions({ containerRef});
-  const { collabEnabled } = useCollabSession();
+  const containerRef = useRef<HTMLDivElement>(null!)
+  const [cursors] = useRemoteCursorOverlayPositions({ containerRef })
+  const { collabEnabled } = useCollabSession()
 
   const visibleCursors = useMemo(() => {
-    if (collabEnabled) return cursors;
-    return cursors.filter((c) => c.data?.sessionRole !== "guest");
-  }, [cursors, collabEnabled]);
+    if (collabEnabled) return cursors
+    return cursors.filter((c) => c.data?.sessionRole !== "guest")
+  }, [cursors, collabEnabled])
 
   return (
     <div className="cursors" ref={containerRef}>
@@ -26,17 +26,17 @@ export function Cursors({ children }) {
         </Fragment>
       ))}
     </div>
-  );
+  )
 }
 
 function Selection({ data, selectionRects, caretPosition }) {
   if (!data) {
-    return null;
+    return null
   }
 
   const selectionStyle = {
     backgroundColor: data.color,
-  };
+  }
 
   return (
     <>
@@ -49,19 +49,19 @@ function Selection({ data, selectionRects, caretPosition }) {
       ))}
       {caretPosition && <Caret caretPosition={caretPosition} data={data} />}
     </>
-  );
+  )
 }
 
 function Caret({ caretPosition, data }) {
   const caretStyle = {
     ...caretPosition,
     background: data?.color,
-  };
+  }
 
   const labelStyle = {
     transform: "translateY(-100%)",
     background: data?.color,
-  };
+  }
 
   return (
     <div style={caretStyle} className="caretMarker">
@@ -69,5 +69,5 @@ function Caret({ caretPosition, data }) {
         {data?.name}
       </div>
     </div>
-  );
+  )
 }

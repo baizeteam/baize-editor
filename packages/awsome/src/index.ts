@@ -43,7 +43,11 @@ export {
 } from "./components/ui/dropdown-menu"
 export { Input } from "./components/ui/input"
 export { Label } from "./components/ui/label"
-export { Popover, PopoverContent, PopoverTrigger } from "./components/ui/popover"
+export {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "./components/ui/popover"
 export { Switch } from "./components/ui/switch"
 export {
   Tooltip,
