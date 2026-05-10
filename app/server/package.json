@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "node ./main.js"
+    "dev": "tsx ./main.ts"
   },
   "keywords": [],
   "author": "",
@@ -15,5 +15,11 @@
     "ws": "^8.20.0",
     "y-protocols": "^1.0.7",
     "y-websocket": "^2.1.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/ws": "^8.5.14",
+    "tsx": "^4.21.0",
+    "typescript": "^5.7.0"
   }
 }
